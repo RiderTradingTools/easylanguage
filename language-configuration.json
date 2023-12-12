@@ -1,0 +1,56 @@
+{
+   "comments": {
+      // symbol used for single line comment. 
+      "lineComment": "//",
+      // symbols used for start and end a block comment. 
+      "blockComment": ["{", "}"]
+   },
+   // symbols used as brackets
+   "brackets": [
+      // ["begin", "end"],
+      ["[", "]"],
+      ["(", ")"]
+   ],
+   // symbols that are auto closed when typing
+   "autoClosingPairs": [
+      { "open": "{", "close": "}" },
+      { "open": "[", "close": "]" },
+      { "open": "(", "close": ")" },
+      { "open": "\"", "close": "\"", "notIn": ["string", "comment"] },
+      { "open": "'", "close": "'", "notIn": ["string", "comment"] }
+   ],
+   "autoCloseBefore": ";",
+   // symbols that can be used to surround a selection
+   "surroundingPairs": [
+      ["{", "}"],
+      ["[", "]"],
+      ["(", ")"],
+      ["\"", "\""],
+      ["'", "'"],
+      ["`", "`"]
+   ],  
+   "folding": {
+      "markers": {
+         "start": "^\\s*//\\s*#?region\\b",
+         "end": "^\\s*//\\s*#?endregion\\b"
+      }
+   },
+   "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)",
+   "indentationRules": {
+      "increaseIndentPattern": "(?i)begin",
+      "decreaseIndentPattern": "(?i)\bend"
+   },
+   "onEnterRules": [
+      {
+         "beforeText": "^\\s*(?:var|vars|variables|input|inputs|array|arrays|for|if|else|while|try|with|finally|except|async).*?:\\s*$",
+         // "beforeText": "(^\\s*(?:var(s)?|array(s)?|input(s)?).*?:|then)\\s*$",
+         "action": {
+            "indent": "indent",
+            "appendText": ";"
+         }
+      }
+   ]
+}
+
+// https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/highestfc_function_.htm?cshid=elword/function/highestfc_function_.htm
+// https://help.tradestation.com/10_00/eng/tsdevhelp/search.htm?q=

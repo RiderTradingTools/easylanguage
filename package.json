@@ -1,0 +1,45 @@
+{
+  "name": "easylanguage",
+  "displayName": "easylanguage language support",
+  "description": "easylanguage syntax highlighting used in TradeStation platform",
+  "publisher": "RiderTradingTools",
+  "version": "1.0.1",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "pricing": "Free",  
+  "categories": [
+    "Programming Languages", "Themes", "Snippets"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RiderTradingTools/easylanguage"
+  },
+  "homepage": "https://github.com/RiderTradingTools/easylanguage",
+  "contributes": {
+    "languages": [{
+      "id": "easylanguage",
+      "aliases": ["EasyLanguage", "easylanguage"],
+      "extensions": ["easylanguage"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "easylanguage",
+      "scopeName": "source.easylanguage",
+      "path": "./syntaxes/easylanguage.tmLanguage.json"
+    }],
+    "themes": [
+      {
+        "label": "easylanguage-color-theme",
+        "uiTheme": "vs-light",
+        "path": "./themes/easylanguage-color-theme.json"
+      }
+    ],
+    "snippets": [
+        {
+            "language": "easylanguage",
+            "path": "./snippets.json"
+        }
+    ]
+  }
+}
