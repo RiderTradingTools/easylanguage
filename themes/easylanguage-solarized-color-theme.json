@@ -13,7 +13,7 @@
 		"dropdown.background": "#eee8d5",
 		"dropdown.border": "#d3af86",
 		"editor.background": "#fdf6e3",
-		"editor.foreground": "#657b83",
+		"editor.foreground": "#556b73",
 		"editor.lineHighlightBackground": "#eee8d5",
 		"editor.selectionBackground": "#eee8d5",
 		"editorCursor.foreground": "#657b83",
@@ -810,7 +810,7 @@
 		{
 			"scope": "comment",
 			"settings": {
-				"foreground": "#93A1A1",
+				"foreground": "#a9b4b4",
 				"fontStyle": "italic"
 			}
 		},

@@ -30,24 +30,24 @@
     }],
     "themes": [
       {
-        "label": "easylanguage-color-theme",
+        "label": "easylanguage Standard theme",
         "uiTheme": "vs",
         "path": "./themes/easylanguage-color-theme.json"
       },
       {
-        "label": "easylanguage-solarized-color-theme",
+        "label": "easylanguage Solarized theme",
         "uiTheme": "vs",
         "path": "./themes/easylanguage-solarized-color-theme.json"
       },
       {
-        "label": "easylanguage-color-dark-theme",
+        "label": "easylanguage Dark theme",
         "uiTheme": "vs-dark",
         "path": "./themes/easylanguage-color-dark-theme.json"
       },
       {
-        "label": "easylanguage-grunge-color-theme",
+        "label": "easylanguage Moss theme",
         "uiTheme": "vs-dark",
-        "path": "./themes/easylanguage-grunge-color-theme.json"
+        "path": "./themes/easylanguage-moss-color-theme.json"
       }
     ],
     "snippets": [
