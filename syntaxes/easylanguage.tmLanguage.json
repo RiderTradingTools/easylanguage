@@ -62,6 +62,10 @@
 				{
 					"name": "support.function.esl",
 					"match": "\\b\\w+\\.(?![0-9]+\\b)\\w+\\b"
+				},
+				{
+					"name": "support.function.esl",
+					"match": "(?i)\\b(DateTime|TimeSpan)\\b"
 				}
 			]
 		},
@@ -74,7 +78,7 @@
 				},
 				{
 					"name": "variable.type",
-					"match": "\\b(?i)(int|double|bool|new)\\b"
+					"match": "\\b(?i)(int|double|bool|new|null|true|false)\\b"
 				}
 			]
 		},
@@ -97,27 +101,27 @@
 		"orders": {
 			"patterns": [
 				{
-					"name": "support.type.order",
+					"name": "support.function.order",
 					"match": "\\b(?i)(buy\\s+to\\s+cover|sell\\s+short|buy|sell|buytocover|sellshort)\\b"
 				},
 				{
-					"name": "support.type.order",
+					"name": "support.function.order",
 					"match": "\\b(?i)(Contract(?:s|)|Share(?:s|)|Total|all)\\b"
 				},
 				{
-					"name": "support.type.order",
+					"name": "support.function.order",
 					"match": "\\b(?i)(stop|Limit|market|Or Lower|Or Higher)(?=;)"
 				},
 				{
-					"name": "support.type.order",
+					"name": "support.function.order",
 					"match": "\\b(?i)stop\\b"
 				},
 				{
-					"name": "support.type.order",
+					"name": "support.function.order",
 					"match": "(?i)(SetExitOnClose|SetStopPosition|SetStopContract|SetStopShare)(?=;)"
 				},
 				{
-					"name": "support.type.order",
+					"name": "support.function.order",
 					"match": "\\b(?i)(SetPercentTrailing_pt|SetPercentTrailing|SetDollarTrailing|SetBreakEven_pt|SetBreakEven|SetProfitTarget_pt|SetProfitTarget|SetStopLoss_pt|SetStopLoss|SetTrailingStop_pt)\\b"
 				}
 			]
@@ -136,7 +140,7 @@
 			"patterns": [
 				{
 				"name": "constant.operator",
-				"match": "=|\\*|/|<|<=|<>|!|\\+|\\+\\+|-|--|\\+=|-=|>=|>|(?i)(cross(es)? (over|below)|null|true|false)"
+				"match": "=|\\*|/|<|<=|<>|!|\\+|\\+\\+|-|--|\\+=|-=|>=|>|(?i)(cross(es)? (over|below))"
 				}
 			]
 		},

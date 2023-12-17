@@ -31,8 +31,23 @@
     "themes": [
       {
         "label": "easylanguage-color-theme",
-        "uiTheme": "vs-light",
+        "uiTheme": "vs",
         "path": "./themes/easylanguage-color-theme.json"
+      },
+      {
+        "label": "easylanguage-solarized-color-theme",
+        "uiTheme": "vs",
+        "path": "./themes/easylanguage-solarized-color-theme.json"
+      },
+      {
+        "label": "easylanguage-color-dark-theme",
+        "uiTheme": "vs-dark",
+        "path": "./themes/easylanguage-color-dark-theme.json"
+      },
+      {
+        "label": "easylanguage-grunge-color-theme",
+        "uiTheme": "vs-dark",
+        "path": "./themes/easylanguage-grunge-color-theme.json"
       }
     ],
     "snippets": [
