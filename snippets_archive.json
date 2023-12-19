@@ -96,9 +96,38 @@
     "HighD":{
       "prefix": ["HighD"],
       "body": ["HighD(${1:0})"]
-},
+    },
     "Market":{
       "prefix": ["Market"],
-      "body": ["Market;"]
+      "body": ["${1|Market,MarketIfTouchedOrder,MarketOrder,MarketPosition|}"]
+    },
+    "Get":{
+      "prefix": ["get"],
+      "body": ["${1|GetAccount,GetAccountID,GetAccountLotSize,GetAccountStatus,GetAccountType,GetAllOrNone,GetAppInfo,GetBackgroundColor,GetBDAccountEquity,GetBDAccountNetWorth,GetBDCashBalance,GetBDDayTradingBuyingPower,GetBDMarginRequirement,GetBDOvernightBuyingPower,GetBDTradeEquity,GetBuyMinusSellPlus,GetBValue,GetCDRomDrive,GetCountry,GetCurrency,GetDiscretion,GetExchangeName,GetFundData,GetFundDataAsBoolean,GetFundDataAsString,GetFundPeriodEndDate,GetFundPostDate,GetGValue,GetLastFundDataError,GetNonDisplay,GetNOW,GetNumAccounts,GetNumPositions,GetOpenOrderInitialMargin,GetPeg,GetPlotBGColor,GetPlotColor,GetPlotWidth,GetPositionAveragePrice,GetPositionMarketValue,GetPositionOpenPL,GetPositionQuantity,GetPositionSymbol,GetPositionTotalCost,GetRTAccountEquity,GetRTAccountNetWorth,GetRTCashBalance,GetRTCostOfPositions,GetRTDaytradingBuyingPower,GetRTInitialMargin,GetRTMaintMargin,GetRTMarginRequirement,GetRTOvernightBuyingPower,GetRTPurchasingPower,GetRTRealizedPL,GetRTTradeEquity,GetRTUnrealizedPL,GetRValue,GetScreenName,GetShaveImprove,GetShowOnly,GetStrategyName,GetSubscriberOnly,GetSymbolName,GetSystemName,GetTodaysRTTradeEquity,GetUnclearedDeposits|}"]
+    },
+    "AB_":{
+      "prefix": ["AB_"],
+      "body": ["${1|AB_AddCell,AB_AddCellRange,AB_AverageCells,AB_AveragePrice,AB_CellCount,AB_GetCellChar,AB_GetCellColor,AB_GetCellDate,AB_GetCellTime,AB_GetCellValue,AB_GetNumCells,AB_GetZoneHigh,AB_GetZoneLow,AB_High,AB_Low,AB_Median,AB_Mode,AB_NextColor,AB_NextLabel,AB_RemoveCell,AB_RowHeight,AB_RowHeightCalc,AB_SetActiveCell,AB_SetRowHeight,AB_SetZone,AB_StdDev|}"]
+    },
+    "Ask":{
+      "prefix": ["Ask"],
+      "body": ["${1|ASK,AskDate,AskDateEX,AskExch,AskSize,AskTime,AskTimeEX|}"]
+    },
+    "Avg":{
+      "prefix": ["Avg", "Average"],
+      "body": ["${1|Average,AverageArray,AverageFC,AvgBarsEvenTrade,AvgBarsLosTrade,AvgBarsWinTrade,AvgDeviation,AvgDeviationArray,AvgEntryPrice,AvgList,AvgPrice,AvgTrueRange|}"]
+    },
+    "Array":{
+      "prefix": ["array"],
+      "body": ["${1|Array,Array_Compare,Array_Copy,Array_GetMaxIndex,Array_GetType,Array_SetMaxIndex,Array_SetValRange,Array_Sort,Array_Sum,ARRAYSIZE,ARRAYSTARTADDR|}"]
+    },
+    "Bar":{
+      "prefix": ["Bar"],
+      "body": ["${1|Bar,BarAnnualization,BarInterval,BarNumber,Bars,BarsSinceEntry,BarsSinceExit,BarStatus,BarType|}"]
+    },
+    "Bid":{
+      "prefix": ["Bid"],
+      "body": ["${1|BID,BidDate,BidDateEX,BidDirectionNNM,BidExch,BidSize,BidTime,BidTimeEX|}"]
     }
+
 }

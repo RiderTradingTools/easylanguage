@@ -1,12 +1,16 @@
 {
 	"scopeName": "source.easylanguage",
+
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+
 	"name": "EasyLanguage",
+
 	"patterns": [
 		{
 			"include": "#expression"
 		}
 	],
+
 	"repository": {
 		"expression": {
 			"patterns": [
@@ -189,4 +193,5 @@
       }
 
 	}
+
 }
