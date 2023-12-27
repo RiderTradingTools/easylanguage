@@ -1,35 +1,19 @@
 {
-    "For Loop": {
-      "prefix": ["for"],
-      "body": ["for ${1:value1} = 1 to ${2:$RANDOM} begin", "\t$0", "end;"],
-      "description": "A for loop."
+    "For loop": {
+      "prefix": ["for "],
+      "body": ["for ${1:x} = ${2:1} to ${3:9} begin", "\t$0", "end;"]
     },
-    "if(line)": {
-      "prefix": ["if"],
+    "If (single line)": {
+      "prefix": ["if "],
       "body": ["if $1 then$0"]
     },
-    "if(block)": {
-      "prefix": ["if"],
+    "If (code block)": {
+      "prefix": ["if "],
       "body": ["if $1 then begin", "\t$0", "end;"]
     },
     "MarketPosition": {
       "prefix": ["if MarketPosition"],
-      "body": ["if MarketPosition ${1|=,>,<,<>|} 0 then begin", "\t$0", "end;"]
-    },
-    "Day Trade": {
-      "prefix": ["if t"],
-      "body": [
-        "if t=${1:1327} then begin",
-        "\tsell(\"EoD_L\") next bar market;",
-        "\tBuyToCover(\"EoD_S\") next bar market;",
-        "end;",
-        "//SetExitOnClose;"
-      ],
-      "description": "Close all position at the end of the day"
-    },
-    "then Order": {
-      "prefix": ["then"],
-      "body": ["then ${1|buy,sell,SellShort,BuyToCover|} next bar ${2:market};"]
+      "body": ["if MarketPosition ${1|=,>,<,<>|} ${2|0,-1,1|} then begin", "\t$0", "end;"]
     },
     "Buy Order": {
       "prefix": ["BuyToCover"],
@@ -39,7 +23,7 @@
       "prefix": ["SellShort"],
       "body": ["${1|sell,SellShort|} next bar ${2:market};"]
     },
-    "Setting": {
+    "Description for signal": {
       "prefix": ["setting"],
       "body": [
         "$BLOCK_COMMENT_START",
@@ -48,18 +32,15 @@
         "\tSession: ${3:0845-1330}",
         "\t$0",
         "$BLOCK_COMMENT_END"
-      ],
-      "description": "Description for signal"
+      ]
     },
-    "GGG": {
-      "prefix": ["open>close", "close<open", "GGG"],
-      "body": ["o>c ${1:and o[1]>c[1]} ${2:and o[2]>c[2]}"],
-      "description": "3 Black sticks."
+    "3 Long candles": {
+      "prefix": ["3long", "GGG"],
+      "body": ["o>c ${1:and o[1]>c[1]} ${2:and o[2]>c[2]}"]
     },
-    "RRR": {
-      "prefix": ["close>open", "open<close", "RRR"],
-      "body": ["c>o ${1:and c[1]>o[1]} ${2:and c[2]>o[2]}"],
-      "description": "3 White sticks."
+    "3 Short candles": {
+      "prefix": ["3short", "RRR"],
+      "body": ["c>o ${1:and c[1]>o[1]} ${2:and c[2]>o[2]}"]
     },
     "Print": {
       "prefix": ["print"],
@@ -75,30 +56,39 @@
     },
     "EntriesToday": {
       "prefix": ["EntriesToday"],
-      "body": ["EntriesToday(D)<${1:1}"]
+      "body": ["EntriesToday(D) < ${1:1}"]
     },
     "BarsSinceEntry": {
       "prefix": ["BarsSinceEntry"],
       "body": ["Barssinceentry(${1:0})"]
     },
-    "HighLow": {
-      "prefix": ["highest", "lowest"],
-      "body": ["${1|highest,lowest|}(${2:c}, ${3:5})"]
+    "Highest": {
+      "prefix": ["highest"],
+      "body": ["highest(${1:close}, ${2:5})"]
+    },
+    "Lowest": {
+      "prefix": ["lowest"],
+      "body": ["lowest(${1:close}, ${2:5})"]
     },
     "Begin": {
       "prefix": ["begin"],
-      "body": ["begin", "\t$0", "end${1:;}"]
+      "body": ["begin", "\t$0", "end;"]
     },
-    "LowD":{
+    "Daily low price":{
       "prefix": ["LowD"],
       "body": ["LowD(${1:0})"]
     },
-    "HighD":{
+    "Daily high price":{
       "prefix": ["HighD"],
       "body": ["HighD(${1:0})"]
-},
+    },
     "Market":{
       "prefix": ["Market"],
       "body": ["Market;"]
-    }
+    },
+    "While loop": {
+      "prefix": ["while"],
+      "body": ["while ${1:condition} begin", "\t$0", "end;"]
+    },
+
 }

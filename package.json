@@ -11,10 +11,14 @@
    "categories": [
       "Programming Languages",
       "Themes",
-      "Snippets"
+      "Snippets",
+      "Formatters",
+      "Other"
    ],
-   "activationEvents": [ "*" ],
-   "main": "./scripts/complete-from-file.js",
+   "activationEvents": [ 
+      "onLanguage:easylanguage" 
+   ],
+   "main": "./scripts/easylanguage-config.js",
    "contributes": {
       "languages": [
          {
@@ -77,12 +81,6 @@
                   "default": {},
                   "scope": "resource",
                   "markdownDescription": "Object describing documentSelector and files with completion texts."
-               },
-               "complete-from-file.minimalCharacterCount": {
-                  "type": "integer",
-                  "default": 3,
-                  "scope": "resource",
-                  "description": "How many characters to type before a completion suggestion is made."
                }
             }
          }

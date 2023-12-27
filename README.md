@@ -13,20 +13,29 @@ Supported file extension: &nbsp; <b><i>.easylanguage</i></b>
 
 ## Features
 
-- Basic Syntax Highlighting
-  - control
-  - comment
-  - numerous reserved words
-- Autoclosing
-  - quotes
+- Syntax Highlighting
+  - Strings
+  - Comments
+  - Numbers
+  - Skip words
+  - Orders
+  - And vast majority of the reserved words (including functions)
+- Themes
+   - 2 light themes:
+     - Standard (TradeStation development environment)
+     - Solarized
+   - 2 dark themes:
+     - Dark 
+     - Moss
+- Auto Closing
+  - brackets
   - begin...end
-- Auto Indent
-  - begin
-  - then(On Enter)
-  - input/var/array
+  - quotes
+- Simple Auto Complete
+  - auto-complete of the reserved words (including functions)
 - Snippets
-  - for
   - if
+  - for
   - marketposition
   - Day Trade
   - others

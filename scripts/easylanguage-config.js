@@ -152,9 +152,9 @@ async function readFileContent(filePath) {
 
 function activate(context) {
 
-   // let logOutput = vscode.window.createOutputChannel("debug log output");
-   //    logOutput.appendLine("I am a banana.");
-   //    logOutput.show();
+  //  let logOutput = vscode.window.createOutputChannel("debug log output");
+  //     logOutput.appendLine("I am a debug output!");
+  //     logOutput.show();
    
   let languageIDProviderRegistered = new Set();
   let languageID2Trie = {};
@@ -184,7 +184,7 @@ function activate(context) {
   function updateConfig() {
     let configuration = vscode.workspace.getConfiguration(configName, null);
     documents = configuration.get('documents');
-    minimalCharacterCount = Math.max(configuration.get('minimalCharacterCount'), 1);
+   //  minimalCharacterCount = Math.max(configuration.get('minimalCharacterCount'), 1);
     languageID2Trie = {};
   }
 

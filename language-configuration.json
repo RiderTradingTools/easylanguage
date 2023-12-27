@@ -35,20 +35,23 @@
          "end": "^\\s*//\\s*#?endregion\\b"
       }
    },
-   "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)",
-   "indentationRules": {
-      "increaseIndentPattern": "(?i)begin",
-      "decreaseIndentPattern": "(?i)\bend"
-   },
    "onEnterRules": [
       {
-         "beforeText": "^\\s*(?:var|vars|variables|input|inputs|array|arrays|for|if|else|while|try|with|finally|except|async).*?:\\s*$",
-         // "beforeText": "(^\\s*(?:var(s)?|array(s)?|input(s)?).*?:|then)\\s*$",
-         "action": {
-            "indent": "indent",
-            "appendText": ";"
-         }
+         // "beforeText": "(?i)(\\b(var:|vars:|variables:|input:|inputs:|array|arrays|for|if|else|while|try|with|finally|except|async)\\b)",
+         "beforeText": "(^\\s*(?:var(s)?|variable(s)?|array(s)?|input(s)?|while|switch?|case?|try?|finally?).*?:|then)\\s*$",
+         "action": { "indent": "indent" }
       }
-   ]
+   ],
+   "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)"
+   // "indentationRules": {
+   //    "increaseIndentPattern": "^((?!\\/\\/).)*(\\{[^}\"'`]*|\\([^)\"'`]*|\\[[^\\]\"'`]*)$",
+   //    "decreaseIndentPattern": "^((?!.*?\\/\\*).*\\*/)?\\s*[\\)\\}\\]].*$"
+   //    // "increaseIndentPattern": "(?i)begin",
+   //    // "decreaseIndentPattern": "(?i)\bend"
+   // }
+
 }
 
+
+
+// "match": "(?i)(\\b(A|An|At|Based|By|Does|From|Is|Of|On|Place|Than|The|Was)\\b)"
