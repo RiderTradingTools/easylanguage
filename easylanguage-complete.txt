@@ -106,7 +106,7 @@ CommentaryEnabled
 Commission
 CommodityNumber
 ComputerDateTime
-Condition1-99
+Condition
 Const
 Continue
 Contract
@@ -455,7 +455,6 @@ PercentProfit
 PlayMovieChain
 PlaySound
 Plot
-Plot1-99
 PlotPaintBar
 PlotPB
 PM_GetCellValue
@@ -566,7 +565,8 @@ RAWASK
 RAWBID
 Red
 REGULARSESSION
-Repeat/Until
+Repeat
+Until
 Ret_On_Avg_Equity
 RevSize
 RGB
@@ -664,7 +664,8 @@ StrLen
 StrToNum
 SumList
 Sunday
-Switch/Case
+Switch
+Case
 Symbol
 SymbolName
 SymbolRoot
@@ -783,7 +784,7 @@ Units
 UNSIGNED
 UpperStr
 UpTicks
-Value1-99
+Value
 Variable
 VARSIZE
 VARSTARTADDR

@@ -1,4 +1,17 @@
-// {
+{
+
+
+  // easylanguage ====================================================
+  
+  "complete-from-file.documents": {
+    "easylanguage completions": {
+      "documentSelectors": [{ "language": "easylanguage", "scheme": "file" }],
+      "files": [
+        "${userHome}${pathSeparator}easylanguage-complete.txt"
+      ]
+    }    
+  }
+
 //     "[markdown]": {
 //         "editor.quickSuggestions": {
 //             "other": "on",
@@ -15,4 +28,4 @@
 //     "editor.autoIndent": "brackets",
 //     "editor.tabCompletion": "on"
 
-// }
+}

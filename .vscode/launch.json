@@ -6,12 +6,16 @@
 	"version": "0.2.0",
     "configurations": [
         {
-            "name": "Extension",
-            "type": "extensionHost",
-            "request": "launch",
             "args": [
                 "--extensionDevelopmentPath=${workspaceFolder}"
-            ]
+            ],
+            "name": "Launch Extension",
+            "outFiles": [
+                "${workspaceFolder}/out/**/*.js"
+            ],
+            "runtimeExecutable": "${execPath}",
+            "request": "launch",
+            "type": "extensionHost"
         }
     ]
 }

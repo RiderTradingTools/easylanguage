@@ -1,60 +1,99 @@
 {
-  "name": "easylanguage",
-  "displayName": "easylanguage language support",
-  "description": "easylanguage syntax highlighting used in TradeStation platform",
-  "publisher": "RiderTradingTools",
-  "version": "1.0.1",
-  "engines": {
-    "vscode": "^1.80.0"
-  },
-  "pricing": "Free",  
-  "categories": [
-    "Programming Languages", "Themes", "Snippets"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/RiderTradingTools/easylanguage"
-  },
-  "homepage": "https://github.com/RiderTradingTools/easylanguage",
-  "contributes": {
-    "languages": [{
-      "id": "easylanguage",
-      "aliases": ["EasyLanguage", "easylanguage"],
-      "extensions": ["easylanguage"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "easylanguage",
-      "scopeName": "source.easylanguage",
-      "path": "./syntaxes/easylanguage.tmLanguage.json"
-    }],
-    "themes": [
-      {
-        "label": "easylanguage Standard theme",
-        "uiTheme": "vs",
-        "path": "./themes/easylanguage-color-theme.json"
-      },
-      {
-        "label": "easylanguage Solarized theme",
-        "uiTheme": "vs",
-        "path": "./themes/easylanguage-solarized-color-theme.json"
-      },
-      {
-        "label": "easylanguage Dark theme",
-        "uiTheme": "vs-dark",
-        "path": "./themes/easylanguage-color-dark-theme.json"
-      },
-      {
-        "label": "easylanguage Moss theme",
-        "uiTheme": "vs-dark",
-        "path": "./themes/easylanguage-moss-color-theme.json"
-      }
-    ],
-    "snippets": [
-        {
+   "name": "easylanguage",
+   "displayName": "easylanguage language support",
+   "description": "easylanguage syntax highlighting used in TradeStation platform",
+   "publisher": "RiderTradingTools",
+   "version": "1.0.1",
+   "engines": {
+      "vscode": "^1.80.0"
+   },
+   "pricing": "Free",
+   "categories": [
+      "Programming Languages",
+      "Themes",
+      "Snippets"
+   ],
+   "activationEvents": [ "*" ],
+   "main": "./scripts/complete-from-file.js",
+   "contributes": {
+      "languages": [
+         {
+            "id": "easylanguage",
+            "aliases": [
+               "EasyLanguage",
+               "easylanguage"
+            ],
+            "extensions": [
+               ".easylanguage"
+            ],
+            "configuration": "./language-configuration.json",
+            "icon": {
+               "light": "./images/easylanguage_icon.png",
+               "dark": "./images/easylanguage_icon.png"
+            }            
+         }
+      ],
+      "grammars": [
+         {
+            "language": "easylanguage",
+            "scopeName": "source.easylanguage",
+            "path": "./syntaxes/easylanguage.tmLanguage.json"
+         }
+      ],
+      "themes": [
+         {
+            "label": "easylanguage Standard theme",
+            "uiTheme": "vs",
+            "path": "./themes/easylanguage-color-theme.json"
+         },
+         {
+            "label": "easylanguage Solarized theme",
+            "uiTheme": "vs",
+            "path": "./themes/easylanguage-solarized-color-theme.json"
+         },
+         {
+            "label": "easylanguage Dark theme",
+            "uiTheme": "vs-dark",
+            "path": "./themes/easylanguage-color-dark-theme.json"
+         },
+         {
+            "label": "easylanguage Moss theme",
+            "uiTheme": "vs-dark",
+            "path": "./themes/easylanguage-moss-color-theme.json"
+         }
+      ],
+      "snippets": [
+         {
             "language": "easylanguage",
             "path": "./snippets.json"
-        }
-    ]
-  }
+         }
+      ],
+      "configuration": [
+         {
+            "title": "Complete from File",
+            "properties": {
+               "complete-from-file.documents": {
+                  "type": "object",
+                  "default": {},
+                  "scope": "resource",
+                  "markdownDescription": "Object describing documentSelector and files with completion texts."
+               },
+               "complete-from-file.minimalCharacterCount": {
+                  "type": "integer",
+                  "default": 3,
+                  "scope": "resource",
+                  "description": "How many characters to type before a completion suggestion is made."
+               }
+            }
+         }
+      ]
+   },
+   "homepage": "https://github.com/RiderTradingTools/easylanguage",
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/RiderTradingTools/easylanguage"
+   },
+   "devDependencies": {
+      "@types/node": "^20.1.0"
+   }
 }
