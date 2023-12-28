@@ -17,11 +17,11 @@
     },
     "Buy Order": {
       "prefix": ["BuyToCover"],
-      "body": ["${1|buy,BuyToCover|} next bar ${2:market};"]
+      "body": ["${1|Buy,BuyToCover|} next bar ${2:market};"]
     },
     "Sell Order": {
       "prefix": ["SellShort"],
-      "body": ["${1|sell,SellShort|} next bar ${2:market};"]
+      "body": ["${1|Sell,SellShort|} next bar ${2:market};"]
     },
     "Description for signal": {
       "prefix": ["setting"],
@@ -60,7 +60,7 @@
     },
     "BarsSinceEntry": {
       "prefix": ["BarsSinceEntry"],
-      "body": ["Barssinceentry(${1:0})"]
+      "body": ["BarsSinceEntry(${1:0})"]
     },
     "Highest": {
       "prefix": ["highest"],

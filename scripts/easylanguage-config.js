@@ -75,6 +75,51 @@ class Trie {
   }
 }
 
+class ESLDocumentSymbolProvider {
+  provideDocumentSymbols(document, token) {
+    return new Promise((resolve, reject) => {
+
+  //  let logOutput = vscode.window.createOutputChannel("Debug log output");
+  //     logOutput.appendLine("Debug output");
+  //     logOutput.show();      
+  
+      let symbols = [];
+
+      let icon_inputs = vscode.SymbolKind.Field;
+      let icon_vars = vscode.SymbolKind.Variable;
+      let icon_begin = vscode.SymbolKind.Array;
+      let icon_class = vscode.SymbolKind.Class;
+      let icon_method = vscode.SymbolKind.Method;
+
+      // check each line of the document about your keywords
+      for (let i = 0; i < document.lineCount; i++) {
+          
+          let line = document.lineAt(i);
+          
+          if ( line.text.trim().toLowerCase().startsWith("input") ) {
+            symbols.push( new vscode.DocumentSymbol("Inputs", "", icon_inputs, line.range, line.range ) );
+          }
+          else if ( line.text.trim().toLowerCase().startsWith("variable") || line.text.trim().toLowerCase().startsWith("vars:") ) {
+            symbols.push( new vscode.DocumentSymbol("Variables", "", icon_vars, line.range, line.range ) );
+          }
+          else if ( line.text.trim().toLowerCase().startsWith("begin") ) {
+            symbols.push( new vscode.DocumentSymbol("Begin", document.lineAt(i+1).text.trim(), icon_begin, line.range, line.range ) );
+          }
+          else if ( line.text.trim().toLowerCase().startsWith("using") ) {
+            symbols.push( new vscode.DocumentSymbol("Instantiation", document.lineAt(i).text.trim(), icon_class, line.range, line.range ) );
+          } 
+          else if ( line.text.trim().toLowerCase().startsWith("method") ) {
+            symbols.push( new vscode.DocumentSymbol(" ", document.lineAt(i).text.trim(), icon_method, line.range, line.range ) );
+          } 
+      }
+
+      resolve(symbols);
+    });
+  }
+}
+
+
+
 function getProperty(obj, prop, deflt) { return obj.hasOwnProperty(prop) ? obj[prop] : deflt; }
 
 function isString(obj) { return typeof obj === 'string';}
@@ -152,9 +197,12 @@ async function readFileContent(filePath) {
 
 function activate(context) {
 
-  //  let logOutput = vscode.window.createOutputChannel("debug log output");
-  //     logOutput.appendLine("I am a debug output!");
+  //  let logOutput = vscode.window.createOutputChannel("Debug log output");
+  //     logOutput.appendLine("Debug output");
   //     logOutput.show();
+
+  const provider = new ESLDocumentSymbolProvider();
+  context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage' }, provider));
    
   let languageIDProviderRegistered = new Set();
   let languageID2Trie = {};

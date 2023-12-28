@@ -18,8 +18,9 @@ Supported file extension: &nbsp; <b><i>.easylanguage</i></b>
   - Comments
   - Numbers
   - Skip words
+  - Control
   - Orders
-  - And vast majority of the reserved words (including functions)
+  - and majority of the reserved words and functions
 - Themes
    - 2 light themes:
      - Standard (TradeStation development environment)
@@ -29,14 +30,17 @@ Supported file extension: &nbsp; <b><i>.easylanguage</i></b>
      - Moss
 - Auto Closing
   - brackets
-  - begin...end
+  - begin..end
   - quotes
 - Simple Auto Complete
-  - auto-complete of the reserved words (including functions)
+  - basic auto-complete of numerous reserved words and function names
 - Snippets
   - if
-  - for
-  - marketposition
+  - for loop
+  - while loop
+  - begin..end
+  - highest, lowest
+  - cross
   - Day Trade
   - others
 
