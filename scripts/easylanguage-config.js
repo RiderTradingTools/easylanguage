@@ -79,45 +79,128 @@ class ESLDocumentSymbolProvider {
   provideDocumentSymbols(document, token) {
     return new Promise((resolve, reject) => {
 
-  //  let logOutput = vscode.window.createOutputChannel("Debug log output");
-  //     logOutput.appendLine("Debug output");
-  //     logOutput.show();      
+      //  let logOutput = vscode.window.createOutputChannel("Debug log output");
+      //     logOutput.appendLine("Debug output");
+      //     logOutput.show();      
   
       let symbols = [];
 
-      let icon_inputs = vscode.SymbolKind.Field;
+      let icon_inputs = vscode.SymbolKind.Null;
       let icon_vars = vscode.SymbolKind.Variable;
       let icon_begin = vscode.SymbolKind.Array;
-      let icon_class = vscode.SymbolKind.Class;
-      let icon_method = vscode.SymbolKind.Method;
+      let icon_using = vscode.SymbolKind.Interface;
+      let icon_method = vscode.SymbolKind.Class;
+
+      let inputSymbol = null;
+      let usingSymbol = null;
+      let methodSymbol = null;
+      let variableSymbol = null;
+      let beginSymbol = null;
+      let cnt = 0;
+      let beginSymbols = [];
 
       // check each line of the document about your keywords
       for (let i = 0; i < document.lineCount; i++) {
           
           let line = document.lineAt(i);
+          let lineText = line.text.trim().toLowerCase();
+          let lineTextLen = line.text.trim().length;
+            
+          if ( lineText.startsWith("input") ) {
+            inputSymbol = new vscode.DocumentSymbol("Inputs", "", icon_inputs, line.range, line.range );
+            symbols.push(inputSymbol);
+          }
           
-          if ( line.text.trim().toLowerCase().startsWith("input") ) {
-            symbols.push( new vscode.DocumentSymbol("Inputs", "", icon_inputs, line.range, line.range ) );
-          }
-          else if ( line.text.trim().toLowerCase().startsWith("variable") || line.text.trim().toLowerCase().startsWith("vars:") ) {
-            symbols.push( new vscode.DocumentSymbol("Variables", "", icon_vars, line.range, line.range ) );
-          }
-          else if ( line.text.trim().toLowerCase().startsWith("begin") ) {
-            symbols.push( new vscode.DocumentSymbol("Begin", document.lineAt(i+1).text.trim(), icon_begin, line.range, line.range ) );
-          }
-          else if ( line.text.trim().toLowerCase().startsWith("using") ) {
-            symbols.push( new vscode.DocumentSymbol("Instantiation", document.lineAt(i).text.trim(), icon_class, line.range, line.range ) );
+          else if ( lineText.startsWith("using") ) {
+            usingSymbol = new vscode.DocumentSymbol("Using", document.lineAt(i).text.trim().substring(6,lineTextLen-1), icon_using, line.range, line.range);
+            symbols.push(usingSymbol);
           } 
-          else if ( line.text.trim().toLowerCase().startsWith("method") ) {
-            symbols.push( new vscode.DocumentSymbol(" ", document.lineAt(i).text.trim(), icon_method, line.range, line.range ) );
+          
+          else if ( lineText.startsWith("method") ) {
+            cnt = 0;
+            methodSymbol = new vscode.DocumentSymbol("Method", document.lineAt(i).text.trim().substring(7), icon_method, line.range, line.range );
+            symbols.push(methodSymbol);
           } 
+          
+          else if ( lineText.startsWith("variable") || lineText.startsWith("vars:") || lineText.startsWith("var:") ) {
+            variableSymbol = new vscode.DocumentSymbol("Variables", "", icon_vars, line.range, line.range );
+            if (methodSymbol) {
+              methodSymbol.children.push(variableSymbol);
+            } else if (beginSymbol) {
+              beginSymbol.children.push(variableSymbol);
+            } else {
+              symbols.push(variableSymbol);
+            }
+          }
+          
+          else if ( lineText.startsWith("begin") || lineText.includes("then begin") || lineText.includes("else begin") ) {
+            cnt++;
+
+            let getlineText = document.lineAt(i-1).text.trim();
+
+            if ( lineText.includes("then begin") || lineText.includes("else begin") ) {
+              getlineText = document.lineAt(i).text.trim();
+            }
+
+            if (cnt > 1 && beginSymbols[cnt-1] != null) {
+              beginSymbols[cnt] = new vscode.DocumentSymbol("Begin", getlineText, icon_begin, line.range, line.range );
+              beginSymbols[cnt-1].children.push(beginSymbols[cnt]);
+            } else if (methodSymbol) {
+              beginSymbols[cnt] = new vscode.DocumentSymbol("Begin", "", icon_begin, line.range, line.range );
+              methodSymbol.children.push(beginSymbols[cnt]);
+            } else {
+              beginSymbols[cnt] = new vscode.DocumentSymbol("Begin", getlineText, icon_begin, line.range, line.range );
+              symbols.push(beginSymbols[cnt]);
+            }
+          }
+
+          else if ( lineText.startsWith("end") ) {
+            if (cnt > 0) {
+              beginSymbols[cnt] = null;
+              cnt--;
+              if (cnt <= 0) {
+                cnt = 0;
+                beginSymbols[cnt] = null;
+              }
+            } else if (methodSymbol) {
+              methodSymbol = null;
+            }
+          }
+
       }
 
       resolve(symbols);
+
+      
+      // Function to group symbols based on hierarchy or nesting
+      function createHierarchy() {
+        let stack = [];
+
+        symbols.forEach((symbol, index) => {
+          while (stack.length > 0 && !symbol.range.isEqual(stack[stack.length - 1].range)) {
+            stack.pop();
+          }
+
+          if (stack.length > 0) {
+            if (!stack[stack.length - 1].children) {
+              stack[stack.length - 1].children = [];
+            }
+            stack[stack.length - 1].children.push(symbol);
+          }
+
+          stack.push(symbol);
+        });
+
+        return stack.filter((symbol) => !symbol.parent);
+      }
+
+      const hierarchicalSymbols = createHierarchy();
+
+      // resolve(hierarchicalSymbols);
+
     });
   }
 }
-
 
 
 function getProperty(obj, prop, deflt) { return obj.hasOwnProperty(prop) ? obj[prop] : deflt; }
