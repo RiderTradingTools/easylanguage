@@ -1,6 +1,6 @@
 const vscode = require('vscode');
 
-let configName = 'complete-from-file';
+let configName = 'easylanguage-keyword-completions';
 
 class TrieNode {
 
@@ -84,18 +84,15 @@ class ESLDocumentSymbolProvider {
       //     logOutput.show();      
   
       let symbols = [];
-
       let icon_inputs = vscode.SymbolKind.Null;
       let icon_vars = vscode.SymbolKind.Variable;
       let icon_begin = vscode.SymbolKind.Array;
       let icon_using = vscode.SymbolKind.Interface;
       let icon_method = vscode.SymbolKind.Class;
-
       let inputSymbol = null;
       let usingSymbol = null;
       let methodSymbol = null;
       let variableSymbol = null;
-      let beginSymbol = null;
       let cnt = 0;
       let beginSymbols = [];
 
@@ -126,8 +123,8 @@ class ESLDocumentSymbolProvider {
             variableSymbol = new vscode.DocumentSymbol("Variables", "", icon_vars, line.range, line.range );
             if (methodSymbol) {
               methodSymbol.children.push(variableSymbol);
-            } else if (beginSymbol) {
-              beginSymbol.children.push(variableSymbol);
+            } else if ( cnt >= 1 && beginSymbols[cnt] != null ) {
+              beginSymbols[cnt].children.push(variableSymbol);
             } else {
               symbols.push(variableSymbol);
             }
@@ -166,42 +163,12 @@ class ESLDocumentSymbolProvider {
               methodSymbol = null;
             }
           }
-
       }
 
       resolve(symbols);
-
-      
-      // Function to group symbols based on hierarchy or nesting
-      function createHierarchy() {
-        let stack = [];
-
-        symbols.forEach((symbol, index) => {
-          while (stack.length > 0 && !symbol.range.isEqual(stack[stack.length - 1].range)) {
-            stack.pop();
-          }
-
-          if (stack.length > 0) {
-            if (!stack[stack.length - 1].children) {
-              stack[stack.length - 1].children = [];
-            }
-            stack[stack.length - 1].children.push(symbol);
-          }
-
-          stack.push(symbol);
-        });
-
-        return stack.filter((symbol) => !symbol.parent);
-      }
-
-      const hierarchicalSymbols = createHierarchy();
-
-      // resolve(hierarchicalSymbols);
-
     });
   }
 }
-
 
 function getProperty(obj, prop, deflt) { return obj.hasOwnProperty(prop) ? obj[prop] : deflt; }
 

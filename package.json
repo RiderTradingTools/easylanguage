@@ -74,9 +74,8 @@
       ],
       "configuration": [
          {
-            "title": "Complete from File",
             "properties": {
-               "complete-from-file.documents": {
+               "easylanguage-keyword-completions.documents": {
                   "type": "object",
                   "default": {},
                   "scope": "resource",
