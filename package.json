@@ -77,6 +77,7 @@
             "properties": {
                "easylanguage-keyword-completions.documents": {
                   "type": "object",
+                  "scheme": "file",
                   "default": {},
                   "scope": "resource",
                   "markdownDescription": "Object describing documentSelector and files with completion texts."
