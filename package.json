@@ -75,7 +75,6 @@
       "configuration": 
          {
             "title": "easylanguage",
-            "file": "./easylanguage-complete.txt",
             "properties": {
                "easylanguage.documents": {
                   "type": "object",
