@@ -239,7 +239,7 @@ function variableSubstitution(text) {
 };
 
 async function readFileContent(filePath) {
-  filePath = variableSubstitution(filePath);
+  filePath = filePath;
   let uri = vscode.Uri.file(filePath);
   let contentUTF8 = await vscode.workspace.fs.readFile(uri);
   return utf8_to_str(contentUTF8);
@@ -251,8 +251,10 @@ function activate(context) {
   //     logOutput.appendLine("Debug output");
   //     logOutput.show();
 
+  const extSettings = require('../package.json');
+
   const provider = new ESLDocumentSymbolProvider();
-  context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage' }, provider));
+  context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage', scheme: 'file' }, provider));
    
   let languageIDProviderRegistered = new Set();
   let languageID2Trie = {};
@@ -280,8 +282,8 @@ function activate(context) {
   };
 
   function updateConfig() {
-    // let configuration = vscode.workspace.getConfiguration(configName, null);
-    // documents = configuration.get('documents');
+    let configuration = vscode.workspace.getConfiguration(configName, null);
+    documents = configuration.get('documents');
    //  minimalCharacterCount = Math.max(configuration.get('minimalCharacterCount'), 1);
     languageID2Trie = {};
   }
@@ -293,26 +295,29 @@ function activate(context) {
     updateConfig();
   }));
 
-  async function onMatchLanguageID(async_action_file) {
-    // for (const description in documents) {
-      // if (!documents.hasOwnProperty(description)) { continue; }
-      // let config = documents[description];
-      // let selectors = getProperty(config, 'documentSelectors');
-      // if (!selectors) { continue; }
-      // for (const selector of selectors) {
-        let languageIDSelector = "easylanguage";
-        // if (!check_languageID(languageIDSelector, selector)) { continue; }
+  async function onMatchLanguageID(check_languageID, async_action_file) {
+    const extSettings = require('../package.json');
+    for (const description in documents) {
+      if (!documents.hasOwnProperty(description)) { continue; }
+      let config = documents[description];
+      let selectors = getProperty(config, 'documentSelectors');
+      if (!selectors) { continue; }
+      for (const selector of selectors) {
+        let languageIDSelector = getProperty(selector, 'language');
+        if (!languageIDSelector) { continue; }
+        if (!check_languageID(languageIDSelector, selector)) { continue; }
         // for (const filePath of getProperty(config, 'files', [])) {
-          if (!await async_action_file("${userHome}${pathSeparator}easylanguage-complete.txt")) { return; }
+          const filePath = context.asAbsolutePath("./easylanguage-complete.txt");//extSettings.contributes.configuration.file;
+          if (!await async_action_file(filePath)) { return; }
         // }
-      // }
-    // }
+      }
+    }
   }
 
   context.subscriptions.push(vscode.workspace.onDidSaveTextDocument( async document => {
     await onMatchLanguageID( () => true,
       async filePath => {
-        if (document.fileName === variableSubstitution(filePath)) {
+        if (document.fileName === filePath) {
           updateConfig();
           return false;
         }

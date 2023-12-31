@@ -72,19 +72,20 @@
             "path": "./snippets.json"
          }
       ],
-      "configuration": [
+      "configuration": 
          {
+            "title": "easylanguage",
+            "file": "./easylanguage-complete.txt",
             "properties": {
-               "easylanguage-keyword-completions.documents": {
+               "easylanguage.documents": {
                   "type": "object",
-                  "scheme": "file",
                   "default": {},
                   "scope": "resource",
+                  "documentSelectors": [{ "language": "easylanguage", "scheme": "file" }],
                   "markdownDescription": "Object describing documentSelector and files with completion texts."
                }
             }
          }
-      ]
    },
    "homepage": "https://github.com/RiderTradingTools/easylanguage",
    "repository": {
