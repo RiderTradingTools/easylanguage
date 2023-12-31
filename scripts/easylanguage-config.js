@@ -79,10 +79,6 @@ class ESLDocumentSymbolProvider {
   provideDocumentSymbols(document, token) {
     return new Promise((resolve, reject) => {
 
-      //  let logOutput = vscode.window.createOutputChannel("Debug log output");
-      //     logOutput.appendLine("Debug output");
-      //     logOutput.show();      
-  
       let symbols = [];
       let icon_inputs = vscode.SymbolKind.Null;
       let icon_vars = vscode.SymbolKind.Variable;
@@ -172,12 +168,6 @@ class ESLDocumentSymbolProvider {
 
 function getProperty(obj, prop, deflt) { return obj.hasOwnProperty(prop) ? obj[prop] : deflt; }
 
-// function isString(obj) { return typeof obj === 'string';}
-
-// function errorMessage(msg, noObject) { vscode.window.showErrorMessage(msg); return noObject ? noObject : "Unknown";}
-
-// function dblQuest(value, deflt) { return value !== undefined ? value : deflt; }
-
 function utf8_to_str (src, off, lim) {  // https://github.com/quicbit-js/qb-utf8-to-str-tiny
   lim = lim == null ? src.length : lim;
   for (var i = off || 0, s = ''; i < lim; i++) {
@@ -188,56 +178,6 @@ function utf8_to_str (src, off, lim) {  // https://github.com/quicbit-js/qb-utf8
   return decodeURIComponent(s);
 }
 
-// function URIWorkspaceFolder(uri, action) {
-//   const folders = vscode.workspace.workspaceFolders;
-//   if (!folders) { return errorMessage('No folder open'); }
-//   let wsf = undefined;
-//   if (folders.length > 1) {
-//     if (!uri) { return errorMessage('Use the name of the Workspace Folder'); }
-//     wsf = vscode.workspace.getWorkspaceFolder(uri);
-//   }
-//   if (!wsf) {
-//     wsf = folders[0];  // choose first folder in the list
-//   }
-//   return action(wsf);
-// }
-
-// function getNamedWorkspaceFolder(name) {
-//   const folders = dblQuest(vscode.workspace.workspaceFolders, []);
-//   let filterPred = w => w.name === name;
-//   if (name.indexOf('/') >= 0) { filterPred = w => w.uri.path.endsWith(name); }
-//   let wsfLst = folders.filter(filterPred);
-//   if (wsfLst.length === 0) {
-//     errorMessage(`Workspace not found with name: ${name}`);
-//     return undefined;
-//   }
-//   return wsfLst[0];
-// };
-
-// function variableSubstitution(text) {
-//   const editor = vscode.window.activeTextEditor;
-//   let uri = undefined;
-//   if (!isString(text)) { return text; }
-//   var result = text;
-//   result = result.replace(/\$\{pathSeparator\}/g, process.platform === 'win32' ? '\\' : '/');
-//   result = result.replace(/\$\{userHome\}/g, process.platform === 'win32' ? '${env:HOMEDRIVE}${env:HOMEPATH}' : '${env:HOME}');
-//   result = result.replace(/\$\{env:([^}]+)\}/g, (m, p1) => {
-//     return getProperty(process.env, p1, '');
-//   });
-//   if (!uri && editor) { uri = editor.document.uri; }
-//   result = result.replace(/\$\{workspaceFolder\}/g, m => {
-//     return URIWorkspaceFolder(uri, workspaceFolder => {
-//       return workspaceFolder.uri.fsPath;
-//     });
-//   });
-//   result = result.replace(/\$\{workspaceFolder:(.+?)\}/g, (m, p1) => {
-//     let wsf = getNamedWorkspaceFolder(p1);
-//     if (!wsf) { return 'Unknown'; }
-//     return wsf.uri.fsPath;
-//   });
-//   return result;
-// };
-
 async function readFileContent(filePath) {
   filePath = filePath;
   let uri = vscode.Uri.file(filePath);
@@ -247,16 +187,11 @@ async function readFileContent(filePath) {
 
 function activate(context) {
 
-  //  let logOutput = vscode.window.createOutputChannel("Debug log output");
-  //     logOutput.appendLine("Debug output");
-  //     logOutput.show();
-
   const provider = new ESLDocumentSymbolProvider();
   context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage', scheme: 'file' }, provider));
    
   let languageIDProviderRegistered = new Set();
   let languageID2Trie = {};
-  // let documents = {};
   let minimalCharacterCount = 2;
   let completionItemProvider = {
     /** @param {vscode.TextDocument} document @param {vscode.Position} position */
@@ -280,8 +215,6 @@ function activate(context) {
   };
 
   function updateConfig() {
-    // let configuration = vscode.workspace.getConfiguration(configName, null);
-    // documents = configuration.get('documents');
     languageID2Trie = {};
   }
 
@@ -293,22 +226,13 @@ function activate(context) {
   }));
 
   async function onMatchLanguageID(check_languageID, async_action_file) {
-    // const extSettings = require('../package.json');
-    // for (const description in documents) {
-      // if (!documents.hasOwnProperty(description)) { continue; }
-      // let config = documents[description];
-      let selectors = JSON.parse('[{ "language": "easylanguage", "scheme": "file" }]'); //getProperty(config, 'documentSelectors');
-      // if (!selectors) { continue; }
+      let selectors = JSON.parse('[{ "language": "easylanguage", "scheme": "file" }]'); 
       for (const selector of selectors) {
         let languageIDSelector = getProperty(selector, 'language');
-        // if (!languageIDSelector) { continue; }
         if (!check_languageID(languageIDSelector, selector)) { continue; }
-        // for (const filePath of getProperty(config, 'files', [])) {
-          const filePath = context.asAbsolutePath("./easylanguage-complete.txt");//extSettings.contributes.configuration.file;
+          const filePath = context.asAbsolutePath("./easylanguage-complete.txt");
           if (!await async_action_file(filePath)) { return; }
-        // }
       }
-    // }
   }
 
   context.subscriptions.push(vscode.workspace.onDidSaveTextDocument( async document => {
@@ -324,8 +248,7 @@ function activate(context) {
 
   async function changeActiveTextEditor(editor) {
     if (!editor) { return; }
-    let languageIDEditor = 'easylanguage'; //editor.document.languageId;
-    // if (languageID2Trie[languageIDEditor] !== undefined) { return; }
+    let languageIDEditor = 'easylanguage';
     await onMatchLanguageID(
       (languageIDSelector, selector) => {
         if (languageIDSelector !== languageIDEditor) { return false; }
@@ -341,12 +264,12 @@ function activate(context) {
         let trie = languageID2Trie[languageIDEditor];
         let content = await readFileContent(filePath);
         for (const line of content.split(/\r?\n/)) {
-          if (line.match(/^\s*($|\/\/|#)/)) { continue; }  // check empty and comment lines
+          if (line.match(/^\s*($|\/\/|#)/)) { continue; }  // skip empty and comment lines
           trie.insert(line);
           trie.insert(line.toLowerCase());
           trie.insert(line.toUpperCase());
         }
-        return true; // process next filePath
+        return true; 
       });
     if (languageID2Trie[languageIDEditor] === undefined) {
       languageID2Trie[languageIDEditor] = null;
