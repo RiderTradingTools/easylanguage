@@ -89,6 +89,7 @@ class ESLDocumentSymbolProvider {
       let usingSymbol = null;
       let methodSymbol = null;
       let variableSymbol = null;
+      let constantSymbol = null;
       let cnt = 0;
       let beginSymbols = [];
 
@@ -99,7 +100,7 @@ class ESLDocumentSymbolProvider {
           let lineText = line.text.trim().toLowerCase();
           let lineTextLen = line.text.trim().length;
             
-          if ( lineText.startsWith("input") ) {
+          if ( lineText.startsWith("input:") || lineText.startsWith("inputs:") ) {
             inputSymbol = new vscode.DocumentSymbol("Inputs", "", icon_inputs, line.range, line.range );
             symbols.push(inputSymbol);
           }
@@ -123,6 +124,17 @@ class ESLDocumentSymbolProvider {
               beginSymbols[cnt].children.push(variableSymbol);
             } else {
               symbols.push(variableSymbol);
+            }
+          }
+
+          else if ( lineText.startsWith("constants") || lineText.startsWith("constant:") || lineText.startsWith("const:") ) {
+            constantSymbol = new vscode.DocumentSymbol("Constants", "", icon_vars, line.range, line.range );
+            if (methodSymbol) {
+              methodSymbol.children.push(constantSymbol);
+            } else if ( cnt >= 1 && beginSymbols[cnt] != null ) {
+              beginSymbols[cnt].children.push(constantSymbol);
+            } else {
+              symbols.push(constantSymbol);
             }
           }
           

@@ -28,12 +28,13 @@ Supported file extension: &nbsp; <b><i>.easylanguage</i></b>
    - 2 dark themes:
      - Dark 
      - Moss
+- Code Outline
+- Simple Auto Complete
+  - basic auto-complete of numerous reserved words and function names
 - Auto Closing
   - brackets
   - begin..end
   - quotes
-- Simple Auto Complete
-  - basic auto-complete of numerous reserved words and function names
 - Snippets
   - if
   - for loop
