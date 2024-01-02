@@ -1,7 +1,7 @@
 {
    "name": "easylanguage",
-   "displayName": "easylanguage language support",
-   "description": "easylanguage syntax highlighting used in TradeStation platform",
+   "displayName": "easylanguage support",
+   "description": "easylanguage syntax support & highlighting used in TradeStation platform",
    "publisher": "RiderTradingTools",
    "icon": "images/ts_dev_env_icon.png",
    "version": "1.0.1",

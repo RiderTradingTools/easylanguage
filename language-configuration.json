@@ -37,21 +37,16 @@
    },
    "onEnterRules": [
       {
-         // "beforeText": "(?i)(\\b(var:|vars:|variables:|input:|inputs:|array|arrays|for|if|else|while|try|with|finally|except|async)\\b)",
-         "beforeText": "(^\\s*(?:var(s)?|variable(s)?|array(s)?|input(s)?|while|switch?|case?|try?|finally?).*?:|then)\\s*$",
+         "beforeText": "(^\\s*(?:var(s)?|variable(s)?|array(s)?|input(s)?|begin|while|switch?|case?|try?|finally?).*?:|then)\\s*$",
          "action": { "indent": "indent" }
       }
    ],
    "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)"
    // "indentationRules": {
-   //    "increaseIndentPattern": "^((?!\\/\\/).)*(\\{[^}\"'`]*|\\([^)\"'`]*|\\[[^\\]\"'`]*)$",
-   //    "decreaseIndentPattern": "^((?!.*?\\/\\*).*\\*/)?\\s*[\\)\\}\\]].*$"
-   //    // "increaseIndentPattern": "(?i)begin",
-   //    // "decreaseIndentPattern": "(?i)\bend"
+   //    // "increaseIndentPattern": "^((?!\\/\\/).)*(\\{[^}\"'`]*|\\([^)\"'`]*|\\[[^\\]\"'`]*)$",
+   //    // "decreaseIndentPattern": "^((?!.*?\\/\\*).*\\*/)?\\s*[\\)\\}\\]].*$"
+   //    "increaseIndentPattern": "(?i)begin?",
+   //    "decreaseIndentPattern": "(?i)\bend"
    // }
 
 }
-
-
-
-// "match": "(?i)(\\b(A|An|At|Based|By|Does|From|Is|Of|On|Place|Than|The|Was)\\b)"
