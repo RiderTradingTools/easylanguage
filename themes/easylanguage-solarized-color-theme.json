@@ -807,23 +807,49 @@
 
 
         // easylanguage ---------------------------------
+
 		{
-			"scope": "comment",
+			"scope": [
+				"string",
+				"string.quoted.single",
+				"string.quoted.double"
+			],
 			"settings": {
-				"foreground": "#a9b4b4",
-				"fontStyle": "italic"
+				"foreground": "#2AA198"
 			}
 		},
 		{
+			"scope": [
+                "comment",
+                "comment.block"
+            ],
+			"settings": {
+				"foreground": "#d9c8a5",
+				"fontStyle": "italic"
+			}
+		},
+		{	// keywords
+			"scope": "constant.language",
+			"settings": {
+				"foreground": "#b56600"
+			}
+		},
+		{	// functions
 			"scope": "support.function",
 			"settings": {
 				"foreground": "#268BD2"
 			}
 		},
-		{
+		{	// functions
 			"scope": "support.function.esl",
 			"settings": {
-				"foreground": "#00bfff"
+				"foreground": "#7329c2"
+			}
+		},
+		{	// classes
+			"scope": "support.function.eslclass",
+			"settings": {
+				"foreground": "#7329c2"
 			}
 		},
 		{
@@ -835,31 +861,42 @@
                 "fontStyle": "bold"
 			}
 		},
-		{
+		{	// price data:  High/Low/Open/Close
 			"scope": "keyword.control.pricedata",
 			"settings": {
 				"foreground": "#0379ac",
                 "fontStyle": "bold"
 			}
 		},
-		{
-			"scope": "constant.numeric",
+		{	// numbers
+			"scope": [
+				"constant.numeric",
+				"variable.other.enummember",
+				"keyword.operator.plus.exponent",
+				"keyword.operator.minus.exponent"
+			],
 			"settings": {
 				"foreground": "#D33682",
-            "fontStyle": "bold"
+            	"fontStyle": "bold"
 			}
 		},
-		{
+		{	
+			"scope": "constant.operator",
+			"settings": {
+				"foreground": "#008006"
+			}
+		},
+		{	// skip words
 			"scope": "keyword.skipwords",
 			"settings": {
 				"foreground": "#ff9e9e",
                 "fontStyle":"italic"
 			}
 		},
-		{
+		{	// var scope: int, double, bool, True/False, etc
 			"scope": [
 				"variable.type",
-            "support.type.vendored.property-name",
+            	"support.type.vendored.property-name",
 				"support.type.property-name",
 				"variable.css",
 				"variable.scss",
@@ -870,12 +907,12 @@
 				"foreground": "#DC322F"
 			}
 		},
-		{
+		{	// Value1, Plot1, etc
 			"scope": [
 				"variable.esl"
 			],
 			"settings": {
-				"foreground": "#268BD2"
+				"foreground": "#00bfff"
 			}
 		},
 
@@ -898,12 +935,6 @@
 			],
 			"settings": {
 				"foreground": "#657B83"
-			}
-		},
-		{
-			"scope": "string",
-			"settings": {
-				"foreground": "#2AA198"
 			}
 		},
 		{
@@ -965,15 +996,6 @@
 			],
 			"settings": {
 				"foreground": "#DC322F"
-			}
-		},
-		{
-			"scope": [
-				"constant.language",
-				"meta.preprocessor"
-			],
-			"settings": {
-				"foreground": "#B58900"
 			}
 		},
 		{

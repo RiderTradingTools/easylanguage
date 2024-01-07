@@ -817,7 +817,7 @@
 				"string.quoted.double"
 			],
 			"settings": {
-				"foreground": "#BCD42A"
+				"foreground": "#2cdc05"
 			}
 		},
         {
@@ -830,20 +830,26 @@
                 "fontStyle": "italic"
 			}
 		},
-		{
+		{	// keywords
 			"scope": "constant.language",
 			"settings": {
 				"foreground": "#FF5D38"
 			}
 		},
-		{
+		{	// functions
 			"scope": "support.function",
 			"settings": {
 				"foreground": "#FF5D38"
 			}
 		},
-		{
+		{	// functions
 			"scope": "support.function.esl",
+			"settings": {
+				"foreground": "#00bfff"
+			}
+		},
+		{	// classes
+			"scope": "support.function.eslclass",
 			"settings": {
 				"foreground": "#00bfff"
 			}
@@ -857,20 +863,20 @@
                 "fontStyle": "bold"
 			}
 		},
-		{
+		{	// control words: begin, end, if, then, etc
 			"scope": "keyword.control",
 			"settings": {
 				"foreground": "#26A6A6"
 			}
 		},
-		{
+		{	// price data:  High/Low/Open/Close
 			"scope": "keyword.control.pricedata",
 			"settings": {
 				"foreground": "#0379ac",
                 "fontStyle": "bold"
 			}
 		},
-		{
+		{	// numbers
 			"scope": [
 				"constant.numeric",
 				"variable.other.enummember",
@@ -888,17 +894,17 @@
 				"foreground": "#6d776e"
 			}
 		},
-		{
+		{	// skip words
 			"scope": "keyword.skipwords",
 			"settings": {
 				"foreground": "#ff9e9e",
                 "fontStyle":"italic"
 			}
 		},
-		{
+		{	// var scope: int, double, bool, True/False, etc
 			"scope": [
 				"variable.type",
-            "support.type.vendored.property-name",
+            	"support.type.vendored.property-name",
 				"support.type.property-name",
 				"variable.css",
 				"variable.scss",
@@ -906,15 +912,15 @@
 				"source.coffee.embedded"
 			],
 			"settings": {
-				"foreground": "#F7B83D"
+				"foreground": "#a66f00"
 			}
 		},
-		{
+		{	// Value1, Plot1, etc
 			"scope": [
 				"variable.esl"
 			],
 			"settings": {
-				"foreground": "#16bcc4"
+				"foreground": "#d9e94c"
 			}
 		},
 

@@ -143,7 +143,8 @@ You can create a Task to launch TradeStation web help:
 
 ## Release Notes
 
- - Version *1.0.1* - intial release.  
+ - Version *1.0.1* &nbsp; - Intial release.  
+ - Version *1.0.2* &nbsp; - Added missing keywords.  
 
 <br>
 <br>

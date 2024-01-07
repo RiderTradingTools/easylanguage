@@ -763,7 +763,7 @@
 				"string.quoted.double"
 			],
 			"settings": {
-				"foreground": "#A31515"
+				"foreground": "#ac0000"
 			}
 		},
         {
@@ -776,20 +776,26 @@
                 "fontStyle": "italic"
 			}
 		},
-		{
+		{	// keywords
 			"scope": "constant.language",
 			"settings": {
 				"foreground": "#e76305"
 			}
 		},
-		{
+		{	// functions
 			"scope": "support.function",
 			"settings": {
-				"foreground": "#7b00ff"
+				"foreground": "#b151a9"
 			}
 		},
-		{
+		{	// functions
 			"scope": "support.function.esl",
+			"settings": {
+				"foreground": "#00bfff"
+			}
+		},
+		{	// classes
+			"scope": "support.function.eslclass",
 			"settings": {
 				"foreground": "#00bfff"
 			}
@@ -803,20 +809,20 @@
                 "fontStyle": "bold"
 			}
 		},
-		{
+		{	// control words: begin, end, if, then, etc
 			"scope": "keyword.control",
 			"settings": {
 				"foreground": "#0000FF"
 			}
 		},
-		{
+		{	// price data:  High/Low/Open/Close
 			"scope": "keyword.control.pricedata",
 			"settings": {
 				"foreground": "#0379ac",
                 "fontStyle": "bold"
 			}
 		},
-		{
+		{	// numbers
 			"scope": [
 				"constant.numeric",
 				"variable.other.enummember",
@@ -824,27 +830,27 @@
 				"keyword.operator.minus.exponent"
 			],
 			"settings": {
-				"foreground": "#e0002a",
+				"foreground": "#01b0a1",
                 "fontStyle": "bold"
 			}
 		},
-		{
+		{	
 			"scope": "constant.operator",
 			"settings": {
 				"foreground": "#07570b"
 			}
 		},
-		{
+		{	// skip words
 			"scope": "keyword.skipwords",
 			"settings": {
 				"foreground": "#ff9e9e",
                 "fontStyle":"italic"
 			}
 		},
-		{
+		{	// var scope: int, double, bool, True/False, etc
 			"scope": [
 				"variable.type",
-            "support.type.vendored.property-name",
+            	"support.type.vendored.property-name",
 				"support.type.property-name",
 				"variable.css",
 				"variable.scss",
@@ -852,15 +858,15 @@
 				"source.coffee.embedded"
 			],
 			"settings": {
-				"foreground": "#af03ff"
+				"foreground": "#fb00ff"
 			}
 		},
-		{
+		{	// Value1, Plot1, etc
 			"scope": [
 				"variable.esl"
 			],
 			"settings": {
-				"foreground": "#16bcc4"
+				"foreground": "#c416c4"
 			}
 		},
 
