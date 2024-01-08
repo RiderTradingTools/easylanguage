@@ -167,7 +167,8 @@ class ESLDocumentSymbolProvider {
                 cnt = 0;
                 beginSymbols[cnt] = null;
               }
-            } else if (methodSymbol) {
+            }
+            if (methodSymbol) {
               methodSymbol = null;
             }
           }

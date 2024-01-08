@@ -9,6 +9,7 @@
       "vscode": "^1.80.0"
    },
    "pricing": "Free",
+   "license": "See license in LICENSE.txt",
    "categories": [
       "Programming Languages",
       "Themes",
