@@ -9,7 +9,7 @@
     },
     "If (code block)": {
       "prefix": ["if "],
-      "body": ["if $1 then"
+      "body": ["if $1 then",
         "begin", 
         "\t$0", 
         "end;"]
@@ -92,6 +92,5 @@
     "While loop": {
       "prefix": ["while"],
       "body": ["while ${1:condition} begin", "\t$0", "end;"]
-    },
-
+    }
 }
