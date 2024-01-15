@@ -4,7 +4,7 @@
    "description": "easylanguage syntax support & highlighting used in TradeStation platform",
    "publisher": "RiderTradingTools",
    "icon": "images/ts_dev_env_icon.png",
-   "version": "1.0.2",
+   "version": "1.0.3",
    "engines": {
       "vscode": "^1.80.0"
    },
