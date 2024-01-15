@@ -1594,3 +1594,8 @@ Dashed2
 Dashed3
 Dotted
 Solid
+Clone
+Equals()
+GetType
+ReferenceEquals()
+ToString()
