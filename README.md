@@ -146,6 +146,7 @@ You can create a Task to launch TradeStation web help:
  - Version *1.0.1* &nbsp; - Intial release.  
  - Version *1.0.2* &nbsp; - Added missing keywords and classes (in syntax and auto-complete). Modified themes. Updated snippets. 
  - Version *1.0.3* &nbsp; - Fixed error in snippets. 
+ - Version *1.0.4* &nbsp; - Fixed error in syntax of keywords. 
 
 <br>
 <br>

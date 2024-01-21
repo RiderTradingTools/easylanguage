@@ -17,3 +17,7 @@ All notable changes to the "easylanguage" extension will be documented in this f
 
 ## 1.0.3 
 - Fixed error in snippets. 
+
+
+## 1.0.4
+ - Fixed error in syntax of keywords. 
