@@ -83,6 +83,7 @@ class ESLDocumentSymbolProvider {
       let icon_inputs = vscode.SymbolKind.Null;
       let icon_vars = vscode.SymbolKind.Variable;
       let icon_begin = vscode.SymbolKind.Array;
+      let icon_region = vscode.SymbolKind.Number;
       let icon_using = vscode.SymbolKind.Interface;
       let icon_method = vscode.SymbolKind.Class;
       let inputSymbol = null;
@@ -138,7 +139,7 @@ class ESLDocumentSymbolProvider {
             }
           }
           
-          else if ( lineText.startsWith("begin") || lineText.includes("then begin") || lineText.includes("else begin") ) {
+          else if ( lineText.startsWith("begin") || lineText.includes("then begin") || lineText.includes("else begin") || lineText.endsWith("begin") || lineText.includes("#region") ) {
             cnt++;
 
             let getlineText = document.lineAt(i-1).text.trim();
@@ -147,19 +148,37 @@ class ESLDocumentSymbolProvider {
               getlineText = document.lineAt(i).text.trim();
             }
 
-            if (cnt > 1 && beginSymbols[cnt-1] != null) {
+            if ( lineText.includes("#region") ) {
+              getlineText = document.lineAt(i).text.trim().substring(8);
+            }
+
+            if (cnt > 1 && beginSymbols[cnt-1] != null && lineText.includes("begin") ) {
               beginSymbols[cnt] = new vscode.DocumentSymbol("Begin", getlineText, icon_begin, line.range, line.range );
               beginSymbols[cnt-1].children.push(beginSymbols[cnt]);
-            } else if (methodSymbol) {
+            
+            } else if (cnt > 1 && beginSymbols[cnt-1] != null && lineText.includes("#region") ) {
+              beginSymbols[cnt] = new vscode.DocumentSymbol("Region", getlineText, icon_region, line.range, line.range );
+              beginSymbols[cnt-1].children.push(beginSymbols[cnt]);
+            
+            } else if (methodSymbol && lineText.includes("begin") ) {
               beginSymbols[cnt] = new vscode.DocumentSymbol("Begin", "", icon_begin, line.range, line.range );
               methodSymbol.children.push(beginSymbols[cnt]);
+            
+            } else if (methodSymbol && lineText.includes("#region") ) {
+              beginSymbols[cnt] = new vscode.DocumentSymbol("Region", getlineText, icon_region, line.range, line.range );
+              methodSymbol.children.push(beginSymbols[cnt]);
+
+            } else if (lineText.includes("#region")) {
+              beginSymbols[cnt] = new vscode.DocumentSymbol("Region", getlineText, icon_region, line.range, line.range );
+              symbols.push(beginSymbols[cnt]);
+
             } else {
               beginSymbols[cnt] = new vscode.DocumentSymbol("Begin", getlineText, icon_begin, line.range, line.range );
               symbols.push(beginSymbols[cnt]);
             }
           }
 
-          else if ( lineText.startsWith("end") ) {
+          else if ( lineText.startsWith("end") || lineText.startsWith("#endregion") ) {
             if (cnt > 0) {
               beginSymbols[cnt] = null;
               cnt--;
@@ -168,7 +187,7 @@ class ESLDocumentSymbolProvider {
                 beginSymbols[cnt] = null;
               }
             }
-            if (methodSymbol) {
+            if ( methodSymbol && !lineText.startsWith("#endregion") ) {
               methodSymbol = null;
             }
           }

@@ -40,11 +40,15 @@
 				},
 				{
 					"name": "keyword.control",
-					"match": "(?i)(\\b(if|else|while|for|then|to|begin|throw|or|and|not|end|switch|case|default|input|inputs|const|constant|constants|var|vars|variables|using|variable|\\#BeginAlert|\\#BeginCmtry|\\#BeginCmtryOrAlert|\\#End|\\#EndRegion|\\#Events|\\#Region)\\b)"
+					"match": "(?i)\\b(if|else|while|for|then|to|begin|throw|or|and|not|end|switch|case|default|input|inputs|const|constant|constants|var|vars|variables|using|variable)\\b"
+				},
+				{
+					"name": "keyword.control",
+					"match": "(?i)#\\b(BeginAlert|BeginCmtry|BeginCmtryOrAlert|End|EndRegion|Events|Region)\\b"
 				},
 				{
 					"name": "keyword.skipwords",
-					"match": "(?i)(\\b(A|An|At|Based|By|Does|From|Is|Of|On|Place|Than|The|Was)\\b)"
+					"match": "(?i)\\b(A|An|At|Based|By|Does|From|Is|Of|On|Place|Than|The|Was)\\b"
 				},
 				{
 					"name": "constant.language",
@@ -86,7 +90,7 @@
 				},
 				{
 					"name": "variable.type",
-					"match": "\\b(?i)(int|int64|double|float|byte|bool|string|char|new|null|true|false)\\b"
+					"match": "(?i)\\b(int|int64|double|float|byte|bool|string|char|new|null|true|false)\\b"
 				}
 			]
 		},
@@ -110,15 +114,15 @@
 			"patterns": [
 				{
 					"name": "support.function.order",
-					"match": "\\b(?i)(buy\\s+to\\s+cover|sell\\s+short|buy|sell|buytocover|sellshort)\\b"
+					"match": "(?i)\\b(buy\\s+to\\s+cover|sell\\s+short|buy|sell|buytocover|sellshort)\\b"
 				},
 				{
 					"name": "support.function.order",
-					"match": "\\b(?i)(Contract(?:s|)|Share(?:s|)|Total|all)\\b"
+					"match": "(?i)\\b(Contract(?:s|)|Share(?:s|)|Total|all)\\b"
 				},
 				{
 					"name": "support.function.order",
-					"match": "\\b(?i)(stop|Limit|market|Or Lower|Or Higher)(?=;)"
+					"match": "(?i)\\b(stop|Limit|market|Or Lower|Or Higher)(?=;)"
 				},
 				{
 					"name": "support.function.order",
@@ -130,7 +134,7 @@
 				},
 				{
 					"name": "support.function.order",
-					"match": "\\b(?i)(SetPercentTrailing_pt|SetPercentTrailing|SetDollarTrailing|SetBreakEven_pt|SetBreakEven|SetProfitTarget_pt|SetProfitTarget|SetStopLoss_pt|SetStopLoss|SetTrailingStop_pt)\\b"
+					"match": "(?i)\\b(SetPercentTrailing_pt|SetPercentTrailing|SetDollarTrailing|SetBreakEven_pt|SetBreakEven|SetProfitTarget_pt|SetProfitTarget|SetStopLoss_pt|SetStopLoss|SetTrailingStop_pt)\\b"
 				}
 			]
 		},
