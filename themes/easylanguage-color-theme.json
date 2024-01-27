@@ -815,6 +815,13 @@
 				"foreground": "#0000FF"
 			}
 		},
+		{	// section control words: region, etc
+			"scope": "keyword.control.section",
+			"settings": {
+				"foreground": "#7676e7",
+				"fontStyle": "italic bold"
+			}
+		},
 		{	// price data:  High/Low/Open/Close
 			"scope": "keyword.control.pricedata",
 			"settings": {

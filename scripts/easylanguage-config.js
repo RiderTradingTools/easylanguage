@@ -296,7 +296,7 @@ function activate(context) {
         let trie = languageID2Trie[languageIDEditor];
         let content = await readFileContent(filePath);
         for (const line of content.split(/\r?\n/)) {
-          if (line.match(/^\s*($|\/\/|#)/)) { continue; }  // skip empty and comment lines
+          // if (line.match(/^\s*($|\/\/|#)/)) { continue; }  // skip empty and comment lines
           trie.insert(line);
           trie.insert(line.toLowerCase());
           trie.insert(line.toUpperCase());

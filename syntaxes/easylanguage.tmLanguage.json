@@ -24,6 +24,9 @@
 					"include": "#comments"
 				},
 				{
+					"include": "#regions"
+				},
+				{
 					"include": "#strings"
 				},
 				{
@@ -40,11 +43,7 @@
 				},
 				{
 					"name": "keyword.control",
-					"match": "(?i)\\b(if|else|while|for|then|to|begin|throw|or|and|not|end|switch|case|default|input|inputs|const|constant|constants|var|vars|variables|using|variable)\\b"
-				},
-				{
-					"name": "keyword.control",
-					"match": "(?i)#\\b(BeginAlert|BeginCmtry|BeginCmtryOrAlert|End|EndRegion|Events|Region)\\b"
+					"match": "(?i)\\b(arrays|if|else|while|for|then|to|begin|throw|or|and|not|end|switch|case|default|input|inputs|const|constant|constants|var|vars|variables|using|variable)\\b"
 				},
 				{
 					"name": "keyword.skipwords",
@@ -118,11 +117,11 @@
 				},
 				{
 					"name": "support.function.order",
-					"match": "(?i)\\b(Contract(?:s|)|Share(?:s|)|Total|all)\\b"
+					"match": "(?i)\\b(contract(?:s|)|share(?:s|)|total|all)\\b"
 				},
 				{
 					"name": "support.function.order",
-					"match": "(?i)\\b(stop|Limit|market|Or Lower|Or Higher)(?=;)"
+					"match": "(?i)\\b(stop|limit|market|or lower|or higher)(?=( |;))"
 				},
 				{
 					"name": "support.function.order",
@@ -134,7 +133,7 @@
 				},
 				{
 					"name": "support.function.order",
-					"match": "(?i)\\b(SetPercentTrailing_pt|SetPercentTrailing|SetDollarTrailing|SetBreakEven_pt|SetBreakEven|SetProfitTarget_pt|SetProfitTarget|SetStopLoss_pt|SetStopLoss|SetTrailingStop_pt)\\b"
+					"match": "(?i)\\b(SetPercentTrailing|SetDollarTrailing|SetBreakEven|SetProfitTarget|SetStopLoss|SetBuyMinusSellPlus|SetDiscretion|SetRouteName)\\b"
 				}
 			]
 		},
@@ -160,7 +159,22 @@
 				}
 			]
 		},
-		
+
+		"regions": {
+			"patterns": [
+				{
+					"name": "keyword.control.section",
+					"begin": "(?i)#\\b(BeginAlert|BeginCmtry|BeginCmtryOrAlert|End|EndRegion|Events|Region)\\b",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.section"
+						}
+					},
+					"end": "\n"
+				}
+			]
+		},
+
 		"comments": {
 			"patterns": [
 				{
