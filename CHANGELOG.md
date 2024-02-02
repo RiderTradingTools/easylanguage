@@ -20,4 +20,6 @@ All notable changes to the "easylanguage" extension will be documented in this f
 
 
 ## 1.0.4
+ - Added support for #region sections. 
+ - Updated themes for regions.
  - Fixed error in syntax of keywords. 
