@@ -79,124 +79,127 @@ class ESLDocumentSymbolProvider {
   provideDocumentSymbols(document, token) {
     return new Promise((resolve, reject) => {
 
-      let symbols = [];
+      const symbols = [];
+      const nodes = [symbols];
+      let icon_using = vscode.SymbolKind.Interface;
       let icon_inputs = vscode.SymbolKind.Null;
       let icon_vars = vscode.SymbolKind.Variable;
-      let icon_begin = vscode.SymbolKind.Array;
-      let icon_region = vscode.SymbolKind.Number;
-      let icon_using = vscode.SymbolKind.Interface;
       let icon_method = vscode.SymbolKind.Class;
-      let inputSymbol = null;
-      let usingSymbol = null;
-      let methodSymbol = null;
-      let variableSymbol = null;
-      let constantSymbol = null;
-      let cnt = 0;
-      let beginSymbols = [];
+      let icon_region = vscode.SymbolKind.Number;
+      let icon_begin = vscode.SymbolKind.Array;
+      let inside_X = false;
+      let previous_X = "";
 
-      // check each line of the document about your keywords
       for (let i = 0; i < document.lineCount; i++) {
           
           let line = document.lineAt(i);
-          let lineText = line.text.trim().toLowerCase();
+          let lineText = line.text.trim().toLowerCase().replace(/\s+/g, ' ');
           let lineTextLen = line.text.trim().length;
-            
-          if ( lineText.startsWith("input:") || lineText.startsWith("inputs:") ) {
-            inputSymbol = new vscode.DocumentSymbol("Inputs", "", icon_inputs, line.range, line.range );
-            symbols.push(inputSymbol);
+          let prevLineText = "";
+          let lineRange = new vscode.Range(i, 0, i, 199);
+          let getlineText = document.lineAt(i).text.trim().replace(/\s+/g, ' ');
+
+          if ( i >= 1 ) {
+            prevLineText = document.lineAt(i-1).text.trim().toLowerCase().replace(/\s+/g, ' ');
           }
-          
-          else if ( lineText.startsWith("using") ) {
-            usingSymbol = new vscode.DocumentSymbol("Using", document.lineAt(i).text.trim().substring(6,lineTextLen-1), icon_using, line.range, line.range);
-            symbols.push(usingSymbol);
+
+
+          //-----------------------------------------------------------------------
+          // Using
+          if ( lineText.startsWith("using") ) {
+            const usingSymbol = new vscode.DocumentSymbol("Using", getlineText.substring(6,lineTextLen-1), icon_using, lineRange, lineRange);
+            nodes[nodes.length-1].push(usingSymbol);  
           } 
-          
-          else if ( lineText.startsWith("method") ) {
-            cnt = 0;
-            methodSymbol = new vscode.DocumentSymbol("Method", document.lineAt(i).text.trim().substring(7), icon_method, line.range, line.range );
-            symbols.push(methodSymbol);
-          } 
-          
+
+          //-----------------------------------------------------------------------
+          // Inputs
+          else if ( lineText.startsWith("input:") || lineText.startsWith("inputs:") ) {
+            const inputSymbol = new vscode.DocumentSymbol("Inputs", "", icon_inputs, lineRange, lineRange );
+            nodes[nodes.length-1].push(inputSymbol); 
+          }
+
+          //-----------------------------------------------------------------------
+          // Variables
           else if ( lineText.startsWith("variable") || lineText.startsWith("vars:") || lineText.startsWith("var:") ) {
-            variableSymbol = new vscode.DocumentSymbol("Variables", "", icon_vars, line.range, line.range );
-            if (methodSymbol) {
-              methodSymbol.children.push(variableSymbol);
-            } else if ( cnt >= 1 && beginSymbols[cnt] != null ) {
-              beginSymbols[cnt].children.push(variableSymbol);
-            } else {
-              symbols.push(variableSymbol);
-            }
+            const variableSymbol = new vscode.DocumentSymbol("Variables", "", icon_vars, lineRange, lineRange );
+            nodes[nodes.length-1].push(variableSymbol);  
           }
 
+          //-----------------------------------------------------------------------
+          // Constants
           else if ( lineText.startsWith("constants") || lineText.startsWith("constant:") || lineText.startsWith("const:") ) {
-            constantSymbol = new vscode.DocumentSymbol("Constants", "", icon_vars, line.range, line.range );
-            if (methodSymbol) {
-              methodSymbol.children.push(constantSymbol);
-            } else if ( cnt >= 1 && beginSymbols[cnt] != null ) {
-              beginSymbols[cnt].children.push(constantSymbol);
-            } else {
-              symbols.push(constantSymbol);
-            }
+            const constantSymbol = new vscode.DocumentSymbol("Constants", "", icon_vars, lineRange, lineRange );
+            nodes[nodes.length-1].push(constantSymbol);  
           }
-          
-          else if ( lineText.startsWith("begin") || lineText.includes("then begin") || lineText.includes("else begin") || lineText.endsWith("begin") || lineText.includes("#region") ) {
-            cnt++;
+         
+          //-----------------------------------------------------------------------
+          // Method, Region, Begin
+          else if ( lineText.startsWith("method") || lineText.startsWith("#region") || 
+                    lineText.startsWith("begin") || lineText.endsWith("then begin") || ( lineText.endsWith("else begin") ) ) {
 
-            let getlineText = document.lineAt(i-1).text.trim();
+            if ( lineText.startsWith("begin") && previous_X == "Method" ) {
+                previous_X = "";
+            } 
+            else {
 
-            if ( lineText.includes("then begin") || lineText.includes("else begin") ) {
-              getlineText = document.lineAt(i).text.trim();
+                // Begin
+                if ( lineText == "begin" ) {
+                  getlineText = prevLineText;
+                  lineRange = new vscode.Range(i-1, 1, i, line.text.length);
+                }
+                let xSymbol = new vscode.DocumentSymbol("Begin", getlineText, icon_begin, lineRange, lineRange );
+                previous_X = "Begin";
+
+                // Region
+                if ( lineText.startsWith("#region") ) {
+                  getlineText = getlineText.substring(8);
+                  xSymbol = new vscode.DocumentSymbol("Region", getlineText, icon_region, lineRange, lineRange );
+                  previous_X = "Region";
+                }
+
+                // Method
+                else if ( lineText.startsWith("method") ) {
+                  xSymbol = new vscode.DocumentSymbol("Method", getlineText.substring(7), icon_method, lineRange, lineRange );
+                  previous_X = "Method";
+                }
+
+                // Once
+                else if ( lineText.startsWith("once") || prevLineText.startsWith("once") ) {
+                  xSymbol = new vscode.DocumentSymbol("Once", "", icon_begin, lineRange, lineRange );
+                }
+
+                nodes[nodes.length-1].push(xSymbol);  
+
+                if ( !inside_X ) {
+                  nodes.push(xSymbol.children);
+                  inside_X = true;
+                }
+                else if ( inside_X ) {
+                  nodes.push(xSymbol.children);
+                }
             }
+          } 
 
-            if ( lineText.includes("#region") ) {
-              getlineText = document.lineAt(i).text.trim().substring(8);
-            }
+          //-----------------------------------------------------------------------
+          // End / End Region
+          if ( lineText.startsWith("end") || lineText.startsWith("#endregion") ) {
 
-            if (cnt > 1 && beginSymbols[cnt-1] != null && lineText.includes("begin") ) {
-              beginSymbols[cnt] = new vscode.DocumentSymbol("Begin", getlineText, icon_begin, line.range, line.range );
-              beginSymbols[cnt-1].children.push(beginSymbols[cnt]);
-            
-            } else if (cnt > 1 && beginSymbols[cnt-1] != null && lineText.includes("#region") ) {
-              beginSymbols[cnt] = new vscode.DocumentSymbol("Region", getlineText, icon_region, line.range, line.range );
-              beginSymbols[cnt-1].children.push(beginSymbols[cnt]);
-            
-            } else if (methodSymbol && lineText.includes("begin") ) {
-              beginSymbols[cnt] = new vscode.DocumentSymbol("Begin", "", icon_begin, line.range, line.range );
-              methodSymbol.children.push(beginSymbols[cnt]);
-            
-            } else if (methodSymbol && lineText.includes("#region") ) {
-              beginSymbols[cnt] = new vscode.DocumentSymbol("Region", getlineText, icon_region, line.range, line.range );
-              methodSymbol.children.push(beginSymbols[cnt]);
-
-            } else if (lineText.includes("#region")) {
-              beginSymbols[cnt] = new vscode.DocumentSymbol("Region", getlineText, icon_region, line.range, line.range );
-              symbols.push(beginSymbols[cnt]);
-
-            } else {
-              beginSymbols[cnt] = new vscode.DocumentSymbol("Begin", getlineText, icon_begin, line.range, line.range );
-              symbols.push(beginSymbols[cnt]);
-            }
-          }
-
-          else if ( lineText.startsWith("end") || lineText.startsWith("#endregion") ) {
-            if (cnt > 0) {
-              beginSymbols[cnt] = null;
-              cnt--;
-              if (cnt <= 0) {
-                cnt = 0;
-                beginSymbols[cnt] = null;
+            if ( inside_X ) {
+              nodes.pop();
+              if ( nodes.length <= 1 ) {
+                inside_X = false;
               }
             }
-            if ( methodSymbol && !lineText.startsWith("#endregion") ) {
-              methodSymbol = null;
-            }
           }
+
       }
 
       resolve(symbols);
     });
   }
 }
+
+
 
 function getProperty(obj, prop, deflt) { return obj.hasOwnProperty(prop) ? obj[prop] : deflt; }
 
@@ -221,7 +224,10 @@ function activate(context) {
 
   const provider = new ESLDocumentSymbolProvider();
   context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage', scheme: 'file' }, provider));
-   
+
+  // vscode.commands.executeCommand('outline.collapse');
+  // vscode.commands.executeCommand('workbench.actions.treeView.workbench.panel.markers.view.collapseAll');
+
   let languageIDProviderRegistered = new Set();
   let languageID2Trie = {};
   let minimalCharacterCount = 2;

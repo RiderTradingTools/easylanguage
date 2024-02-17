@@ -23,3 +23,7 @@ All notable changes to the "easylanguage" extension will be documented in this f
  - Added support for #region sections. 
  - Updated themes for regions.
  - Fixed error in syntax of keywords. 
+
+
+## 1.0.5
+ - Fixed issue in the Outline generation method.

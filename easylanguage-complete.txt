@@ -827,7 +827,7 @@ AvgDeviationArray()
 AvgPrice()
 AvgTrueRange()
 BarAnnualization()
-BarNumber()
+BarNumber
 BearishDivergence()
 BjerkStensCall()
 BjerkStensPhi()
