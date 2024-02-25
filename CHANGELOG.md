@@ -27,3 +27,8 @@ All notable changes to the "easylanguage" extension will be documented in this f
 
 ## 1.0.5
  - Fixed issue in the Outline generation method.
+
+
+## 1.0.6
+ - Fixed Outline when line is a comment. Included additional keywords.
+  

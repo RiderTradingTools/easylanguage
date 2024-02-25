@@ -148,6 +148,7 @@ You can create a Task to launch TradeStation web help:
  - Version *1.0.3* &nbsp; - Fixed error in snippets. 
  - Version *1.0.4* &nbsp; - Added support for #region sections. Updated themes for regions. Fixed error in syntax of keywords. 
  - Version *1.0.5* &nbsp; - Fixed issue in the Outline generation method.
+ - Version *1.0.6* &nbsp; - Fixed Outline when line is a comment. Included additional keywords.
 
 <br>
 <br>

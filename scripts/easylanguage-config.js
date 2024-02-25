@@ -134,8 +134,9 @@ class ESLDocumentSymbolProvider {
          
           //-----------------------------------------------------------------------
           // Method, Region, Begin
-          else if ( lineText.startsWith("method") || lineText.startsWith("#region") || 
-                    lineText.startsWith("begin") || lineText.endsWith("then begin") || ( lineText.endsWith("else begin") ) ) {
+          else if ( lineText.startsWith("method") || lineText.startsWith("#region") || lineText.startsWith("begin") 
+                  || ( lineText.endsWith("then begin") && !lineText.startsWith("//") && !lineText.startsWith("{") ) 
+                  || ( lineText.endsWith("else begin") && !lineText.startsWith("//") && !lineText.startsWith("{") ) ) {
 
             if ( lineText.startsWith("begin") && previous_X == "Method" ) {
                 previous_X = "";
