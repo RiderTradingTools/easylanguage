@@ -30,5 +30,7 @@ All notable changes to the "easylanguage" extension will be documented in this f
 
 
 ## 1.0.6
- - Fixed Outline when line is a comment. Included additional keywords.
-  
+ - Fixed Outline and folding sections to work with Sticky Scroll (for 'editor.stickyScroll.defaultModel', suggest using 'foldingProviderModel'). 
+ - Fixed Outline when line is a comment. 
+ - Incorporated auto-indentation / de-indentation. 
+ - Included additional keywords. 

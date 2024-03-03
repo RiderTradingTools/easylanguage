@@ -7,7 +7,6 @@
    },
    // symbols used as brackets
    "brackets": [
-      // ["begin", "end"],
       ["[", "]"],
       ["(", ")"]
    ],
@@ -29,24 +28,17 @@
       ["'", "'"],
       ["`", "`"]
    ],  
+   // symbols used to denote a folding section
    "folding": {
       "markers": {
-         "start": "^\\s*//\\s*#?region\\b",
-         "end": "^\\s*//\\s*#?endregion\\b"
+			"start": "^\\s*#\\s*(Region|region|REGION|BeginAlert|beginalert|BEGINALERT|BeginCmtry|begincmtry|BEGINCMTRY|BeginCmtryOrAlert|begincmtryoralert|BEGINCMTRYORALERT|Events|events|EVENTS)\\b",
+			"end": "#end|#endregion|#End|#EndRegion"
       }
    },
    "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)",
-   "onEnterRules": [
-      {
-         "beforeText": "^\\s*(?!)(var|vars|variable|variables|input|inputs|begin|while|switch|case|try|finally|then).*?:\\s*$",
-         "action": { "indent": "indent" }
-      }
-   ],
+   // symbols used for auto-indentation
    "indentationRules": {
-      "increaseIndentPattern": "^((?!\\/\\/).)*(\\{[^}\"'`]*|\\([^)\"'`]*|\\[[^\\]\"'`]*)$",
-      "decreaseIndentPattern": "^((?!.*?\\/\\*).*\\*/)?\\s*[\\)\\}\\]].*$"
-      // "increaseIndentPattern": "(?i)begin?",
-      // "decreaseIndentPattern": "(?i)\bend"
+      "increaseIndentPattern": "^((?!(\\-\\-)).)*((\\b(var|VAR|Var|vars|VARS|Vars|variable|VARIABLE|Variable|variables|VARIABLES|Variables|constant|CONSTANT|Constant|constants|CONSTANTS|Constants|input|INPUT|Input|inputs|INPUTS|Inputs|case|CASE|Case|once|ONCE|Once|then|THEN|Then|begin|BEGIN|Begin|else|ELSE|Else|method|METHOD|Method)\\b((?!\\b(end)\\b).)*)|(\\{\\s*))$",
+      "decreaseIndentPattern": "^\\s*((\\b(end)\\b)|(\\})|(\\)))"
    }
-
 }

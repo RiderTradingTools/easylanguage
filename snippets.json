@@ -3,15 +3,23 @@
       "prefix": ["for "],
       "body": ["for ${1:x} = ${2:1} to ${3:9} begin", "\t$0", "end;"]
     },
-    "If (single line)": {
-      "prefix": ["if "],
-      "body": ["if $1 then$0"]
-    },
     "If (code block)": {
       "prefix": ["if "],
-      "body": ["if $1 then",
-        "begin", 
-        "\t$0", 
+      "body": ["if $1 then begin", "\t$0", "end;"]
+    },
+    "If (single line)": {
+      "prefix": ["if "],
+      "body": ["if $1 then $0"]
+    },
+    "Switch (code block)": {
+      "prefix": ["switch "],
+      "body": ["switch (${1:condition}) begin", 
+        "\tcase ${2:value}:", 
+          "\t\t$3;",
+        "\tcase ${4:value}:", 
+          "\t\t$5;",
+        "\tdefault ${6:value}:", 
+          "\t\t$7;",
         "end;"]
     },
     "MarketPosition": {
@@ -75,7 +83,9 @@
     },
     "Begin": {
       "prefix": ["begin"],
-      "body": ["begin", "\t$0", "end;"]
+      "body": ["begin", 
+        "\t$0", 
+        "end;"]
     },
     "Daily low price":{
       "prefix": ["LowD"],

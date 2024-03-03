@@ -134,7 +134,7 @@ class ESLDocumentSymbolProvider {
          
           //-----------------------------------------------------------------------
           // Method, Region, Begin
-          else if ( lineText.startsWith("method") || lineText.startsWith("#region") || lineText.startsWith("begin") 
+          else if ( lineText.startsWith("method") || lineText.startsWith("#region") || lineText.startsWith("begin") || lineText.startsWith("once")  
                   || ( lineText.endsWith("then begin") && !lineText.startsWith("//") && !lineText.startsWith("{") ) 
                   || ( lineText.endsWith("else begin") && !lineText.startsWith("//") && !lineText.startsWith("{") ) ) {
 
@@ -147,9 +147,9 @@ class ESLDocumentSymbolProvider {
                 if ( lineText == "begin" ) {
                   getlineText = prevLineText;
                   lineRange = new vscode.Range(i-1, 1, i, line.text.length);
+                  previous_X = "Begin";
                 }
                 let xSymbol = new vscode.DocumentSymbol("Begin", getlineText, icon_begin, lineRange, lineRange );
-                previous_X = "Begin";
 
                 // Region
                 if ( lineText.startsWith("#region") ) {
@@ -165,7 +165,7 @@ class ESLDocumentSymbolProvider {
                 }
 
                 // Once
-                else if ( lineText.startsWith("once") || prevLineText.startsWith("once") ) {
+                if ( lineText.startsWith("once") || prevLineText.startsWith("once") || lineText == "once begin" ) {
                   xSymbol = new vscode.DocumentSymbol("Once", "", icon_begin, lineRange, lineRange );
                 }
 
