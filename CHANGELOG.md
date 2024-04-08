@@ -34,3 +34,7 @@ All notable changes to the "easylanguage" extension will be documented in this f
  - Fixed Outline when line is a comment. 
  - Incorporated auto-indentation / de-indentation. 
  - Included additional keywords. 
+
+
+## 1.0.7
+ - x
