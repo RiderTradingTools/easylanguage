@@ -153,7 +153,8 @@ You can create a Task to launch TradeStation web help:
  - Version *1.0.5* &nbsp; - Fixed issue in the Outline generation method.
  - Version *1.0.6* &nbsp; - Fixed Outline and folding sections to work with Sticky Scroll (for 'editor.stickyScroll.defaultModel', suggest using 'foldingProviderModel'). Fixed Outline when line is a comment. Incorporated auto-indentation / de-indentation. Included additional keywords. 
  - Version *1.0.7* &nbsp; - Added support for file extension .el and .elf
- 
+ - Version *1.0.8* &nbsp; - xyz
+
 <br>
 <br>
 <br>
