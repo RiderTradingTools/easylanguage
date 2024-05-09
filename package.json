@@ -30,7 +30,9 @@
                "easylanguage"
             ],
             "extensions": [
-               ".easylanguage"
+               ".easylanguage",
+               ".el",
+               ".elf"
             ],
             "configuration": "./language-configuration.json",
             "icon": {

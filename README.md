@@ -83,7 +83,10 @@ Because the TradeStation development environment lacks the excellent features an
 
 ## File Extension
 
-Supported file extension for code files: &nbsp; <strong><code>.easylanguage</code></strong>
+Supported file extension for code files:
+- &nbsp; <strong><code>.easylanguage</code></strong>
+- &nbsp; <strong><code>.el</code></strong>
+- &nbsp; <strong><code>.elf</code></strong>
 
 <br>  
 
@@ -128,7 +131,7 @@ You can create a Task to launch TradeStation web help:
 }   <br>
 </code>
 
-- Then create a keyboard shortcut (key binding in <code>keybindings.json</code>) and map a key (such as F1) to the Task to quickly launch help. &nbsp; <em>(select a keyword, press the shortcut key.)</em> &nbsp; Here's an example keybinding:  
+- Then create a keyboard shortcut (key binding in <code>keybindings.json</code>) and map a key (such as F1) to the Task to quickly launch help. &nbsp; <em>(double-click to select a keyword, then press the shortcut key.)</em> &nbsp; Here's an example keybinding:  
 <code> 
 { <br>
 &nbsp; &nbsp;                 "key": "f1",   <br>
@@ -149,7 +152,7 @@ You can create a Task to launch TradeStation web help:
  - Version *1.0.4* &nbsp; - Added support for #region sections. Updated themes for regions. Fixed error in syntax of keywords. 
  - Version *1.0.5* &nbsp; - Fixed issue in the Outline generation method.
  - Version *1.0.6* &nbsp; - Fixed Outline and folding sections to work with Sticky Scroll (for 'editor.stickyScroll.defaultModel', suggest using 'foldingProviderModel'). Fixed Outline when line is a comment. Incorporated auto-indentation / de-indentation. Included additional keywords. 
-- Version *1.0.7* &nbsp; - x
+ - Version *1.0.7* &nbsp; - Added support for file extension .el and .elf
  
 <br>
 <br>
