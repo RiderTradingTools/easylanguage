@@ -101,7 +101,7 @@
 			"patterns": [
 				{
 					"name": "variable.esl",
-					"match": "(?i)(value[0-9]+|plot[0-9]+|plot|condition[0-9]+|data[0-9]+|data|NoPlot)"
+					"match": "(?i)(value[0-9]+|plot[0-9]+|plot\\(|plot\\s|condition[0-9]+|data[0-9]+|data|NoPlot)"
 				},
 				{
 					"name": "variable.type",

@@ -37,8 +37,8 @@ All notable changes to the "easylanguage" extension will be documented in this f
 
 
 ## 1.0.7
- - Added support for file extension .el and .elf
+ - Added support for file extension .el and .elf for MultiCharts PowerLanguage compatibility
 
 
 ## 1.0.8
- - xyz
+ - Fixed the Plot and Plot1-99 keywords regex match compared to PlotClickEventArgs, PlotPaintBar, PlotPB, PlotVisualElement
