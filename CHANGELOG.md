@@ -42,3 +42,7 @@ All notable changes to the "easylanguage" extension will be documented in this f
 
 ## 1.0.8
  - Fixed the Plot and Plot1-99 keywords regex match compared to PlotClickEventArgs, PlotPaintBar, PlotPB, PlotVisualElement
+ 
+
+## 1.0.9
+ - Fixed the Range function keyword
