@@ -37,7 +37,7 @@ All notable changes to the "easylanguage" extension will be documented in this f
 
 
 ## 1.0.7
- - Added support for file extension .el and .elf for MultiCharts PowerLanguage compatibility
+ - Added support for file extension .el and .elf
 
 
 ## 1.0.8
