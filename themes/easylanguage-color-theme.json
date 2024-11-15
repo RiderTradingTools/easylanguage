@@ -728,35 +728,26 @@
 		//"window.activeBorder": null,
 		//"window.inactiveBorder": null
 	},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	"tokenColors": [
-		{
-			"scope": [
-				"meta.embedded",
-				"source.groovy.embedded",
-				"string meta.image.inline.markdown",
-				"variable.legacy.builtin.python"
-			],
-			"settings": {
-				"foreground": "#000000"
-			}
-		},
-		{
-			"scope": "emphasis",
-			"settings": {
-				"fontStyle": "italic"
-			}
-		},
-		{
-			"scope": "strong",
-			"settings": {
-				"fontStyle": "bold"
-			}
-		},
 
 
-        // easylanguage ---------------------------------
+		// easylanguage syntax colors ---------------------------------
 
-		{
+		{	// strings
 			"scope": [
 				"string",
 				"string.quoted.single",
@@ -766,7 +757,7 @@
 				"foreground": "#ac0000"
 			}
 		},
-        {
+      {	// comments
 			"scope": [
                 "comment",
                 "comment.block"
@@ -800,7 +791,7 @@
 				"foreground": "#00bfff"
 			}
 		},
-		{
+		{	// order functions
 			"scope": [
 				"support.function.order"
 			],
@@ -841,7 +832,7 @@
                 "fontStyle": "bold"
 			}
 		},
-		{	
+		{	// operators
 			"scope": "constant.operator",
 			"settings": {
 				"foreground": "#07570b"
@@ -854,10 +845,24 @@
                 "fontStyle":"italic"
 			}
 		},
+		{	// custom user functions which are added to 'easylanguage.tmLanguage.json' file in section: "keyword.user_functions"
+			"scope": "keyword.user_functions",
+			"settings": {
+				"foreground": "#a56300",
+                "fontStyle":"italic"
+			}
+		},
+		{	// custom user methods, which are methods that start with _ character, for example:  _GetColorFromInteger()
+			"scope": "keyword.user_methods",
+			"settings": {
+				"foreground": "#7d1190",
+                "fontStyle":"italic"
+			}
+		},
 		{	// var scope: int, double, bool, True/False, etc
 			"scope": [
 				"variable.type",
-            	"support.type.vendored.property-name",
+				"support.type.vendored.property-name",
 				"support.type.property-name",
 				"variable.css",
 				"variable.scss",
@@ -901,12 +906,29 @@
 
 
 
-
-
-
-
-
-
+		{
+			"scope": [
+				"meta.embedded",
+				"source.groovy.embedded",
+				"string meta.image.inline.markdown",
+				"variable.legacy.builtin.python"
+			],
+			"settings": {
+				"foreground": "#000000"
+			}
+		},
+		{
+			"scope": "emphasis",
+			"settings": {
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"scope": "strong",
+			"settings": {
+				"fontStyle": "bold"
+			}
+		},
 		{
 			"scope": "meta.diff.header",
 			"settings": {

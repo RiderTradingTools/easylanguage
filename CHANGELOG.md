@@ -46,3 +46,7 @@ All notable changes to the "easylanguage" extension will be documented in this f
 
 ## 1.0.9
  - Fixed the Range function keyword
+ 
+
+## 1.1.0
+ - Added syntax for custom methods and user functions

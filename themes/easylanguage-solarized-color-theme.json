@@ -801,14 +801,26 @@
 		//"window.activeBorder": null,
 		//"window.inactiveBorder": null
 	},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	"tokenColors": [
 
 
+		// easylanguage syntax colors ---------------------------------
 
-
-        // easylanguage ---------------------------------
-
-		{
+		{	// strings
 			"scope": [
 				"string",
 				"string.quoted.single",
@@ -818,7 +830,7 @@
 				"foreground": "#2AA198"
 			}
 		},
-		{
+		{	// comments
 			"scope": [
                 "comment",
                 "comment.block"
@@ -852,7 +864,7 @@
 				"foreground": "#7329c2"
 			}
 		},
-		{
+		{	// order functions
 			"scope": [
 				"support.function.order"
 			],
@@ -893,7 +905,7 @@
             	"fontStyle": "bold"
 			}
 		},
-		{	
+		{	// operators
 			"scope": "constant.operator",
 			"settings": {
 				"foreground": "#008006"
@@ -906,10 +918,24 @@
                 "fontStyle":"italic"
 			}
 		},
+		{	// custom user functions which are added to 'easylanguage.tmLanguage.json' file in section: "keyword.user_functions"
+			"scope": "keyword.user_functions",
+			"settings": {
+				"foreground": "#a300d0",
+                "fontStyle":"italic"
+			}
+		},
+		{	// custom user methods, which are methods that start with _ character, for example:  _GetColorFromInteger()
+			"scope": "keyword.user_methods",
+			"settings": {
+				"foreground": "#157b8b",
+                "fontStyle":"italic"
+			}
+		},
 		{	// var scope: int, double, bool, True/False, etc
 			"scope": [
 				"variable.type",
-            	"support.type.vendored.property-name",
+				"support.type.vendored.property-name",
 				"support.type.property-name",
 				"variable.css",
 				"variable.scss",
@@ -928,6 +954,18 @@
 				"foreground": "#00bfff"
 			}
 		},
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

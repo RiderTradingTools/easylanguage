@@ -801,12 +801,26 @@
 		//"window.activeBorder": null,
 		//"window.inactiveBorder": null
 	},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	"tokenColors": [
 
 
-        // easylanguage ---------------------------------
+		// easylanguage syntax colors ---------------------------------
 
-		{
+		{	// strings
 			"scope": [
 				"string",
 				"string.quoted.single",
@@ -816,7 +830,7 @@
 				"foreground": "#2da42d"
 			}
 		},
-        {
+      {	// comments
 			"scope": [
                 "comment",
                 "comment.block"
@@ -829,13 +843,13 @@
 		{	// keywords
 			"scope": "constant.language",
 			"settings": {
-				"foreground": "#a4549d"       //569CD6
+				"foreground": "#a4549d"
 			}
 		},
 		{	// functions
 			"scope": "support.function",
 			"settings": {
-				"foreground": "#D7BA7D"       //9CDCFE
+				"foreground": "#D7BA7D"
 			}
 		},
 		{	// functions
@@ -850,7 +864,7 @@
 				"foreground": "#af74ed"
 			}
 		},
-		{
+		{	// order functions
 			"scope": [
 				"support.function.order"
 			],
@@ -880,7 +894,7 @@
                 "fontStyle": "bold"
 			}
 		},
-		{
+		{	// numbers
 			"scope": [
 				"constant.numeric",
 				"variable.other.enummember",
@@ -892,7 +906,7 @@
                 "fontStyle": "bold"
 			}
 		},
-		{
+		{	// operators
 			"scope": "constant.operator",
 			"settings": {
 				"foreground": "#808080"
@@ -902,6 +916,20 @@
 			"scope": "keyword.skipwords",
 			"settings": {
 				"foreground": "#ff9e9e",
+                "fontStyle":"italic"
+			}
+		},
+		{	// custom user functions which are added to 'easylanguage.tmLanguage.json' file in section: "keyword.user_functions"
+			"scope": "keyword.user_functions",
+			"settings": {
+				"foreground": "#ff6f00",
+                "fontStyle":"italic"
+			}
+		},
+		{	// custom user methods, which are methods that start with _ character, for example:  _GetColorFromInteger()
+			"scope": "keyword.user_methods",
+			"settings": {
+				"foreground": "#ffbb00",
                 "fontStyle":"italic"
 			}
 		},
@@ -927,6 +955,24 @@
 				"foreground": "#16bcc4"
 			}
 		},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -155,7 +155,7 @@ You can create a Task to launch TradeStation web help:
  - Version *1.0.7* &nbsp; - Added support for file extension .el and .elf for MultiCharts PowerLanguage compatibility
  - Version *1.0.8* &nbsp; - Fixed the Plot and Plot1-99 keywords regex match compared to PlotClickEventArgs, PlotPaintBar, PlotPB, PlotVisualElement
  - Version *1.0.9* &nbsp; - Fixed the Range function keyword
-
+ - Version *1.1.0* &nbsp; - Added syntax for custom methods and user functions
 
 <br>
 <br>
