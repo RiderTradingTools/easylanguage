@@ -767,33 +767,34 @@
                 "fontStyle": "italic"
 			}
 		},
-		{	// keywords
-			"scope": "constant.language",
+		{	// reserved keywords
+			"scope": "esl.reserved",
 			"settings": {
 				"foreground": "#e76305"
 			}
 		},
 		{	// functions
-			"scope": "support.function",
+			"scope": "esl.function",
 			"settings": {
 				"foreground": "#b151a9"
 			}
 		},
-		{	// functions
-			"scope": "support.function.esl",
+		{	// custom user methods, which are methods that start with _ character, for example:  _GetColorFromInteger()
+			"scope": "esl.user_methods",
 			"settings": {
-				"foreground": "#00bfff"
+				"foreground": "#b300ff",
+                "fontStyle":"italic"
 			}
 		},
 		{	// classes
-			"scope": "support.function.eslclass",
+			"scope": "esl.class",
 			"settings": {
 				"foreground": "#00bfff"
 			}
 		},
 		{	// order functions
 			"scope": [
-				"support.function.order"
+				"esl.function.order"
 			],
 			"settings": {
 				"foreground": "#16bcc4",
@@ -801,20 +802,20 @@
 			}
 		},
 		{	// control words: begin, end, if, then, etc
-			"scope": "keyword.control",
+			"scope": "esl.control.keyword",
 			"settings": {
 				"foreground": "#0000FF"
 			}
 		},
-		{	// section control words: region, etc
-			"scope": "keyword.control.section",
+		{	// sectional control words: region, etc
+			"scope": "esl.control.section",
 			"settings": {
 				"foreground": "#7676e7",
 				"fontStyle": "italic bold"
 			}
 		},
 		{	// price data:  High/Low/Open/Close
-			"scope": "keyword.control.pricedata",
+			"scope": "esl.pricedata",
 			"settings": {
 				"foreground": "#0379ac",
                 "fontStyle": "bold"
@@ -839,44 +840,20 @@
 			}
 		},
 		{	// skip words
-			"scope": "keyword.skipwords",
+			"scope": "esl.skipwords",
 			"settings": {
 				"foreground": "#ff9e9e",
                 "fontStyle":"italic"
 			}
 		},
-		{	// custom user functions which are added to 'easylanguage.tmLanguage.json' file in section: "keyword.user_functions"
-			"scope": "keyword.user_functions",
-			"settings": {
-				"foreground": "#a56300",
-                "fontStyle":"italic"
-			}
-		},
-		{	// custom user methods, which are methods that start with _ character, for example:  _GetColorFromInteger()
-			"scope": "keyword.user_methods",
-			"settings": {
-				"foreground": "#7d1190",
-                "fontStyle":"italic"
-			}
-		},
 		{	// var scope: int, double, bool, True/False, etc
-			"scope": [
-				"variable.type",
-				"support.type.vendored.property-name",
-				"support.type.property-name",
-				"variable.css",
-				"variable.scss",
-				"variable.other.less",
-				"source.coffee.embedded"
-			],
+			"scope": "variable.type",
 			"settings": {
 				"foreground": "#fb00ff"
 			}
 		},
-		{	// Value1, Plot1, etc
-			"scope": [
-				"variable.esl"
-			],
+		{	// Value1, Plot1, Condition1, etc
+			"scope": "variable.esl",
 			"settings": {
 				"foreground": "#c416c4"
 			}

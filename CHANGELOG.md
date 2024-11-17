@@ -49,4 +49,4 @@ All notable changes to the "easylanguage" extension will be documented in this f
  
 
 ## 1.1.0
- - Added syntax for custom methods and user functions
+ - Syntax for methods and user functions: keywords starting with _ character will be highlighted as methods/functions, for example:  _GetColorFromInteger()

@@ -836,37 +836,38 @@
                 "comment.block"
             ],
 			"settings": {
-				"foreground": "#d9c8a5",
+				"foreground": "#bdab87",
 				"fontStyle": "italic"
 			}
 		},
-		{	// keywords
-			"scope": "constant.language",
+		{	// reserved keywords
+			"scope": "esl.reserved",
 			"settings": {
 				"foreground": "#b56600"
 			}
 		},
 		{	// functions
-			"scope": "support.function",
+			"scope": "esl.function",
 			"settings": {
 				"foreground": "#268BD2"
 			}
 		},
-		{	// functions
-			"scope": "support.function.esl",
+		{	// custom user methods, which are methods that start with _ character, for example:  _GetColorFromInteger()
+			"scope": "esl.user_methods",
 			"settings": {
-				"foreground": "#7329c2"
+				"foreground": "#ff6f00",
+                "fontStyle":"italic"
 			}
 		},
 		{	// classes
-			"scope": "support.function.eslclass",
+			"scope": "esl.class",
 			"settings": {
 				"foreground": "#7329c2"
 			}
 		},
 		{	// order functions
 			"scope": [
-				"support.function.order"
+				"esl.function.order"
 			],
 			"settings": {
 				"foreground": "#7b00ff",
@@ -874,20 +875,20 @@
 			}
 		},
 		{	// control words: begin, end, if, then, etc
-			"scope": "keyword.control",
+			"scope": "esl.control.keyword",
 			"settings": {
 				"foreground": "#0000FF"
 			}
 		},
-		{	// section control words: region, etc
-			"scope": "keyword.control.section",
+		{	// sectional control words: region, etc
+			"scope": "esl.control.section",
 			"settings": {
 				"foreground": "#7676e7",
 				"fontStyle": "italic bold"
 			}
 		},
 		{	// price data:  High/Low/Open/Close
-			"scope": "keyword.control.pricedata",
+			"scope": "esl.pricedata",
 			"settings": {
 				"foreground": "#0379ac",
                 "fontStyle": "bold"
@@ -912,44 +913,20 @@
 			}
 		},
 		{	// skip words
-			"scope": "keyword.skipwords",
+			"scope": "esl.skipwords",
 			"settings": {
 				"foreground": "#ff9e9e",
                 "fontStyle":"italic"
 			}
 		},
-		{	// custom user functions which are added to 'easylanguage.tmLanguage.json' file in section: "keyword.user_functions"
-			"scope": "keyword.user_functions",
-			"settings": {
-				"foreground": "#a300d0",
-                "fontStyle":"italic"
-			}
-		},
-		{	// custom user methods, which are methods that start with _ character, for example:  _GetColorFromInteger()
-			"scope": "keyword.user_methods",
-			"settings": {
-				"foreground": "#157b8b",
-                "fontStyle":"italic"
-			}
-		},
 		{	// var scope: int, double, bool, True/False, etc
-			"scope": [
-				"variable.type",
-				"support.type.vendored.property-name",
-				"support.type.property-name",
-				"variable.css",
-				"variable.scss",
-				"variable.other.less",
-				"source.coffee.embedded"
-			],
+			"scope": "variable.type",
 			"settings": {
 				"foreground": "#DC322F"
 			}
 		},
-		{	// Value1, Plot1, etc
-			"scope": [
-				"variable.esl"
-			],
+		{	// Value1, Plot1, Condition1, etc
+			"scope": "variable.esl",
 			"settings": {
 				"foreground": "#00bfff"
 			}
