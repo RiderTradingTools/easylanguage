@@ -145,17 +145,17 @@ You can create a Task to launch TradeStation web help:
 <br>
 
 ## Release Notes
-
+*(see CHANGELOG for additional details and screenshots)*
  - Version *1.0.1* &nbsp; - Intial release.  
- - Version *1.0.2* &nbsp; - Added missing keywords and classes (in syntax and auto-complete). Modified themes. Updated snippets. 
+ - Version *1.0.2* &nbsp; - Added missing keywords and classes. Modified themes. Updated snippets. 
  - Version *1.0.3* &nbsp; - Fixed error in snippets. 
  - Version *1.0.4* &nbsp; - Added support for #region sections. Updated themes for regions. Fixed error in syntax of keywords. 
  - Version *1.0.5* &nbsp; - Fixed issue in the Outline generation method.
- - Version *1.0.6* &nbsp; - Fixed Outline and folding sections to work with Sticky Scroll (for 'editor.stickyScroll.defaultModel', suggest using 'foldingProviderModel'). Fixed Outline when line is a comment. Incorporated auto-indentation / de-indentation. Included additional keywords. 
- - Version *1.0.7* &nbsp; - Added support for file extension .el and .elf for MultiCharts PowerLanguage compatibility
- - Version *1.0.8* &nbsp; - Fixed the Plot and Plot1-99 keywords regex match compared to PlotClickEventArgs, PlotPaintBar, PlotPB, PlotVisualElement
- - Version *1.0.9* &nbsp; - Fixed the Range function keyword
- - Version *1.1.0* &nbsp; - Syntax for methods and user functions: keywords starting with _ character will be highlighted as methods/functions, for example:  _GetColorFromInteger()
+ - Version *1.0.6* &nbsp; - Fixed Outline and folding sections to work with Sticky Scroll. Fixed Outline when line is a comment. Included additional keywords. 
+ - Version *1.0.7* &nbsp; - Added support for file extension .el and .elf for MultiCharts PowerLanguage compatibility.
+ - Version *1.0.8* &nbsp; - Fixed the Plot and Plot1-99 keywords regex.
+ - Version *1.0.9* &nbsp; - Fixed the Range function keyword.
+ - Version *1.1.0* &nbsp; - Added syntax highlighting for Methods and user functions: keywords starting with _ character will be highlighted. Fixed Outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
 
 <br>
 <br>
