@@ -89,6 +89,7 @@ class ESLDocumentSymbolProvider {
       let icon_begin = vscode.SymbolKind.Array;
       let inside_X = false;
       let previous_X = "";
+      let comment_block = false;
 
       for (let i = 0; i < document.lineCount; i++) {
           
@@ -105,38 +106,49 @@ class ESLDocumentSymbolProvider {
 
 
           //-----------------------------------------------------------------------
+          // comment block
+          if ( lineText.startsWith("{") && !lineText.includes("}") ) {
+            comment_block = true;
+          } 
+          else if ( comment_block && lineText.includes("}") ) {
+            comment_block = false;
+          } 
+
+          //-----------------------------------------------------------------------
           // Using
-          if ( lineText.startsWith("using") ) {
+          if ( lineText.startsWith("using") && !comment_block ) {
             const usingSymbol = new vscode.DocumentSymbol("Using", getlineText.substring(6,lineTextLen-1), icon_using, lineRange, lineRange);
             nodes[nodes.length-1].push(usingSymbol);  
           } 
 
           //-----------------------------------------------------------------------
           // Inputs
-          else if ( lineText.startsWith("input:") || lineText.startsWith("inputs:") ) {
+          else if ( !comment_block && ( lineText.startsWith("input:") || lineText.startsWith("inputs:") ) ) {
             const inputSymbol = new vscode.DocumentSymbol("Inputs", "", icon_inputs, lineRange, lineRange );
             nodes[nodes.length-1].push(inputSymbol); 
           }
 
           //-----------------------------------------------------------------------
           // Variables
-          else if ( lineText.startsWith("variable") || lineText.startsWith("vars:") || lineText.startsWith("var:") ) {
+          else if ( !comment_block && ( lineText.startsWith("variable") || lineText.startsWith("vars:") || lineText.startsWith("var:") ) ) {
             const variableSymbol = new vscode.DocumentSymbol("Variables", "", icon_vars, lineRange, lineRange );
             nodes[nodes.length-1].push(variableSymbol);  
           }
 
           //-----------------------------------------------------------------------
           // Constants
-          else if ( lineText.startsWith("constants") || lineText.startsWith("constant:") || lineText.startsWith("const:") ) {
+          else if ( !comment_block && ( lineText.startsWith("constants") || lineText.startsWith("constant:") || lineText.startsWith("const:") ) ) {
             const constantSymbol = new vscode.DocumentSymbol("Constants", "", icon_vars, lineRange, lineRange );
             nodes[nodes.length-1].push(constantSymbol);  
           }
          
           //-----------------------------------------------------------------------
           // Method, Region, Begin
-          else if ( lineText.startsWith("method") || lineText.startsWith("#region") || lineText.startsWith("begin") || lineText.startsWith("once")  
+          else if ( !comment_block && 
+                ( lineText.startsWith("method") || lineText.startsWith("#region") || lineText.startsWith("begin") || lineText.startsWith("once")  
                   || ( lineText.endsWith("then begin") && !lineText.startsWith("//") && !lineText.startsWith("{") ) 
-                  || ( lineText.includes("else begin") && !lineText.startsWith("//") && !lineText.startsWith("{") ) ) {
+                  || ( lineText.includes("else begin") && !lineText.startsWith("//") && !lineText.startsWith("{") ) 
+                ) ) {
 
             if ( lineText.startsWith("begin") && previous_X == "Method" ) {
                 previous_X = "";
@@ -183,7 +195,7 @@ class ESLDocumentSymbolProvider {
 
           //-----------------------------------------------------------------------
           // End / End Region
-          if ( lineText.startsWith("end") || lineText.startsWith("#endregion") ) {
+          if ( !comment_block && ( lineText.startsWith("end") || lineText.startsWith("#endregion") ) ) {
 
             if ( inside_X ) {
               nodes.pop();
