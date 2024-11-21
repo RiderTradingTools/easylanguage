@@ -2,6 +2,7 @@ const vscode = require('vscode');
 const filesys = require('fs');
 
 let configName = 'easylanguage-keyword-completions';
+// let activeEditor = vscode.window.activeTextEditor;
 
 class TrieNode {
 
@@ -215,6 +216,45 @@ class ESLDocumentSymbolProvider {
 
 
 
+function updateDecorations(editor) {
+  if (!editor) {
+      return;
+  }
+	// create a decorator type that we use to decorate small numbers
+	const smallNumberDecorationType = vscode.window.createTextEditorDecorationType({
+		borderWidth: '1px',
+		borderStyle: 'solid',
+		overviewRulerColor: 'blue',
+		light: {
+			// this color will be used in light color themes
+			borderColor: 'darkblue'
+		},
+		dark: {
+			// this color will be used in dark color themes
+			borderColor: 'lightblue'
+		}
+	});
+
+  const regEx = /\d+/g;
+  const text = editor.document.getText();
+  const smallNumbers = [];
+  let match;
+  while ((match = regEx.exec(text))) {
+      const startPos = editor.document.positionAt(match.index);
+      const endPos = editor.document.positionAt(match.index + match[0].length);
+      const decoration = {
+          range: new vscode.Range(startPos, endPos),
+          hoverMessage: 'Number **' + match[0] + '**'
+      };
+      if (match[0].length < 3) {
+          smallNumbers.push(decoration);
+      }
+  }
+  editor.setDecorations(smallNumberDecorationType, smallNumbers);
+}
+
+
+
 function getProperty(obj, prop, deflt) { return obj.hasOwnProperty(prop) ? obj[prop] : deflt; }
 
 function utf8_to_str (src, off, lim) {  // https://github.com/quicbit-js/qb-utf8-to-str-tiny
@@ -245,6 +285,8 @@ function activate(context) {
   let languageIDProviderRegistered = new Set();
   let languageID2Trie = {};
   let minimalCharacterCount = 2;
+ 
+  // setup auto-completion from text file(s)
   let completionItemProvider = {
     /** @param {vscode.TextDocument} document @param {vscode.Position} position */
     provideCompletionItems(document, position) {
@@ -370,13 +412,18 @@ function activate(context) {
         }
         return true; 
     });
-      
+
     if (languageID2Trie[languageIDEditor] === undefined) {
       languageID2Trie[languageIDEditor] = null;
     }
   }
+
   context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor( editor => changeActiveTextEditor(editor) ));
   changeActiveTextEditor(vscode.window.activeTextEditor);
+
+  context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor( editor => updateDecorations(editor) ));
+  updateDecorations(vscode.window.activeTextEditor);
+
 }
 
 function deactivate() {
