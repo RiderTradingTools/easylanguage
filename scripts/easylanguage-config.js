@@ -1,4 +1,5 @@
 const vscode = require('vscode');
+const filesys = require('fs');
 
 let configName = 'easylanguage-keyword-completions';
 
@@ -297,9 +298,33 @@ function activate(context) {
     });
   }));
 
+  async function onMatchLanguageID2(check_languageID, async_action_file) {
+      let selectors = JSON.parse('[{ "language": "easylanguage", "scheme": "file" }]'); 
+      for (const selector of selectors) {
+        let languageIDSelector = getProperty(selector, 'language');
+        if (!check_languageID(languageIDSelector, selector)) { continue; }
+          const filePath = context.asAbsolutePath("./custom-user-functions.txt");
+          if (filesys.existsSync(filePath)){
+            if (!await async_action_file(filePath)) { return; }
+          }
+      }
+  }
+
+  context.subscriptions.push(vscode.workspace.onDidSaveTextDocument( async document => {
+    await onMatchLanguageID2( () => true,
+      async filePath => {
+        if (document.fileName === filePath) {
+          updateConfig();
+          return false;
+        }
+        return true;
+    });
+  }));
+
   async function changeActiveTextEditor(editor) {
     if (!editor) { return; }
     let languageIDEditor = 'easylanguage';
+    
     await onMatchLanguageID(
       (languageIDSelector, selector) => {
         if (languageIDSelector !== languageIDEditor) { return false; }
@@ -321,7 +346,31 @@ function activate(context) {
           trie.insert(line.toUpperCase());
         }
         return true; 
-      });
+    });
+
+    await onMatchLanguageID2(
+      (languageIDSelector, selector) => {
+        if (languageIDSelector !== languageIDEditor) { return false; }
+        if (!languageIDProviderRegistered.has(languageIDEditor)) {
+          context.subscriptions.push(vscode.languages.registerCompletionItemProvider([selector], completionItemProvider));
+          languageIDProviderRegistered.add(languageIDEditor);
+        }
+        let trie = new Trie();
+        languageID2Trie[languageIDEditor] = trie;
+        return true;
+      },
+      async (filePath) => {
+        let trie = languageID2Trie[languageIDEditor];
+        let content = await readFileContent(filePath);
+        for (const line of content.split(/\r?\n/)) {
+          // if (line.match(/^\s*($|\/\/|#)/)) { continue; }  // skip empty and comment lines
+          trie.insert(line);
+          trie.insert(line.toLowerCase());
+          trie.insert(line.toUpperCase());
+        }
+        return true; 
+    });
+      
     if (languageID2Trie[languageIDEditor] === undefined) {
       languageID2Trie[languageIDEditor] = null;
     }
