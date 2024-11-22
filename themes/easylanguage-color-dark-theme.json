@@ -871,7 +871,7 @@
 			],
 			"settings": {
 				"foreground": "#16bcc4",
-                "fontStyle": "bold"
+				"fontStyle": "bold"
 			}
 		},
 		{	// control words: begin, end, if, then, etc

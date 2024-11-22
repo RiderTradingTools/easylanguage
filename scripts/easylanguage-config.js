@@ -216,42 +216,46 @@ class ESLDocumentSymbolProvider {
 
 
 
-function updateDecorations(editor) {
-  if (!editor) {
-      return;
-  }
-	// create a decorator type that we use to decorate small numbers
-	const smallNumberDecorationType = vscode.window.createTextEditorDecorationType({
-		borderWidth: '1px',
-		borderStyle: 'solid',
-		overviewRulerColor: 'blue',
-		light: {
-			// this color will be used in light color themes
-			borderColor: 'darkblue'
-		},
-		dark: {
-			// this color will be used in dark color themes
-			borderColor: 'lightblue'
-		}
-	});
+// function updateDecorations(editor) {
+//   if (!editor) {
+//       return;
+//   }
+// 	// create a decorator type that we use to decorate small numbers
+// 	const smallNumberDecorationType = vscode.window.createTextEditorDecorationType({
+// 		// borderWidth: '1px',
+// 		// borderStyle: 'dotted',
+// 		// overviewRulerColor: 'blue',
+//     // overviewRulerLane: vscode.OverviewRulerLane.Right,    
+//     fontStyle: 'italic',
+//     fontWeight: 'bold',
+// 		light: {    // this color will be used in light color themes
+//       color: '#0589f4'
+// 			// borderColor: 'darkblue'
+// 		},
+// 		dark: {   // this color will be used in dark color themes
+//       // backgroundColor: 'lightblue',
+//       color: '#e59244'
+// 			// borderColor: 'white'
+// 		}
+// 	});
 
-  const regEx = /\d+/g;
-  const text = editor.document.getText();
-  const smallNumbers = [];
-  let match;
-  while ((match = regEx.exec(text))) {
-      const startPos = editor.document.positionAt(match.index);
-      const endPos = editor.document.positionAt(match.index + match[0].length);
-      const decoration = {
-          range: new vscode.Range(startPos, endPos),
-          hoverMessage: 'Number **' + match[0] + '**'
-      };
-      if (match[0].length < 3) {
-          smallNumbers.push(decoration);
-      }
-  }
-  editor.setDecorations(smallNumberDecorationType, smallNumbers);
-}
+//   const regEx = /\d+/g;
+//   const text = editor.document.getText();
+//   const smallNumbers = [];
+//   let match;
+//   while ((match = regEx.exec(text))) {
+//       const startPos = editor.document.positionAt(match.index);
+//       const endPos = editor.document.positionAt(match.index + match[0].length);
+//       const decoration = {
+//           range: new vscode.Range(startPos, endPos),
+//           hoverMessage: 'Number **' + match[0] + '**'
+//       };
+//       if (match[0].length < 3) {
+//           smallNumbers.push(decoration);
+//       }
+//   }
+//   editor.setDecorations(smallNumberDecorationType, smallNumbers);
+// }
 
 
 
@@ -274,13 +278,25 @@ async function readFileContent(filePath) {
   return utf8_to_str(contentUTF8);
 };
 
+
+
+////////////////////////////////////////////////////////////////////////
 function activate(context) {
 
   const provider = new ESLDocumentSymbolProvider();
   context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage', scheme: 'file' }, provider));
 
-  // vscode.commands.executeCommand('outline.collapse');
-  // vscode.commands.executeCommand('workbench.actions.treeView.workbench.panel.markers.view.collapseAll');
+  // create a decorator type that we use to decorate small numbers
+  const smallNumberDecorationType = vscode.window.createTextEditorDecorationType({
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    light: {    // this color will be used in light color themes
+      color: '#0589f4'
+    },
+    dark: {   // this color will be used in dark color themes
+      color: '#e59244'
+    }
+  });
 
   let languageIDProviderRegistered = new Set();
   let languageID2Trie = {};
@@ -418,13 +434,57 @@ function activate(context) {
     }
   }
 
+  function updateDecorations(editor) {
+    if (!editor) { return; }
+
+    // // create a decorator type that we use to decorate small numbers
+    // const smallNumberDecorationType = vscode.window.createTextEditorDecorationType({
+    //   // borderWidth: '1px',
+    //   // borderStyle: 'dotted',
+    //   // overviewRulerColor: 'blue',
+    //   // overviewRulerLane: vscode.OverviewRulerLane.Right,    
+    //   fontStyle: 'italic',
+    //   fontWeight: 'bold',
+    //   light: {    // this color will be used in light color themes
+    //     color: '#0589f4'
+    //     // borderColor: 'darkblue'
+    //   },
+    //   dark: {   // this color will be used in dark color themes
+    //     // backgroundColor: 'lightblue',
+    //     color: '#e59244'
+    //     // borderColor: 'white'
+    //   }
+    // });
+  
+    const regEx = /\d+/g;
+    const text = editor.document.getText();
+    const smallNumbers = [];
+    let match;
+    while ((match = regEx.exec(text))) {
+        const startPos = editor.document.positionAt(match.index);
+        const endPos = editor.document.positionAt(match.index + match[0].length);
+        const decoration = {
+            range: new vscode.Range(startPos, endPos),
+            hoverMessage: 'Number **' + match[0] + '**'
+        };
+        if (match[0].length < 3) {
+            smallNumbers.push(decoration);
+        }
+    }
+    editor.setDecorations(smallNumberDecorationType, smallNumbers);
+  }
+  
+
+  // vscode.commands.executeCommand('outline.collapse');
+  // vscode.commands.executeCommand('workbench.actions.treeView.workbench.panel.markers.view.collapseAll');
+
   context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor( editor => changeActiveTextEditor(editor) ));
   changeActiveTextEditor(vscode.window.activeTextEditor);
 
-  context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor( editor => updateDecorations(editor) ));
+  context.subscriptions.push(vscode.workspace.onDidChangeTextDocument( editor => updateDecorations(editor) ));
   updateDecorations(vscode.window.activeTextEditor);
 
-}
+} // end of activate()
 
 function deactivate() {
 }
