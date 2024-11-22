@@ -283,20 +283,38 @@ async function readFileContent(filePath) {
 ////////////////////////////////////////////////////////////////////////
 function activate(context) {
 
+  console.log('decorator sample is activated');
+
+  // declare a timer to delay the decoration update
+  let timeout = undefined;
+
   const provider = new ESLDocumentSymbolProvider();
   context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage', scheme: 'file' }, provider));
 
-  // create a decorator type that we use to decorate small numbers
-  const smallNumberDecorationType = vscode.window.createTextEditorDecorationType({
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-    light: {    // this color will be used in light color themes
-      color: '#0589f4'
-    },
-    dark: {   // this color will be used in dark color themes
-      color: '#e59244'
-    }
-  });
+    // create a decorator type that we use to decorate small numbers
+    const smallNumberDecorationType = vscode.window.createTextEditorDecorationType({
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        overviewRulerColor: 'blue',
+        overviewRulerLane: vscode.OverviewRulerLane.Right,
+        light: {
+            // this color will be used in light color themes
+            borderColor: 'darkblue'
+        },
+        dark: {
+            // this color will be used in dark color themes
+            borderColor: 'lightblue'
+        }
+    });
+
+    let activeEditor = vscode.window.activeTextEditor;
+
+    // create a decorator type that we use to decorate large numbers
+    const largeNumberDecorationType = vscode.window.createTextEditorDecorationType({
+        cursor: 'crosshair',
+        // use a themable color. See package.json for the declaration and default values.
+        backgroundColor: { id: 'myextension.largeNumberBackground' }
+    });    
 
   let languageIDProviderRegistered = new Set();
   let languageID2Trie = {};
@@ -434,45 +452,42 @@ function activate(context) {
     }
   }
 
-  function updateDecorations(editor) {
-    if (!editor) { return; }
+    // creates the decoration only once
+  const decoration = vscode.window.createTextEditorDecorationType({
+      textDecoration: 'underline wavy #0000ff'
+  });
 
-    // // create a decorator type that we use to decorate small numbers
-    // const smallNumberDecorationType = vscode.window.createTextEditorDecorationType({
-    //   // borderWidth: '1px',
-    //   // borderStyle: 'dotted',
-    //   // overviewRulerColor: 'blue',
-    //   // overviewRulerLane: vscode.OverviewRulerLane.Right,    
-    //   fontStyle: 'italic',
-    //   fontWeight: 'bold',
-    //   light: {    // this color will be used in light color themes
-    //     color: '#0589f4'
-    //     // borderColor: 'darkblue'
-    //   },
-    //   dark: {   // this color will be used in dark color themes
-    //     // backgroundColor: 'lightblue',
-    //     color: '#e59244'
-    //     // borderColor: 'white'
-    //   }
-    // });
-  
-    const regEx = /\d+/g;
-    const text = editor.document.getText();
-    const smallNumbers = [];
-    let match;
-    while ((match = regEx.exec(text))) {
-        const startPos = editor.document.positionAt(match.index);
-        const endPos = editor.document.positionAt(match.index + match[0].length);
-        const decoration = {
-            range: new vscode.Range(startPos, endPos),
-            hoverMessage: 'Number **' + match[0] + '**'
-        };
-        if (match[0].length < 3) {
-            smallNumbers.push(decoration);
+
+  // whenever the text changes, update the decorators
+  context.subscriptions.push(vscode.workspace.onDidChangeTextDocument( editor => updateDecorations(editor) ));
+  updateDecorations(vscode.window.activeTextEditor);
+
+
+    function updateDecorations() {
+        if (!activeEditor) {
+            return;
         }
+        const regEx = /\d+/g;
+        const text = activeEditor.document.getText();
+        const smallNumbers = [];
+        const largeNumbers = [];
+        let match;
+        while ((match = regEx.exec(text))) {
+            const startPos = activeEditor.document.positionAt(match.index);
+            const endPos = activeEditor.document.positionAt(match.index + match[0].length);
+            const decoration = {
+                range: new vscode.Range(startPos, endPos),
+                hoverMessage: 'Number **' + match[0] + '**'
+            };
+            if (match[0].length < 3) {
+                smallNumbers.push(decoration);
+            } else {
+                largeNumbers.push(decoration);
+            }
+        }
+        activeEditor.setDecorations(smallNumberDecorationType, smallNumbers);
+        activeEditor.setDecorations(largeNumberDecorationType, largeNumbers);
     }
-    editor.setDecorations(smallNumberDecorationType, smallNumbers);
-  }
   
 
   // vscode.commands.executeCommand('outline.collapse');
@@ -481,10 +496,43 @@ function activate(context) {
   context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor( editor => changeActiveTextEditor(editor) ));
   changeActiveTextEditor(vscode.window.activeTextEditor);
 
-  context.subscriptions.push(vscode.workspace.onDidChangeTextDocument( editor => updateDecorations(editor) ));
-  updateDecorations(vscode.window.activeTextEditor);
+  // context.subscriptions.push(vscode.workspace.onDidChangeTextDocument( editor => updateDecorations(editor) ));
+  // updateDecorations(vscode.window.activeTextEditor);
 
+
+
+    function triggerUpdateDecorations(throttle = false) {
+        if (timeout) {
+            clearTimeout(timeout);
+            timeout = undefined;
+        }
+        if (throttle) {
+            timeout = setTimeout(updateDecorations, 500);
+        } else {
+            updateDecorations();
+        }
+    }  
+
+    if (activeEditor) {
+        triggerUpdateDecorations();
+    }    
+
+    vscode.window.onDidChangeActiveTextEditor(editor => {
+        activeEditor = editor;
+        if (editor) {
+            triggerUpdateDecorations();
+        }
+    }, null, context.subscriptions);
+
+    vscode.workspace.onDidChangeTextDocument(event => {
+        if (activeEditor && event.document === activeEditor.document) {
+            triggerUpdateDecorations(true);
+        }
+    }, null, context.subscriptions);    
+  
 } // end of activate()
+
+
 
 function deactivate() {
 }
