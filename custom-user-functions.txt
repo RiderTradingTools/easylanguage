@@ -1,0 +1,13 @@
+_AvgBodySize
+_BodyBtm
+_BodyTop
+_BodyMid
+_BodySize
+_BodyTrueRange
+_DojiBar
+_FibLevels
+_GreenBar
+_RedBar
+_Rounded
+_Tick
+_TickValue
