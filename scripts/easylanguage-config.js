@@ -1,83 +1,99 @@
 const vscode = require('vscode');
 const filesys = require('fs');
+const fs = require('fs');
+const path = require('path');
 let configName = 'easylanguage-keyword-completions';
 
 
 //#####################################################
 class TrieNode {
-
   constructor(key) {
-    this.key = key;
-    this.parent = null;
-    this.children = {};
-    this.end = false;
+      this.key = key;
+      this.parent = null;
+      this.children = {};
+      this.end = false;
+      this.originalWord = null; // Stores the original word casing
   }
 
   getWord() {
-    let word = '';
-    let node = this;
-    while (node !== null && node.key !== null) {
-      word = node.key + word;
-      node = node.parent;
-    }
-    return word;
+      let word = '';
+      let node = this;
+      while (node !== null && node.key !== null) {
+          word = node.key + word;
+          node = node.parent;
+      }
+      return word;
   }
 }
-
 
 //#####################################################
 class Trie {
-
   constructor() {
-    this.root = new TrieNode(null);
+      this.root = new TrieNode(null);
   }
 
   contains(word) {
-    if (word.length === 0) { return false; }
-    let node = this.root;
-    for (let i = 0; i < word.length; i++) {
-      node = node.children[word[i]];
-      if (!node) { return false; }
-    }
-    return node.end;
+      if (word.length === 0) {
+          return false;
+      }
+      word = word.toLowerCase(); 
+      let node = this.root;
+      for (let i = 0; i < word.length; i++) {
+          node = node.children[word[i]];
+          if (!node) {
+              return false;
+          }
+      }
+      return node.end;
   }
 
   insert(word) {
-    if (word.length === 0) { return; }
-    if (this.contains(word)) { return; }
-    let node = this.root;
-    for (let i = 0; i < word.length; i++) {
-      const char = word[i];
-      if (!node.children[char]) {
-        node.children[char] = new TrieNode(char);
-        node.children[char].parent = node;
+      if (word.length === 0) {
+          return;
       }
-      node = node.children[char];
-    }
-    node.end = true;
+      const lowerCaseWord = word.toLowerCase(); 
+      if (this.contains(lowerCaseWord)) {
+          return;
+      }
+      let node = this.root;
+      for (let i = 0; i < lowerCaseWord.length; i++) {
+          const char = lowerCaseWord[i];
+          if (!node.children[char]) {
+              node.children[char] = new TrieNode(char);
+              node.children[char].parent = node;
+          }
+          node = node.children[char];
+      }
+      node.end = true;
+      node.originalWord = word;
   }
 
   find(prefix) {
-    let node  = this.root;
-    let words = [];
+      prefix = prefix.toLowerCase();
+      let node = this.root;
+      let words = [];
 
-    for(let i = 0; i < prefix.length; i++) {
-      node  = node.children[prefix[i]];
-      if (!node) { return words; }
-    }
-    this.findAllWords(node, words);
-    return words;
+      for (let i = 0; i < prefix.length; i++) {
+          node = node.children[prefix[i]];
+          if (!node) {
+              return words;
+          }
+      }
+      this.findAllWords(node, words);
+      return words;
   }
 
   findAllWords(node, words) {
-    if (node.end) {
-      words.push(node.getWord());
-    }
-    for (let child in node.children) {
-      this.findAllWords(node.children[child], words);
-    }
+      if (node.end) {
+          words.push(node.originalWord);
+      }
+      for (let child in node.children) {
+          this.findAllWords(node.children[child], words);
+      }
   }
 }
+
+
 
 
 //#####################################################
@@ -214,27 +230,66 @@ class ESLDocumentSymbolProvider {
 
 
 //#####################################################
-function getProperty(obj, prop, deflt) { return obj.hasOwnProperty(prop) ? obj[prop] : deflt; }
-
-
-//#####################################################
-function utf8_to_str (src, off, lim) {  // https://github.com/quicbit-js/qb-utf8-to-str-tiny
-  lim = lim == null ? src.length : lim;
-  for (var i = off || 0, s = ''; i < lim; i++) {
-    var h = src[i].toString(16);
-    if (h.length < 2) h = '0' + h;
-    s += '%' + h;
-  }
-  return decodeURIComponent(s);
+function getProperty(obj, prop, deflt) { 
+  return obj.hasOwnProperty(prop) ? obj[prop] : deflt; 
 }
 
 
 //#####################################################
-async function readFileContent(filePath) {
-  filePath = filePath;
-  let uri = vscode.Uri.file(filePath);
-  let contentUTF8 = await vscode.workspace.fs.readFile(uri);
-  return utf8_to_str(contentUTF8);
+// function utf8_to_str (src, off, lim) {  // https://github.com/quicbit-js/qb-utf8-to-str-tiny
+//   lim = lim == null ? src.length : lim;
+//   for (var i = off || 0, s = ''; i < lim; i++) {
+//     var h = src[i].toString(16);
+//     if (h.length < 2) h = '0' + h;
+//     s += '%' + h;
+//   }
+//   return decodeURIComponent(s);
+// }
+
+
+//#####################################################
+// async function readFileContent(filePath) {
+//   filePath = filePath;
+//   let uri = vscode.Uri.file(filePath);
+//   let contentUTF8 = await vscode.workspace.fs.readFile(uri);
+//   return utf8_to_str(contentUTF8);
+// };
+
+
+//#####################################################
+// Helper function to check file existence
+const fileExists = async (filePath) => {
+  try {
+      await fs.promises.access(filePath, fs.constants.F_OK);
+      return true;
+  } catch (error) {
+      return false;
+  }
+};
+
+
+//#####################################################
+// Function to read and merge keywords from multiple files
+const loadKeywordsFromFiles = async (filePaths) => {
+  const keywordsSet = new Set();
+
+  for (const filePath of filePaths) {
+      const exists = await fileExists(filePath);
+      if (!exists) {
+          console.warn(`File not found: ${filePath}`);
+          continue;
+      }
+
+      try {
+          const data = await fs.promises.readFile(filePath, 'utf8');
+          const keywords = data.split('\n').map((line) => line.trim()).filter((line) => line !== '');
+          keywords.forEach((keyword) => keywordsSet.add(keyword));
+      } catch (error) {
+          console.error(`Error reading file: ${filePath}`, error);
+      }
+  }
+
+  return Array.from(keywordsSet); // Convert Set to Array to avoid duplicates
 };
 
 
@@ -246,12 +301,12 @@ function activate(context) {
 
   ////////////////
   let languageIDProviderRegistered = new Set();
-  let languageID2Trie = {};
-  let minimalCharacterCount = 2;
+  let languageIDTrie = {};
+  let minimalCharacterCount = 3;
   let completionItemProvider = {
     /** @param {vscode.TextDocument} document @param {vscode.Position} position */
-    provideCompletionItems(document, position) {
-      let trie = languageID2Trie[document.languageId];
+    provideCompletionItems(document, position) {    // auto-completion
+      let trie = languageIDTrie[document.languageId];
       if (!trie) { return undefined; }
       const linePrefix = document.lineAt(position).text.substring(0, position.character).trimStart();
       const match = linePrefix.match(/(\w+)$/);
@@ -271,7 +326,7 @@ function activate(context) {
 
   ////////////////
   function updateConfig() {
-    languageID2Trie = {};
+    languageIDTrie = {};
   }
 
   ////////////////
@@ -291,45 +346,16 @@ function activate(context) {
         if (!check_languageID(languageIDSelector, selector)) { continue; }
           const filePath = context.asAbsolutePath("./easylanguage-complete.txt");
           if (!await async_action_file(filePath)) { return; }
+          const filePaths = [
+            context.asAbsolutePath("./easylanguage-complete.txt"), 
+            context.asAbsolutePath('./custom-user-functions.txt') 
+          ];
+          if (!await async_action_file(filePaths)) { return; }
       }
   }
 
-  ////////////////
-  context.subscriptions.push(vscode.workspace.onDidSaveTextDocument( async document => {
-    await onMatchLanguageID( () => true,
-      async filePath => {
-        if (document.fileName === filePath) {
-          updateConfig();
-          return false;
-        }
-        return true;
-    });
-  }));
 
-  ////////////////
-  async function onMatchLanguageID2(check_languageID, async_action_file) {
-      let selectors = JSON.parse('[{ "language": "easylanguage", "scheme": "file" }]'); 
-      for (const selector of selectors) {
-        let languageIDSelector = getProperty(selector, 'language');
-        if (!check_languageID(languageIDSelector, selector)) { continue; }
-          const filePath = context.asAbsolutePath("./custom-user-functions.txt");
-          if (filesys.existsSync(filePath)){
-            if (!await async_action_file(filePath)) { return; }
-          }
-      }
-  }
 
-  ////////////////
-  context.subscriptions.push(vscode.workspace.onDidSaveTextDocument( async document => {
-    await onMatchLanguageID2( () => true,
-      async filePath => {
-        if (document.fileName === filePath) {
-          updateConfig();
-          return false;
-        }
-        return true;
-    });
-  }));
 
   ////////////////
   async function changeActiveTextEditor(editor) {
@@ -344,52 +370,46 @@ function activate(context) {
           languageIDProviderRegistered.add(languageIDEditor);
         }
         let trie = new Trie();
-        languageID2Trie[languageIDEditor] = trie;
+        languageIDTrie[languageIDEditor] = trie;
         return true;
       },
-      async (filePath) => {
-        let trie = languageID2Trie[languageIDEditor];
-        let content = await readFileContent(filePath);
-        for (const line of content.split(/\r?\n/)) {
-          // if (line.match(/^\s*($|\/\/|#)/)) { continue; }  // skip empty and comment lines
-          trie.insert(line);
-          trie.insert(line.toLowerCase());
-          trie.insert(line.toUpperCase());
-        }
+      async (filePaths) => {
+        let trie = languageIDTrie[languageIDEditor];
+        const keywords = await loadKeywordsFromFiles(filePaths);
+        keywords.forEach((keyword) => trie.insert(keyword));
         return true; 
+        // async (filePath) => {
+        //   let trie = languageIDTrie[languageIDEditor];
+        //   let content = await readFileContent(filePath);
+        //   for (const line of content.split(/\r?\n/)) {
+        //     // if (line.match(/^\s*($|\/\/|#)/)) { continue; }  // skip empty and comment lines
+        //     trie.insert(line);
+        //   }
+        //   return true; 
     });
 
-    await onMatchLanguageID2(
-      (languageIDSelector, selector) => {
-        if (languageIDSelector !== languageIDEditor) { return false; }
-        if (!languageIDProviderRegistered.has(languageIDEditor)) {
-          context.subscriptions.push(vscode.languages.registerCompletionItemProvider([selector], completionItemProvider));
-          languageIDProviderRegistered.add(languageIDEditor);
-        }
-        let trie = new Trie();
-        languageID2Trie[languageIDEditor] = trie;
-        return true;
-      },
-      async (filePath) => {
-        let trie = languageID2Trie[languageIDEditor];
-        let content = await readFileContent(filePath);
-        for (const line of content.split(/\r?\n/)) {
-          // if (line.match(/^\s*($|\/\/|#)/)) { continue; }  // skip empty and comment lines
-          trie.insert(line);
-          trie.insert(line.toLowerCase());
-          trie.insert(line.toUpperCase());
-        }
-        return true; 
-    });
-      
-    if (languageID2Trie[languageIDEditor] === undefined) {
-      languageID2Trie[languageIDEditor] = null;
+    if (languageIDTrie[languageIDEditor] === undefined) {
+      languageIDTrie[languageIDEditor] = null;
     }
+
   }
 
   ////////////////
   context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor( editor => changeActiveTextEditor(editor) ));
   changeActiveTextEditor(vscode.window.activeTextEditor);
+
+  ////////////////
+  context.subscriptions.push(vscode.workspace.onDidSaveTextDocument( async document => {
+    await onMatchLanguageID( () => true,
+      async filePath => {
+        if (document.fileName === filePath) {
+          updateConfig();
+          return false;
+        }
+        return true;
+    });
+  }));
+
 }
 
 
