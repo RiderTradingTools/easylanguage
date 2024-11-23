@@ -1,8 +1,9 @@
 const vscode = require('vscode');
 const filesys = require('fs');
-
 let configName = 'easylanguage-keyword-completions';
 
+
+//#####################################################
 class TrieNode {
 
   constructor(key) {
@@ -23,6 +24,8 @@ class TrieNode {
   }
 }
 
+
+//#####################################################
 class Trie {
 
   constructor() {
@@ -76,6 +79,8 @@ class Trie {
   }
 }
 
+
+//#####################################################
 class ESLDocumentSymbolProvider {
   provideDocumentSymbols(document, token) {
     return new Promise((resolve, reject) => {
@@ -106,8 +111,7 @@ class ESLDocumentSymbolProvider {
           }
 
 
-          //-----------------------------------------------------------------------
-          // comment block
+          // comment block   --------------------------------------------
           if ( lineText.startsWith("{") && !lineText.includes("}") ) {
             comment_block = true;
           } 
@@ -115,36 +119,31 @@ class ESLDocumentSymbolProvider {
             comment_block = false;
           } 
 
-          //-----------------------------------------------------------------------
-          // Using
+          // Using   --------------------------------------------
           if ( lineText.startsWith("using") && !comment_block ) {
             const usingSymbol = new vscode.DocumentSymbol("Using", getlineText.substring(6,lineTextLen-1), icon_using, lineRange, lineRange);
             nodes[nodes.length-1].push(usingSymbol);  
           } 
 
-          //-----------------------------------------------------------------------
-          // Inputs
+          // Inputs   --------------------------------------------
           else if ( !comment_block && ( lineText.startsWith("input:") || lineText.startsWith("inputs:") ) ) {
             const inputSymbol = new vscode.DocumentSymbol("Inputs", "", icon_inputs, lineRange, lineRange );
             nodes[nodes.length-1].push(inputSymbol); 
           }
 
-          //-----------------------------------------------------------------------
-          // Variables
+          // Variables   --------------------------------------------
           else if ( !comment_block && ( lineText.startsWith("variable") || lineText.startsWith("vars:") || lineText.startsWith("var:") ) ) {
             const variableSymbol = new vscode.DocumentSymbol("Variables", "", icon_vars, lineRange, lineRange );
             nodes[nodes.length-1].push(variableSymbol);  
           }
 
-          //-----------------------------------------------------------------------
           // Constants
           else if ( !comment_block && ( lineText.startsWith("constants") || lineText.startsWith("constant:") || lineText.startsWith("const:") ) ) {
             const constantSymbol = new vscode.DocumentSymbol("Constants", "", icon_vars, lineRange, lineRange );
             nodes[nodes.length-1].push(constantSymbol);  
           }
          
-          //-----------------------------------------------------------------------
-          // Method, Region, Begin
+          // Method, Region, Begin   --------------------------------------------
           else if ( !comment_block && 
                 ( lineText.startsWith("method") || lineText.startsWith("#region") || lineText.startsWith("begin") || lineText.startsWith("once")  
                   || ( lineText.endsWith("then begin") && !lineText.startsWith("//") && !lineText.startsWith("{") ) 
@@ -156,7 +155,7 @@ class ESLDocumentSymbolProvider {
             } 
             else {
 
-                // Begin
+                // Begin   --------------------------------------------
                 if ( lineText == "begin" || lineText == "else begin" ) {
                   getlineText = prevLineText;
                   lineRange = new vscode.Range(i-1, 1, i, line.text.length);
@@ -164,24 +163,25 @@ class ESLDocumentSymbolProvider {
                 }
                 let xSymbol = new vscode.DocumentSymbol("Begin", getlineText, icon_begin, lineRange, lineRange );
 
-                // Region
+                // Region   --------------------------------------------
                 if ( lineText.startsWith("#region") ) {
                   getlineText = getlineText.substring(8);
                   xSymbol = new vscode.DocumentSymbol("Region", getlineText, icon_region, lineRange, lineRange );
                   previous_X = "Region";
                 }
 
-                // Method
+                // Method   --------------------------------------------
                 else if ( lineText.startsWith("method") ) {
                   xSymbol = new vscode.DocumentSymbol("Method", getlineText.substring(7), icon_method, lineRange, lineRange );
                   previous_X = "Method";
                 }
 
-                // Once
+                // Once   --------------------------------------------
                 if ( lineText.startsWith("once") || prevLineText.startsWith("once") || lineText == "once begin" ) {
                   xSymbol = new vscode.DocumentSymbol("Once", "", icon_begin, lineRange, lineRange );
                 }
 
+                // push   --------------------------------------------
                 nodes[nodes.length-1].push(xSymbol);  
 
                 if ( !inside_X ) {
@@ -194,8 +194,7 @@ class ESLDocumentSymbolProvider {
             }
           } 
 
-          //-----------------------------------------------------------------------
-          // End / End Region
+          // End / End Region   --------------------------------------------
           if ( !comment_block && ( lineText.startsWith("end") || lineText.startsWith("#endregion") ) ) {
 
             if ( inside_X ) {
@@ -214,9 +213,11 @@ class ESLDocumentSymbolProvider {
 }
 
 
-
+//#####################################################
 function getProperty(obj, prop, deflt) { return obj.hasOwnProperty(prop) ? obj[prop] : deflt; }
 
+
+//#####################################################
 function utf8_to_str (src, off, lim) {  // https://github.com/quicbit-js/qb-utf8-to-str-tiny
   lim = lim == null ? src.length : lim;
   for (var i = off || 0, s = ''; i < lim; i++) {
@@ -227,6 +228,8 @@ function utf8_to_str (src, off, lim) {  // https://github.com/quicbit-js/qb-utf8
   return decodeURIComponent(s);
 }
 
+
+//#####################################################
 async function readFileContent(filePath) {
   filePath = filePath;
   let uri = vscode.Uri.file(filePath);
@@ -234,14 +237,14 @@ async function readFileContent(filePath) {
   return utf8_to_str(contentUTF8);
 };
 
+
+//#####################################################
 function activate(context) {
 
   const provider = new ESLDocumentSymbolProvider();
   context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage', scheme: 'file' }, provider));
 
-  // vscode.commands.executeCommand('outline.collapse');
-  // vscode.commands.executeCommand('workbench.actions.treeView.workbench.panel.markers.view.collapseAll');
-
+  ////////////////
   let languageIDProviderRegistered = new Set();
   let languageID2Trie = {};
   let minimalCharacterCount = 2;
@@ -266,17 +269,21 @@ function activate(context) {
     }
   };
 
+  ////////////////
   function updateConfig() {
     languageID2Trie = {};
   }
 
+  ////////////////
   updateConfig();
 
+  ////////////////
   context.subscriptions.push(vscode.workspace.onDidChangeConfiguration( e => {
     if (!e.affectsConfiguration(configName)) { return; }
     updateConfig();
   }));
 
+  ////////////////
   async function onMatchLanguageID(check_languageID, async_action_file) {
       let selectors = JSON.parse('[{ "language": "easylanguage", "scheme": "file" }]'); 
       for (const selector of selectors) {
@@ -287,6 +294,7 @@ function activate(context) {
       }
   }
 
+  ////////////////
   context.subscriptions.push(vscode.workspace.onDidSaveTextDocument( async document => {
     await onMatchLanguageID( () => true,
       async filePath => {
@@ -298,6 +306,7 @@ function activate(context) {
     });
   }));
 
+  ////////////////
   async function onMatchLanguageID2(check_languageID, async_action_file) {
       let selectors = JSON.parse('[{ "language": "easylanguage", "scheme": "file" }]'); 
       for (const selector of selectors) {
@@ -310,6 +319,7 @@ function activate(context) {
       }
   }
 
+  ////////////////
   context.subscriptions.push(vscode.workspace.onDidSaveTextDocument( async document => {
     await onMatchLanguageID2( () => true,
       async filePath => {
@@ -321,6 +331,7 @@ function activate(context) {
     });
   }));
 
+  ////////////////
   async function changeActiveTextEditor(editor) {
     if (!editor) { return; }
     let languageIDEditor = 'easylanguage';
@@ -375,13 +386,19 @@ function activate(context) {
       languageID2Trie[languageIDEditor] = null;
     }
   }
+
+  ////////////////
   context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor( editor => changeActiveTextEditor(editor) ));
   changeActiveTextEditor(vscode.window.activeTextEditor);
 }
 
+
+//#####################################################
 function deactivate() {
 }
 
+
+//#####################################################
 module.exports = {
   activate,
   deactivate
