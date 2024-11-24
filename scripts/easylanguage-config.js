@@ -138,12 +138,25 @@ const loadKeywordsFromFile = async (filePath) => {
 };
 
 // Function to fetch data from a web page
-function fetchHoverText(keyword) {
+function fetchHoverText(keyword, keyword_attributeValue) {
   return new Promise((resolve, reject) => {
-      const url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/${encodeURIComponent(keyword)}_reserved_word_.htm`;
-      // function example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/adx_function_.htm
-      // reserved word example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/above_reserved_word_.htm
-      // class example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/account_class.htm
+
+    let url = ``;
+    // function example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/adx_function_.htm
+    // reserved word example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/above_reserved_word_.htm
+    // class example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/account_class.htm
+    
+    if (keyword_attributeValue == 'reserved word') {
+      url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/${encodeURIComponent(keyword)}_reserved_word_.htm`;
+    }
+    else if (keyword_attributeValue == 'function') {
+      url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/${encodeURIComponent(keyword)}_function_.htm`;
+    }
+    else if (keyword_attributeValue == 'class') {
+      url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/${encodeURIComponent(keyword)}_class.htm`;
+    }
+
+    if (url == ``) { return; } // no match, no url to pull 
 
       https.get(url, (response) => {
           let data = '';
@@ -163,7 +176,15 @@ function fetchHoverText(keyword) {
 
                     // Remove <p> tags with class "Disclaimer"
                     contentDiv.querySelectorAll('p.Disclaimer').forEach(disclaimer => {
-                      disclaimer.remove(); // Remove the <p class="Disclaimer"> tag
+                      disclaimer.remove(); 
+                    });
+                    // Remove Expander hyperlink
+                    contentDiv.querySelectorAll('div.expander').forEach(disclaimer => {
+                      disclaimer.remove(); 
+                    });
+                    // Remove Collapse hyperlink
+                    contentDiv.querySelectorAll('div.collapsable').forEach(disclaimer => {
+                      // disclaimer.remove(); 
                     });
                   
                     // Convert <br> and </p> to newline characters
@@ -182,6 +203,7 @@ function fetchHoverText(keyword) {
                     // .replace(/\n\s*\n/g, '\n')        // Remove multiple blank lines
                     .trim();                         // Remove leading/trailing whitespace
                     
+                    plainText = plainText + '\n\n' + 'View online:  ' + url;
                     resolve(plainText);
                   } else {
                       resolve(`No description available for "${keyword}".`);
@@ -207,9 +229,6 @@ async function activate(context) {
     const file1Path = context.asAbsolutePath('file1.txt'); // Path to the first file
     const file2Path = context.asAbsolutePath('file2.txt'); // Path to the second file
 
-    // Register hover provider
-    registerHoverProvider(context);
-
     // Load attribute-keyword pairs from file1.txt
     const attributesMap = await loadAttributeKeywordsFromFile(file1Path);
     const reserved_keywords = Array.from(attributesMap.keys()); // Extract only keywords for highlighting
@@ -221,6 +240,9 @@ async function activate(context) {
     reserved_keywords.forEach((keyword) => trie.insert(keyword));
     user_func_keywords.forEach((keyword) => trie.insert(keyword));
     console.log('Trie initialized with keywords from both files.');
+
+    // Register hover provider
+    registerHoverProvider(context, reserved_keywords, attributesMap);
 
     const usr_func_decorationType = vscode.window.createTextEditorDecorationType({
       light: {    // used in light color themes
@@ -254,7 +276,7 @@ async function activate(context) {
             const lineStartPos = new vscode.Position(startPos.line, 0);
             const lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
             if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // Skip matches on commented lines
-            const hoverMessage = `${match[0]} : user function`;
+            const hoverMessage = `${match[0]}  (User Function)`;
             decorationsFile2.push({ 
               range: new vscode.Range(startPos, endPos),
               hoverMessage, 
@@ -319,26 +341,45 @@ module.exports = {
 
 
 // Function to register hover provider
-function registerHoverProvider(context) {
+function registerHoverProvider(context, reserved_keywords, attributesMap) {
   
   vscode.languages.registerHoverProvider('easylanguage', {
         async provideHover(document, position, token) {
 
             const wordRange = document.getWordRangeAtPosition(position);
-            if (!wordRange) {
-                return; // No word under the cursor
-            }
+            if (!wordRange) { return; } // No word under the cursor
             
-            const word = document.getText(wordRange);
+            const cursor_word = document.getText(wordRange);
+            const lineText = document.lineAt(position).text.trim();
 
-              try {
-                  // Fetch the hover text from the web dynamically
-                  const hoverText = await fetchHoverText(word);
-                  return new vscode.Hover(hoverText);
-              } catch (error) {
-                  console.error(error);
-                  return new vscode.Hover('Unable to fetch description at the moment.');
-              }
+            if (lineText.startsWith('//') || lineText.startsWith('{')) { return; } // Skip matches on commented lines
+
+            // Check if the cursor_word exists in reserved_keywords (case-insensitive)
+            const isReservedKeyword = reserved_keywords.some(
+                (keyword) => keyword.toLowerCase() === cursor_word.toLowerCase()
+            );
+
+            if (!isReservedKeyword) { return; } // Not a reserved keyword, no hover
+
+            // Check if cursor_word exists in attributesMap (case-insensitive)
+            let keyword_attributeValue = null;
+            for (const [keyword, attribute] of attributesMap.entries()) {
+                if (keyword.toLowerCase() === cursor_word.toLowerCase()) {
+                    keyword_attributeValue = attribute;
+                    break;
+                }
+            }            
+
+            if (keyword_attributeValue == null) { return; } // Nothing found in attributesMap
+
+            try {
+                // Fetch the hover text from the web dynamically
+                const hoverText = await fetchHoverText(cursor_word, keyword_attributeValue);
+                return new vscode.Hover(hoverText);
+            } catch (error) {
+                console.error(error);
+                return new vscode.Hover('Unable to fetch description at the moment.');
+            }
         }
   });
 }
