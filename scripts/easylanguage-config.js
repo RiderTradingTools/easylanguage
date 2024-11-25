@@ -84,6 +84,145 @@ class Trie {
 
 
 //////////////////////////////////
+class ESLDocumentSymbolProvider {
+  provideDocumentSymbols(document, token) {
+    return new Promise((resolve, reject) => {
+
+      const symbols = [];
+      const nodes = [symbols];
+      let icon_using = vscode.SymbolKind.Interface;
+      let icon_inputs = vscode.SymbolKind.Null;
+      let icon_vars = vscode.SymbolKind.Variable;
+      let icon_method = vscode.SymbolKind.Class;
+      let icon_region = vscode.SymbolKind.Number;
+      let icon_begin = vscode.SymbolKind.Array;
+      let inside_X = false;
+      let previous_X = "";
+      let comment_block = false;
+
+      for (let i = 0; i < document.lineCount; i++) {
+          
+          let line = document.lineAt(i);
+          let lineText = line.text.trim().toLowerCase().replace(/\s+/g, ' ');
+          let lineTextLen = line.text.trim().length;
+          let prevLineText = "";
+          let lineRange = new vscode.Range(i, 0, i, 199);
+          let getlineText = document.lineAt(i).text.trim().replace(/\s+/g, ' ');
+
+          if ( i >= 1 ) {
+            prevLineText = document.lineAt(i-1).text.trim().toLowerCase().replace(/\s+/g, ' ');
+          }
+
+
+          //-----------------------------------------------------------------------
+          // comment block
+          if ( lineText.startsWith("{") && !lineText.includes("}") ) {
+            comment_block = true;
+          } 
+          else if ( comment_block && lineText.includes("}") ) {
+            comment_block = false;
+          } 
+
+          //-----------------------------------------------------------------------
+          // Using
+          if ( lineText.startsWith("using") && !comment_block ) {
+            const usingSymbol = new vscode.DocumentSymbol("Using", getlineText.substring(6,lineTextLen-1), icon_using, lineRange, lineRange);
+            nodes[nodes.length-1].push(usingSymbol);  
+          } 
+
+          //-----------------------------------------------------------------------
+          // Inputs
+          else if ( !comment_block && ( lineText.startsWith("input:") || lineText.startsWith("inputs:") ) ) {
+            const inputSymbol = new vscode.DocumentSymbol("Inputs", "", icon_inputs, lineRange, lineRange );
+            nodes[nodes.length-1].push(inputSymbol); 
+          }
+
+          //-----------------------------------------------------------------------
+          // Variables
+          else if ( !comment_block && ( lineText.startsWith("variable") || lineText.startsWith("vars:") || lineText.startsWith("var:") ) ) {
+            const variableSymbol = new vscode.DocumentSymbol("Variables", "", icon_vars, lineRange, lineRange );
+            nodes[nodes.length-1].push(variableSymbol);  
+          }
+
+          //-----------------------------------------------------------------------
+          // Constants
+          else if ( !comment_block && ( lineText.startsWith("constants") || lineText.startsWith("constant:") || lineText.startsWith("const:") ) ) {
+            const constantSymbol = new vscode.DocumentSymbol("Constants", "", icon_vars, lineRange, lineRange );
+            nodes[nodes.length-1].push(constantSymbol);  
+          }
+         
+          //-----------------------------------------------------------------------
+          // Method, Region, Begin
+          else if ( !comment_block && 
+                ( lineText.startsWith("method") || lineText.startsWith("#region") || lineText.startsWith("begin") || lineText.startsWith("once")  
+                  || ( lineText.endsWith("then begin") && !lineText.startsWith("//") && !lineText.startsWith("{") ) 
+                  || ( lineText.includes("else begin") && !lineText.startsWith("//") && !lineText.startsWith("{") ) 
+                ) ) {
+
+            if ( lineText.startsWith("begin") && previous_X == "Method" ) {
+                previous_X = "";
+            } 
+            else {
+
+                // Begin
+                if ( lineText == "begin" || lineText == "else begin" ) {
+                  getlineText = prevLineText;
+                  lineRange = new vscode.Range(i-1, 1, i, line.text.length);
+                  previous_X = "Begin";
+                }
+                let xSymbol = new vscode.DocumentSymbol("Begin", getlineText, icon_begin, lineRange, lineRange );
+
+                // Region
+                if ( lineText.startsWith("#region") ) {
+                  getlineText = getlineText.substring(8);
+                  xSymbol = new vscode.DocumentSymbol("Region", getlineText, icon_region, lineRange, lineRange );
+                  previous_X = "Region";
+                }
+
+                // Method
+                else if ( lineText.startsWith("method") ) {
+                  xSymbol = new vscode.DocumentSymbol("Method", getlineText.substring(7), icon_method, lineRange, lineRange );
+                  previous_X = "Method";
+                }
+
+                // Once
+                if ( lineText.startsWith("once") || prevLineText.startsWith("once") || lineText == "once begin" ) {
+                  xSymbol = new vscode.DocumentSymbol("Once", "", icon_begin, lineRange, lineRange );
+                }
+
+                nodes[nodes.length-1].push(xSymbol);  
+
+                if ( !inside_X ) {
+                  nodes.push(xSymbol.children);
+                  inside_X = true;
+                }
+                else if ( inside_X ) {
+                  nodes.push(xSymbol.children);
+                }
+            }
+          } 
+
+          //-----------------------------------------------------------------------
+          // End / End Region
+          if ( !comment_block && ( lineText.startsWith("end") || lineText.startsWith("#endregion") ) ) {
+
+            if ( inside_X ) {
+              nodes.pop();
+              if ( nodes.length <= 1 ) {
+                inside_X = false;
+              }
+            }
+          }
+
+      }
+
+      resolve(symbols);
+    });
+  }
+}
+
+
+//////////////////////////////////
 // Helper function to check file existence
 const fileExists = async (filePath) => {
     try {
@@ -242,6 +381,9 @@ function fetchHoverText(keyword, keyword_attributeValue) {
 // VS Code extension activate function
 /////////////////////////////////////////////////////////
 async function activate(context) {
+
+    const provider = new ESLDocumentSymbolProvider();
+    context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage', scheme: 'file' }, provider));
 
     const trie = new Trie();
     const file1Path = context.asAbsolutePath('file1.txt'); // Path to the first file
