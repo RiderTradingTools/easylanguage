@@ -1,9 +1,11 @@
 const vscode = require('vscode');
 const fs = require('fs');
 const https = require('https'); 
-const path = require('path');
 const { parse } = require('node-html-parser'); 
+const TurndownService = require('turndown');
 
+
+//////////////////////////////////
 // Trie and TrieNode classes
 class TrieNode {
     constructor(key) {
@@ -25,6 +27,8 @@ class TrieNode {
     }
 }
 
+
+//////////////////////////////////
 class Trie {
     constructor() {
         this.root = new TrieNode(null);
@@ -46,13 +50,9 @@ class Trie {
     }
 
     insert(word) {
-        if (word.length === 0) {
-            return;
-        }
+        if (word.length === 0) { return; }
         const lowerCaseWord = word.toLowerCase();
-        if (this.contains(lowerCaseWord)) {
-            return;
-        }
+        if (this.contains(lowerCaseWord)) { return; }
         let node = this.root;
         for (let i = 0; i < lowerCaseWord.length; i++) {
             const char = lowerCaseWord[i];
@@ -82,6 +82,8 @@ class Trie {
     }
 }
 
+
+//////////////////////////////////
 // Helper function to check file existence
 const fileExists = async (filePath) => {
     try {
@@ -92,6 +94,8 @@ const fileExists = async (filePath) => {
     }
 };
 
+
+//////////////////////////////////
 // Function to read attribute-value pairs from file1.txt
 const loadAttributeKeywordsFromFile = async (filePath) => {
     const attributesMap = new Map();
@@ -117,7 +121,9 @@ const loadAttributeKeywordsFromFile = async (filePath) => {
     return attributesMap;
 };
 
-// Function to read keywords from file2.txt
+
+//////////////////////////////////
+// Function to read keywords from file
 const loadKeywordsFromFile = async (filePath) => {
     const keywordsSet = new Set();
     const exists = await fileExists(filePath);
@@ -137,11 +143,15 @@ const loadKeywordsFromFile = async (filePath) => {
     return Array.from(keywordsSet); // Convert Set to Array to avoid duplicates
 };
 
-// Function to fetch data from a web page
+
+//////////////////////////////////
+// Function to fetch content from web page
 function fetchHoverText(keyword, keyword_attributeValue) {
   return new Promise((resolve, reject) => {
 
+    const turndownService = new TurndownService();
     let url = ``;
+
     // function example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/adx_function_.htm
     // reserved word example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/above_reserved_word_.htm
     // class example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/account_class.htm
@@ -174,37 +184,43 @@ function fetchHoverText(keyword, keyword_attributeValue) {
 
                   if (contentDiv) {
 
-                    // Remove <p> tags with class "Disclaimer"
                     contentDiv.querySelectorAll('p.Disclaimer').forEach(disclaimer => {
                       disclaimer.remove(); 
                     });
-                    // Remove Expander hyperlink
-                    contentDiv.querySelectorAll('div.expander').forEach(disclaimer => {
-                      disclaimer.remove(); 
+                    contentDiv.querySelectorAll('div.expander').forEach(expander => {
+                      expander.remove(); 
                     });
-                    // Remove Collapse hyperlink
-                    contentDiv.querySelectorAll('div.collapsable').forEach(disclaimer => {
-                      // disclaimer.remove(); 
+                    contentDiv.querySelectorAll('h1').forEach(header1 => {
+                      header1.remove(); 
                     });
-                  
-                    // Convert <br> and </p> to newline characters
-                    const htmlWithLineBreaks = contentDiv.innerHTML
-                        .replace(/<\/p>/gi, '\n') // Handle </p> tags
-                        .replace(/<\/h1>/gi, '\n') // Handle </p> tags
-                        .replace(/<\/h4>/gi, '\n'); // Handle </p> tags
+                    contentDiv.querySelectorAll('img').forEach(imgs => {
+                      imgs.remove(); 
+                    });
+                    contentDiv.querySelectorAll('a').forEach(aTags => {
+                      aTags.remove(); 
+                    });
 
-                    // Re-parse the adjusted HTML
-                    const rootWithLineBreaks = parse(htmlWithLineBreaks);
+                    const htmlFixedText = contentDiv.innerHTML
+                      .replace(/<h2/gi, '<h4') // Handle </h2> tags
+                      .replace(/h2>/gi, 'h4>'); // Handle </h2> tags
 
-                    // Extract cleaned text while preserving line breaks
-                    let plainText = rootWithLineBreaks.innerText;
-                    plainText = plainText
-                    .replace(/[ \t]+/g, ' ')         // Replace multiple spaces or tabs with a single space
-                    // .replace(/\n\s*\n/g, '\n')        // Remove multiple blank lines
-                    .trim();                         // Remove leading/trailing whitespace
+                    // Convert HTML to Markdown
+                    let markdown = turndownService.turndown(htmlFixedText);
+                                        
+                    const styledString = `&nbsp;&nbsp;<span style="color:#fff;background-color:#666;">&nbsp;${encodeURIComponent(keyword)}&nbsp;</span>`;
+                    const markdownText = new vscode.MarkdownString(`$(getting-started-beginner)`);
+                      markdownText.appendMarkdown(styledString);
+                      markdownText.appendText(`  (`+keyword_attributeValue+`)\n`);
+                      markdownText.appendMarkdown(`\n<hr>\n`);
+                      markdownText.appendMarkdown(markdown);
+                      markdownText.appendMarkdown(`\n<hr>\n`);
+                      markdownText.appendText(`\n&nbsp;$(link-external)  ` + url);
+
+                    markdownText.isTrusted = true; 
+                    markdownText.supportHtml = true;
+                    markdownText.supportThemeIcons = true;
                     
-                    plainText = plainText + '\n\n' + 'View online:  ' + url;
-                    resolve(plainText);
+                    resolve(markdownText);
                   } else {
                       resolve(`No description available for "${keyword}".`);
                   }
@@ -224,10 +240,13 @@ function fetchHoverText(keyword, keyword_attributeValue) {
 
 /////////////////////////////////////////////////////////
 // VS Code extension activate function
+/////////////////////////////////////////////////////////
 async function activate(context) {
+
     const trie = new Trie();
     const file1Path = context.asAbsolutePath('file1.txt'); // Path to the first file
     const file2Path = context.asAbsolutePath('file2.txt'); // Path to the second file
+    // const turndownService = new TurndownService();
 
     // Load attribute-keyword pairs from file1.txt
     const attributesMap = await loadAttributeKeywordsFromFile(file1Path);
@@ -248,12 +267,12 @@ async function activate(context) {
       light: {    // used in light color themes
         fontStyle: 'italic',
         color: '#b300ff',
-        backgroundColor: 'rgba(188, 65, 250, 0.05)' // light plum
+        backgroundColor: 'rgba(188, 65, 250, 0.05)'
       },
       dark: {   // used in dark color themes
         fontStyle: 'bold',
         color: '#ff6f00',
-        backgroundColor: 'rgba(255, 165, 0, 0.05)' // light orange
+        backgroundColor: 'rgba(255, 165, 0, 0.05)'
       }
     });
 
@@ -261,9 +280,7 @@ async function activate(context) {
 
     // Function to update decorations
     const updateDecorations = (editor) => {
-        if (!editor) {
-            return;
-        }
+        if (!editor) { return; }
 
         const text = editor.document.getText();
 
@@ -276,10 +293,20 @@ async function activate(context) {
             const lineStartPos = new vscode.Position(startPos.line, 0);
             const lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
             if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // Skip matches on commented lines
-            const hoverMessage = `${match[0]}  (User Function)`;
+            
+            const styledString = `&nbsp;&nbsp;<span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
+            const markdownText = new vscode.MarkdownString(`$(getting-started-beginner)`);
+              markdownText.supportHtml = true;
+              markdownText.appendMarkdown(styledString);
+              markdownText.appendText(`  (user function)\n`);
+              markdownText.appendMarkdown(`\n`);
+
+            markdownText.isTrusted = true; 
+            markdownText.supportThemeIcons = true;
+            
             decorationsFile2.push({ 
-              range: new vscode.Range(startPos, endPos),
-              hoverMessage, 
+              range: new vscode.Range(startPos, endPos), 
+              hoverMessage: markdownText 
             });
         }
         editor.setDecorations(usr_func_decorationType, decorationsFile2);
@@ -300,7 +327,6 @@ async function activate(context) {
                 const allKeywords = trie.getAllWords();
                 return allKeywords.map((keyword) => {
                     const item = new vscode.CompletionItem(keyword, vscode.CompletionItemKind.Keyword);
-                    // item.detail = 'Keyword from Trie';
                     return item;
                 });
             },
@@ -330,16 +356,20 @@ async function activate(context) {
     context.subscriptions.push(completionProvider);
 }
 
+
+//////////////////////////////////
 // Deactivate function
 function deactivate() {}
 
+
+//////////////////////////////////
 module.exports = {
     activate,
     deactivate,
 };
 
 
-
+//////////////////////////////////
 // Function to register hover provider
 function registerHoverProvider(context, reserved_keywords, attributesMap) {
   
