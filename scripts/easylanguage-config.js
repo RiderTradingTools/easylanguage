@@ -290,19 +290,27 @@ function fetchHoverText(keyword, keyword_attributeValue) {
 
     const turndownService = new TurndownService();
     let url = ``;
+    let rep_url = ``;
+    let rep_url2 = ``;
 
     // function example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/adx_function_.htm
     // reserved word example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/above_reserved_word_.htm
     // class example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/account_class.htm
     
     if (keyword_attributeValue == 'reserved word') {
-      url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/${encodeURIComponent(keyword)}_reserved_word_.htm`;
+      url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/${encodeURIComponent(keyword)}_reserved_word_.htm`;
+      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/`;
+      rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elword`;
     }
     else if (keyword_attributeValue == 'function') {
-      url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/${encodeURIComponent(keyword)}_function_.htm`;
+      url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/${encodeURIComponent(keyword)}_function_.htm`;
+      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/`;
+      rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elword`;
     }
     else if (keyword_attributeValue == 'class') {
-      url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/${encodeURIComponent(keyword)}_class.htm`;
+      url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/${encodeURIComponent(keyword)}_class.htm`;
+      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/`;
+      rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject`;
     }
 
     if (url == ``) { return; } // no match, no url to pull 
@@ -335,13 +343,25 @@ function fetchHoverText(keyword, keyword_attributeValue) {
                     contentDiv.querySelectorAll('img').forEach(imgs => {
                       imgs.remove(); 
                     });
-                    contentDiv.querySelectorAll('a').forEach(aTags => {
-                      aTags.remove(); 
-                    });
+                    // contentDiv.querySelectorAll('a').forEach(aTags => {
+                    //   aTags.remove(); 
+                    // });
 
                     const htmlFixedText = contentDiv.innerHTML
-                      .replace(/<h2/gi, '<h4') // Handle </h2> tags
+                      .replace(/href=\"(?=[a-z])/gi, 'href="'+rep_url2)
+                      .replace(/href=\"\.\./gi, 'href="'+rep_url)
+                      .replace(/href=\"#\"/gi, '')
+                      .replace(/<h2/gi, '<h4')  // Handle </h2> tags
                       .replace(/h2>/gi, 'h4>'); // Handle </h2> tags
+
+                    // const htmlFixedText = contentDiv.innerHTML
+                    //   .replace(/<tr/gi, '<br') // Handle </h2> tags
+                    //   .replace(/tr>/gi, 'br>') // Handle </h2> tags
+                    //   .replace(/<td>/gi, ' ') // Handle </h2> tags
+                    //   .replace(/<\/td>/gi, ' ') // Handle </h2> tags
+                    //   .replace(/<h2/gi, '<h4') // Handle </h2> tags
+                    //   .replace(/h2>/gi, 'h4>') // Handle </h2> tags
+                    //   ;
 
                     // Convert HTML to Markdown
                     let markdown = turndownService.turndown(htmlFixedText);
