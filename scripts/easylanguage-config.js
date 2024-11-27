@@ -3,6 +3,7 @@ const fs = require('fs');
 const https = require('https'); 
 const { parse } = require('node-html-parser'); 
 const TurndownService = require('turndown');
+const { gfm } = require('turndown-plugin-gfm');
 
 
 //////////////////////////////////
@@ -289,6 +290,8 @@ function fetchHoverText(keyword, keyword_attributeValue) {
   return new Promise((resolve, reject) => {
 
     const turndownService = new TurndownService();
+    turndownService.use(gfm); 
+
     let url = ``;
     let rep_url = ``;
     let rep_url2 = ``;
@@ -324,8 +327,10 @@ function fetchHoverText(keyword, keyword_attributeValue) {
 
           response.on('end', () => {
               try {
+
                   // Parse the HTML response
                   const root = parse(data);
+                  
                   // Extract the div content by id
                   const contentDiv = root.querySelector('div#mc-main-content');
 
@@ -343,43 +348,33 @@ function fetchHoverText(keyword, keyword_attributeValue) {
                     contentDiv.querySelectorAll('img').forEach(imgs => {
                       imgs.remove(); 
                     });
-                    // contentDiv.querySelectorAll('a').forEach(aTags => {
-                    //   aTags.remove(); 
-                    // });
 
+                    // replace some tags, fix web links
                     const htmlFixedText = contentDiv.innerHTML
                       .replace(/href=\"(?=[a-z])/gi, 'href="'+rep_url2)
                       .replace(/href=\"\.\./gi, 'href="'+rep_url)
                       .replace(/href=\"#\"/gi, '')
-                      .replace(/<h2/gi, '<h4')  // Handle </h2> tags
-                      .replace(/h2>/gi, 'h4>'); // Handle </h2> tags
-
-                    // const htmlFixedText = contentDiv.innerHTML
-                    //   .replace(/<tr/gi, '<br') // Handle </h2> tags
-                    //   .replace(/tr>/gi, 'br>') // Handle </h2> tags
-                    //   .replace(/<td>/gi, ' ') // Handle </h2> tags
-                    //   .replace(/<\/td>/gi, ' ') // Handle </h2> tags
-                    //   .replace(/<h2/gi, '<h4') // Handle </h2> tags
-                    //   .replace(/h2>/gi, 'h4>') // Handle </h2> tags
-                    //   ;
+                      .replace(/<h2/gi, '<h4')
+                      .replace(/h2>/gi, 'h4>');
 
                     // Convert HTML to Markdown
                     let markdown = turndownService.turndown(htmlFixedText);
                                         
-                    const styledString = `&nbsp;&nbsp;<span style="color:#fff;background-color:#666;">&nbsp;${encodeURIComponent(keyword)}&nbsp;</span>`;
-                    const markdownText = new vscode.MarkdownString(`$(getting-started-beginner)`);
-                      markdownText.appendMarkdown(styledString);
-                      markdownText.appendText(`  (`+keyword_attributeValue+`)\n`);
-                      markdownText.appendMarkdown(`\n<hr>\n`);
-                      markdownText.appendMarkdown(markdown);
-                      markdownText.appendMarkdown(`\n<hr>\n`);
-                      markdownText.appendText(`\n&nbsp;$(link-external)  ` + url);
-
+                    const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${encodeURIComponent(keyword)}&nbsp;</span>`;
+                    const markdownText = new vscode.MarkdownString(`&nbsp;$(lightbulb)`);
                     markdownText.isTrusted = true; 
                     markdownText.supportHtml = true;
                     markdownText.supportThemeIcons = true;
-                    
+
+                    markdownText.appendMarkdown(styledString);
+                    markdownText.appendText(`  (`+keyword_attributeValue+`)\n`);
+                    markdownText.appendMarkdown(`\n<hr>\n`);
+                    markdownText.appendMarkdown(markdown);
+                    markdownText.appendMarkdown(`\n<hr>\n`);
+                    markdownText.appendMarkdown(`\n&nbsp;$(link) &nbsp; ` + url);
+
                     resolve(markdownText);
+
                   } else {
                       resolve(`No description available for "${keyword}".`);
                   }
