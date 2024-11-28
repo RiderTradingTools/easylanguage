@@ -43,7 +43,7 @@
 				},
 				{
 					"name": "esl.control.keyword",
-					"match": "(?i)\\b(array|arrays|if|else|while|for|then|to|downto|Once|begin|throw|or|and|not|end|switch|case|default|input|inputs|const|constant|constants|var|vars|variables|using|variable|(?i)(cross(es)? (above|below|over|under)))\\b"
+					"match": "(?i)\\b(if|else|while|for|then|to|downto|Once|begin|throw|or|and|not|end|switch|case|default|using|input|inputs|const|constant|constants|var|vars|variables|variable|(?i)(cross(es)? (above|below|over|under)))\\b"
 				},
 				{
 					"name": "esl.skipwords",
@@ -55,7 +55,7 @@
 				},
 				{
 					"name": "esl.pricedata",
-					"match": "(?i)\\b(H|High|L|Low|O|Open|C|Close|V|Volume|VolumeDown|VolumeUp|D|Date|T|Time|I|OpenInt|DailyOpen|Ticks|UpTicks|DownTicks|DailyHigh|DailyLow|DailyClose|DailyTrades|DailyTradesDN|DailyTradesUC|DailyTradesUP|DailyVolume|DailyVolumeDN|DailyVolumeUC|DailyVolumeUp)\\b"
+					"match": "(?i)\\b(H|High|L|Low|O|Open|C|Close|V|Volume|VolumeDown|VolumeUp|I|OpenInt|DailyOpen|Ticks|UpTicks|DownTicks|DailyHigh|DailyLow|DailyClose|DailyTrades|DailyTradesDN|DailyTradesUC|DailyTradesUP|DailyVolume|DailyVolumeDN|DailyVolumeUC|DailyVolumeUp)\\b"
 				}
 			]
 		},
@@ -69,14 +69,6 @@
 				{
 					"name": "esl.function",
 					"match": "(?i)@\\b(Delta|Gamma|Theta|Vega)\\b"
-				},
-				{
-					"name": "esl.user_methods",
-					"match": "(?i)\\b_([a-zA-Z_]\\w*)\\b\\("
-				},
-				{
-					"name": "esl.user_methods",
-					"match": "(?i)\\b_([a-zA-Z_]\\w*)\\b\\["
 				},
 				{
 					"name": "esl.class",
