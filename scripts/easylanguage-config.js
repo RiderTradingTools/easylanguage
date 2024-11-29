@@ -236,7 +236,7 @@ const fileExists = async (filePath) => {
 
 
 //////////////////////////////////
-// Function to read attribute-value pairs from file1.txt
+// Function to read attribute-value pairs from easylanguage-complete.txt
 const loadAttributeKeywordsFromFile = async (filePath) => {
     const attributesMap = new Map();
     const exists = await fileExists(filePath);
@@ -286,15 +286,22 @@ const loadKeywordsFromFile = async (filePath) => {
 
 //////////////////////////////////
 // Function to fetch content from web page
-function fetchHoverText(keyword, keyword_attributeValue) {
+function fetchHoverText(hovered_keyword, keyword_attributeValue) {
   return new Promise((resolve, reject) => {
 
     const turndownService = new TurndownService();
     turndownService.use(gfm); 
 
+    let keyword = hovered_keyword;
+    let display_keyword = hovered_keyword;
     let url = ``;
     let rep_url = ``;
     let rep_url2 = ``;
+
+    if (keyword.toLowerCase() == 'var' || keyword.toLowerCase() == 'vars' || keyword.toLowerCase() == 'variables') { keyword = 'Variable'; }
+    if (keyword.toLowerCase() == 'input') { keyword = 'Inputs'; }
+    if (keyword.toLowerCase() == 'consts' || keyword.toLowerCase() == 'constant' || keyword.toLowerCase() == 'constants') { keyword = 'Const'; }
+    if (keyword.startsWith('#')) { keyword = keyword.replace(/#/gi, '_'); }
 
     // function example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/adx_function_.htm
     // reserved word example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/above_reserved_word_.htm
@@ -302,18 +309,24 @@ function fetchHoverText(keyword, keyword_attributeValue) {
     
     if (keyword_attributeValue == 'reserved word') {
       url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/${encodeURIComponent(keyword)}_reserved_word_.htm`;
-      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/`;
       rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elword`;
+      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/`;
     }
     else if (keyword_attributeValue == 'function') {
       url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/${encodeURIComponent(keyword)}_function_.htm`;
-      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/`;
       rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elword`;
+      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/`;
     }
-    else if (keyword_attributeValue == 'class') {
-      url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/${encodeURIComponent(keyword)}_class.htm`;
-      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/`;
+    else if (keyword_attributeValue.startsWith('class')) {
+      url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/${encodeURIComponent(keyword_attributeValue)}/${encodeURIComponent(keyword)}_class.htm`;
       rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject`;
+      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/`;
+      keyword_attributeValue = 'class';
+    }
+    else if (keyword_attributeValue == 'enumeration') {
+      url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/enumeration/${encodeURIComponent(keyword)}_enumeration.htm`;
+      rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject`;
+      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/enumeration/`;
     }
 
     if (url == ``) { return; } // no match, no url to pull 
@@ -354,13 +367,14 @@ function fetchHoverText(keyword, keyword_attributeValue) {
                       .replace(/href=\"(?=[a-z])/gi, 'href="'+rep_url2)
                       .replace(/href=\"\.\./gi, 'href="'+rep_url)
                       .replace(/href=\"#\"/gi, '')
+                      .replace(/xmlns=\"http:\/\/www.w3.org\/1999\/xhtml\"/gi, '')
                       .replace(/<h2/gi, '<h4')
                       .replace(/h2>/gi, 'h4>');
 
                     // Convert HTML to Markdown
                     let markdown = turndownService.turndown(htmlFixedText);
                                         
-                    const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${encodeURIComponent(keyword)}&nbsp;</span>`;
+                    const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${display_keyword}&nbsp;</span>`;
                     const markdownText = new vscode.MarkdownString(`&nbsp;$(lightbulb)`);
                     markdownText.isTrusted = true; 
                     markdownText.supportHtml = true;
@@ -376,7 +390,7 @@ function fetchHoverText(keyword, keyword_attributeValue) {
                     resolve(markdownText);
 
                   } else {
-                      resolve(`No description available for "${keyword}".`);
+                      resolve(`No description found for "${display_keyword}"`);
                   }
               } catch (error) {
                   reject(`Error parsing response: ${error}`);
@@ -401,15 +415,15 @@ async function activate(context) {
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage', scheme: 'file' }, provider));
 
     const trie = new Trie();
-    const file1Path = context.asAbsolutePath('file1.txt'); // Path to the first file
-    const file2Path = context.asAbsolutePath('file2.txt'); // Path to the second file
+    const file1Path = context.asAbsolutePath('easylanguage-complete.txt'); // Path to the first file
+    const file2Path = context.asAbsolutePath('custom-user-functions.txt'); // Path to the second file
     // const turndownService = new TurndownService();
 
-    // Load attribute-keyword pairs from file1.txt
+    // Load attribute-keyword pairs from easylanguage-complete.txt
     const attributesMap = await loadAttributeKeywordsFromFile(file1Path);
     const reserved_keywords = Array.from(attributesMap.keys()); // Extract only keywords for highlighting
 
-    // Load keywords from file2.txt
+    // Load keywords from custom-user-functions.txt
     const user_func_keywords = await loadKeywordsFromFile(file2Path);
 
     // Insert all keywords into the Trie
@@ -536,23 +550,33 @@ function registerHoverProvider(context, reserved_keywords, attributesMap) {
             const wordRange = document.getWordRangeAtPosition(position);
             if (!wordRange) { return; } // No word under the cursor
             
-            const cursor_word = document.getText(wordRange);
+            let cursor_word = document.getText(wordRange);
             const lineText = document.lineAt(position).text.trim();
 
             if (lineText.startsWith('//') || lineText.startsWith('{')) { return; } // Skip matches on commented lines
 
             // Check if the cursor_word exists in reserved_keywords (case-insensitive)
-            const isReservedKeyword = reserved_keywords.some(
+            let isReservedKeyword = reserved_keywords.some(
                 (keyword) => keyword.toLowerCase() === cursor_word.toLowerCase()
             );
+
+            if (!isReservedKeyword && wordRange.c.e > 0) {
+              wordRange.c.e = wordRange.c.e - 1;
+              cursor_word = document.getText(wordRange);
+              isReservedKeyword = reserved_keywords.some(
+                (keyword) => keyword.toLowerCase() === cursor_word.toLowerCase()
+              );
+            }
 
             if (!isReservedKeyword) { return; } // Not a reserved keyword, no hover
 
             // Check if cursor_word exists in attributesMap (case-insensitive)
+            let hovered_keyword = null;
             let keyword_attributeValue = null;
             for (const [keyword, attribute] of attributesMap.entries()) {
                 if (keyword.toLowerCase() === cursor_word.toLowerCase()) {
                     keyword_attributeValue = attribute;
+                    hovered_keyword = keyword;
                     break;
                 }
             }            
@@ -561,7 +585,7 @@ function registerHoverProvider(context, reserved_keywords, attributesMap) {
 
             try {
                 // Fetch the hover text from the web dynamically
-                const hoverText = await fetchHoverText(cursor_word, keyword_attributeValue);
+                const hoverText = await fetchHoverText(hovered_keyword, keyword_attributeValue);
                 return new vscode.Hover(hoverText);
             } catch (error) {
                 console.error(error);
