@@ -1,1749 +1,1949 @@
-AB_AddCell
-AB_AddCellRange()
-AB_AverageCells()
-AB_AveragePrice()
-AB_CellCount()
-AB_GetCellChar
-AB_GetCellColor
-AB_GetCellDate
-AB_GetCellTime
-AB_GetCellValue
-AB_GetNumCells
-AB_GetZoneHigh
-AB_GetZoneLow
-AB_High
-AB_Low
-AB_Median()
-AB_Mode()
-AB_NextColor()
-AB_NextLabel()
-AB_RemoveCell
-AB_RowHeight
-AB_RowHeightCalc()
-AB_SetActiveCell
-AB_SetRowHeight
-AB_SetZone
-AB_StdDev()
-Above
-AbsoluteBreadth()
-AbsValue
-Account
-AccountFields
-Accounts
-AccountsProvider
-AccountUpdatedEventArgs
-AccumDist()
-AccumSwingIndex()
-ActivationRuleCollection
-ActivationRules
-ActiveAccountChangedEventArgs
-ActivityData
-AdaptiveMovAvg()
-Add
-AddEventArgs
-AddToMovieChain
-AdvanceDeclineDiff()
-AdvanceDeclineRatio()
-ADX()
-ADXCustom()
-ADXR()
-ADXRCustom()
-AggregateMarketQuote
-AggregateMarketQuotes
-Ago
-Alarm
-AlarmEventArgs
-Alert
-AlertConfiguration
-AlertEnabled
-AlertEventArgs
-AliceBlue
-All
-AnalysisTechnique
-AntiqueWhite
-Aqua
-Aquamarine
-Arctangent
-ArmsIndex()
-Aroon()
-AroonDown()
-AroonOsc()
-AroonUp()
-Arrays
-Array_Compare
-Array_Copy
-Array_GetMaxIndex
-Array_GetType
-Array_SetMaxIndex
-Array_SetValRange
-Array_Sort
-Array_Sum
-ARRAYSIZE
-ARRAYSTARTADDR
-ASK
-AskDate
-AskDateEX
-AskExch
-AskSize
-AskTime
-AskTimeEX
-ASSET
-ASSETTYPE
-ASSETVOLATILITY
-AsyncCompletedEventArgs
-AtCommentaryBar
-AudibleConfiguration
-AUTOSESSION
-Average()
-AverageArray()
-AverageFC()
-AvgBarsEvenTrade
-AvgBarsLosTrade
-AvgBarsWinTrade
-AvgDeviation()
-AvgDeviationArray()
-AvgEntryPrice
-AvgList
-AvgPrice()
-AvgTrueRange()
-Axis
-Azure
-BackgroundGradientStyle
-BackgroundVisualElement
-Bar
-BarAnnualization()
-BarInterval
-BarNumber
-Bars
-BarsSinceEntry
-BarsSinceExit
-BarStatus
-BarType
-BarVisualElement
-BearishDivergence()
-BEGINALERT
-BEGINCMTRY
-BEGINCMTRYORALERT
-Beige
-Below
-Beta
-Beta_Down
-Beta_Up
-BID
-BidDate
-BidDateEX
-BidDirectionNNM
-BidExch
-BidSize
-BidTime
-BidTimeEX
-BigPointValue
-Bisque
-BjerkStensCall()
-BjerkStensPhi()
-Black
-BlackModel()
-BlackScholes()
-BlanchedAlmond
-BlockNumber
-Blue
-BlueViolet
-BNPoint
-BollingerBand()
-Book_Val_Per_Share
-BOOL
-BorderRadius
-BoxSize
-BracketOrderTicket
-Break
-BreakEvenStopFloor
-BreakPoint
-Brown
-BullishDivergence()
-Burlywood
-Button
-ButtonBase
-Buy
-BuyToCover
-BYTE
-C_3WhSolds_3BlkCrows()
-C_AbandonedBaby()
-C_AbandonedBabyBottom()
-C_AbandonedBabyTop()
-C_AdvanceBlock()
-C_BullEng_BearEng()
-C_BullHar_BearHar()
-C_Doji()
-C_Hammer_HangingMan()
-C_HaramiCross()
-C_InvertHammer()
-C_Kicking()
-C_Marubozu()
-C_MarubozuBlackOpening()
-C_MarubozuWhiteOpening()
-C_MeetingLines()
-C_MornDoji_EveDoji()
-C_MornStar_EveStar()
-C_PierceLine_DkCloud()
-C_ShootingStar()
-C_TasukiGap()
-C_TasukiGapDownside()
-C_TasukiGapUpside()
-C_ThreeMethods()
-C_ThreeMethodsFalling()
-C_ThreeMethodsRising()
-C_ThreeStarsInTheSouth()
-C_TriStar()
-CadetBlue
-CalcDate()
-CalcTime()
-CALL
-CALLCOUNT
-CALLITMCOUNT
-CallOpenInt
-CALLOTMCOUNT
-CALLSERIESCOUNT
-CALLSTRIKECOUNT
-CallVolume
-Cancel
-CancelEventArgs
-Case
-Category
-CCI()
-CCICustom()
-Ceiling
-CellClickEventArgs
-ChaikinMoneyFlow()
-ChaikinOsc()
-ChaikinVolatility()
-CHAR
-Chart
-ChartArea
-ChartArea3DStyle
-ChartAreaCollection
-ChartControlEventArgs
-ChartElementClickEventArgs
-ChartingHost
-Chartreuse
-ChartSeries
-ChartVisualElement
-ChartWindow
-CheckAlert
-CheckBox
-CheckCommentary
-Chocolate
-CLEARDEBUG
-CLEARPRINTLOG
-ClickEventArgs
-Clone
-Close
-CloseD()
-CloseM()
-CloseSession()
-CloseW()
-CloseY()
-CMO()
-COARSE
-CoefficientR()
-CoefficientRArray()
-CoefficientREasy()
-Color
-ColumnHeader
-ColumnHeaderCollection
-ColumnStyle
-Combination()
-ComboBox
-Commentary
-CommentaryCL
-CommentaryEnabled
-Commission
-CommodityNumber
-CommonDialog
-ComputerDateTime
-Condition
-ConnectionStatus
-Constants
-ContainerControl
-ContextMenu
-Continue
-Contract
-ContractMonth
-ContractProfit
-Contracts
-ContractSize
-ContractYear
-Control
-ControlCollection
-ConvertEventArgs
-CopyArray()
-CopyColumn()
-Coral
-CornflowerBlue
-Cornsilk
-Correlation()
-CorrelationArray()
-Cosine
-COST
-Cotangent
-CountIF()
-Covar()
-CovarArray()
-CovarEasy()
-Create
-CreateLeg
-Crimson
-Cross
-CSI()
-Cum()
-Current
-Current_Ratio
-CurrentAsk()
-CurrentBar
-CurrentBid()
-CurrentContracts
-CurrentDate
-CurrentEntries
-CurrentOpenInt
-CurrentSession()
-CurrentSessionMS()
-CurrentShares
-CurrentTime
-Cursor
-CustomBarSeries
-CustomBarSeriesProvider
-CustomBarSeriesUpdatedEventArgs
-CustomerID
-Cyan
-D
-DailyClose
-DailyHigh
-DailyLimit
-DailyLosers()
-DailyLow
-DailyOpen
-DailyTradesDN
-DailyTradesUC
-DailyTradesUP
-DailyVolume
-DailyVolumeDN
-DailyVolumeUC
-DailyVolumeUp
-DailyWinners()
-DarkBlue
-DarkBrown
-DarkCyan
-DarkGoldenrod
-DarkGray
-DarkGreen
-DarkKhaki
-DarkMagenta
-DarkOliveGreen
-DarkOrange
-DarkOrchid
-DarkRed
-DarkSalmon
-DarkSeaGreen
-DarkSlateBlue
-DarkSlateGray
-DarkTurquoise
-DarkViolet
-Dashed
-Dashed2
-Dashed3
-Data
-DataCompression
-DataGridView
-DataGridViewButtonColumn
-DataGridViewCell
-DataGridViewCellCancelEventArgs
-DataGridViewCellCollection
-DataGridViewCellEventArgs
-DataGridViewCellFormattingEventArgs
-DataGridViewCellMouseEventArgs
-DataGridViewCellParsingEventArgs
-DataGridViewCellStyle
-DataGridViewCheckBoxColumn
-DataGridViewColumn
-DataGridViewColumnCollection
-DataGridViewComboBoxCellObjectCollection
-DataGridViewComboBoxColumn
-DataGridViewDataErrorEventArgs
-DataGridViewDateTimePickerColumn
-DataGridViewEditingControlShowingEventArgs
-DataGridViewLinkColumn
-DataGridViewNumericUpDownColumn
-DataGridViewRow
-DataGridViewRowCollection
-DataGridViewSelectedCellCollection
-DataGridViewSelectedColumnCollection
-DataGridViewSelectedRowCollection
-DataGridViewSortCompareEventArgs
-DataGridViewTextBoxColumn
-DataInterval
-DataInUnion
-DataPoint
-DataPointCollection
-DataProvider
-DataRange
-DataStream
-DataStreams
-Date
-DateTime
-DateTimePicker
-DateTimeToString
-DateToJulian
-DateToString
-Day
-DayFromDateTime
-DayOfMonth
-DayOfWeek
-DayOfWeekFromDateTime
-Days
-DaysToExpiration()
-DeepPink
-DeepSkyBlue
-Default
-DefineCustField
-DEFINEDLLFUNC
-DeleteEventArgs
-DeliveryMonth
-DeliveryYear
-DELTA
-Delta
-DEMA()
-Description
-Detrend()
-DevSqrd()
-DevSqrdArray()
-DialogActionCompletedEventArgs
-DialogStatusChangedEventArgs
-Dictionary
-DimGray
-DirMovement()
-Disparity()
-Divergence()
-Dividend
-Dividend_Yield
-DividendCount
-DividendDate
-DividendFreq
-DividendTime
-DivYield
-DMI()
-DMICustom()
-DMIMinus()
-DMIMinusCustom()
-DMIPlus()
-DMIPlusCustom()
-DodgerBlue
-DOPoint
-DotNetElComponent
-DotNetObject
-Dotted
-DOUBLE
-DoubleQuote
-DoubleSeries
-DownColorDefault()
-DownloadDataCompletedEventArgs
-DownloadStringCompletedEventArgs
-DownTicks
-DownTo
-DrawingObject
-DrawingObjectEventArgs
-DrawingObjects
-DrawingObjectVisualElement
-DrawObjects
-DTPoint
-DWORD
-EaseOfMovement()
-EasyLanguageVersion
-EL_DateStr
-elcharting
-ELComponent
-ELDate()
-ELDate_Consol()
-ELDateToDateTime
-ELDateToString()
-ElementPosition
-ElementSelectedEventArgs
-ELEnum
-Ellipse
-elplatform
-elquote
-ELString
-elsystem
-ELTimeToDateTime
-ElWFComponent
-EncodeDate
-EncodeTime
-End
-END
-EndRegion
-EntriesToday()
-Entry
-EntryDate
-EntryPrice
-EntryTime
-Environment
-EPS
-EPS_PChng_Y_Ago
-EPS_PChng_YTD
-EPSCount
-EPSDate
-EPSEstimate
-EPSTime
-Equals()
-EventArgs
-EVENTS
-ExchListed
-ExecOffset
-ExecuteScriptDoneEventArgs
-ExitDate
-ExitPrice
-ExitsToday()
-ExitTime
-ExpDate
-ExpirationDate
-EXPIRATIONSTYLE
-ExpStyle
-ExpValue
-ExtendedDataProvider
-ExtendedDataRow
-ExtendedDataTable
-ExtendedDataUpdatedEventArgs
-EXTERNAL
-ExtremePriceRatio()
-Extremes()
-ExtremesArray()
-ExtremesFC()
-Factorial()
-FAMA()
-FastD()
-FastDCustom()
-FastDCustomOrig()
-FastHighestBar()
-FastK()
-FastKCustom()
-FastKCustomEasy()
-FastKCustomOrig()
-FastLowestBar()
-FastSymbolLookupComboBox
-File
-FileAppend
-FileDelete
-FileDialog
-FindBar()
-FINE
-Firebrick
-FirstNoticeDate
-FIRSTOPTION
-FirstSession()
-FirstSessionMS()
-Fisher()
-FisherINV()
-FlatButtonAppearance
-FLOAT
-Floor
-FloralWhite
-FND
-Font
-FontStyle
-ForestGreen
-Form
-FormatDate
-FormatStyle
-FormatTime
-FormClosedEventsArgs
-FormClosingEventsArgs
-FracPortion
-FreeCshFlwPerShare
-Friday
-Fuchsia
-Function Not Found()
-FundamentalFields
-FundamentalQuote
-FundamentalQuotes
-FundamentalQuotesProvider
-FundamentalQuoteUpdatedEventArgs
-FundBoolean()
-FundDate()
-FundPeriodEndDate()
-FundSetup()
-FundString()
-FundValue()
-FundValueTTM()
-FUTURE
-FUTURETYPE
-G_Rate_EPS_NY
-G_Rate_Nt_In_NY
-G_Rate_P_Net_Inc
-Gainsboro
-GAMMA
-Gamma
-GCD()
-GenerateStrike()
-GenericRequestProvider
-GenericRequestUpdatedEventArgs
-GenericResponse
-GetAccount
-GetAccountID
-GetAccountLotSize
-GetAccountStatus
-GetAccountType
-GetAllOrNone
-GetAppInfo
-GetBackgroundColor
-GetBDAccountEquity
-GetBDAccountNetWorth
-GetBDCashBalance
-GetBDDayTradingBuyingPower
-GetBDOvernightBuyingPower
-GetBDTradeEquity
-GetBuyMinusSellPlus
-GetBValue
-GetCDRomDrive
-GetDiscretion
-GetExchangeName
-GetFundData
-GetFundDataAsBoolean
-GetFundDataAsString
-GetFundPeriodEndDate
-GetFundPostDate
-GetGValue
-GetLastFundDataError
-GetNonDisplay
-GetNOW
-GetNumAccounts
-GetNumPositions
-GetOpenOrderInitialMargin
-GetPeg
-GetPlotBGColor
-GetPlotColor
-GetPlotWidth
-GetPositionAveragePrice
-GetPositionMarketValue
-GetPositionOpenPL
-GetPositionQuantity
-GetPositionSymbol
-GetPositionTotalCost
-GetRGBValues()
-GetRoute
-GetRTAccountEquity
-GetRTAccountNetWorth
-GetRTCashBalance
-GetRTCostOfPositions
-GetRTDaytradingBuyingPower
-GetRTInitialMargin
-GetRTMaintMargin
-GetRTOvernightBuyingPower
-GetRTPurchasingPower
-GetRTRealizedPL
-GetRTTradeEquity
-GetRTUnrealizedPL
-GetRValue
-GetScreenName
-GetShaveImprove
-GetShowOnly
-GetStrategyName
-GetSubscriberOnly
-GetSymbolName
-GetSystemName
-GetTodaysRTTradeEquity
-GetType
-GetUnclearedDeposits
-GhostWhite
-GlobalDictionary
-GlobalValue
-Gold
-Goldenrod
-Gr_Rate_P_EPS
-GradientColor
-GraphicsUnit
-Gray
-Green
-GreenYellow
-GrossLoss
-GrossProfit
-GroupBox
-HandledEventArgs
-HarmonicMean()
-HarmonicMeanArray()
-HeapPush()
-HeapPush2D()
-HeapSift()
-HeapSift2D()
-High
-High52Wk
-HighD()
-Higher
-Highest()
-HighestArray()
-HighestBar()
-HighestFC()
-HighM()
-HighSession()
-HighW()
-HighY()
-HistFundExists
-HMA()
-Honeydew
-HorizontalLine
-HorizontalStyle
-Host
-HotPink
-HoursFromDateTime
-HPI()
-hStyle
-HTMLDocument
-I
-I_AvgEntryPrice
-I_ClosedEquity
-I_CurrentContracts
-I_CurrentShares
-I_MarketPosition
-I_OpenEquity
-IButtonControl
-IFF()
-IFFLogic()
-IFFString()
-Image
-ImpliedVolatility()
-ImpliedVolatilityEx()
-IncludeSignal
-IncludeSystem
-IndianRed
-Indigo
-InfiniteLoopDetect
-InfoBox()
-INITIALMARGIN
-Inputs
-InsideAsk
-InsideBar()
-InsideBid
-Inst_Percent_Held
-InStr
-INT
-IntPortion
-IntraBarOrderGeneration
-IntrabarPersist
-Intrinsic()
-IsFundDataAvailable
-IsValidFundField
-ItemProcessedEventArgs
-IVolatility
-Ivory
-JulianToDate
-KeltnerChannel()
-KeyEventArgs
-KeyPressEventArgs
-Khaki
-KnownColor
-Kurtosis()
-KurtosisArray()
-KurtosisOpt()
-Label
-LabelStyle
-LargestLosTrade
-LargestWinTrade
-Last
-Last_Split_Date
-Last_Split_Fact
-LastBarOnChart()
-LastBarOnChartEx()
-LastCalcDate()
-LastCalcJDate
-LastCalcMMTime
-LastCalcTime()
-LastDayOfMonth()
-LastHour()
-LastSession()
-LastSessionMS()
-LastTradingDate
-Lavender
-LavenderBlush
-LawnGreen
-Leader()
-LEAPYear
-LeftSide
-LeftStr
-LEG
-LegacyColorToRGB
-LegacyColorValue
-LEGTYPE
-LemonChiffon
-LightBlue
-LightCoral
-LightCyan
-LightGoldenrodYellow
-LightGray
-LightGreen
-LightPink
-LightSalmon
-LightSeaGreen
-LightSkyBlue
-LightSlateGray
-LightSteelBlue
-LightYellow
-Lime
-LimeGreen
-Limit
-LimitIfTouchedOrder()
-LimitOrder()
-LinearReg()
-LinearRegAngle()
-LinearRegAngleFC()
-LinearRegFC()
-LinearRegSlope()
-LinearRegSlopeFC()
-LinearRegValue()
-LinearRegValueFC()
-Linen
-LinkLabel
-LinRegAngleArray()
-LinRegAngleArray2()
-LinRegArray()
-LinRegArray2()
-LinRegForecastArray()
-LinRegForecastArray2()
-LinRegIntercepArray2()
-LinRegInterceptArray()
-LinRegSlopeArray()
-LinRegSlopeArray2()
-ListOfFieldIds
-ListView
-ListViewItem
-LiveDate
-LiveTime
-Log
-LogXY()
-LONG
-LongRollAdj
-LossCF
-Low
-Low52Wk
-LowD()
-Lower
-LowerStr
-Lowest()
-LowestArray()
-LowestBar()
-LowestFC()
-LowM()
-LowSession()
-LowW()
-LowY()
-LPBOOL
-LPBYTE
-LPDOUBLE
-LPDWORD
-LPFLOAT
-LPINT
-LPLONG
-LPSTR
-LPWORD
-LRO()
-LTD
-LWAccDis()
-MACD()
-Magenta
-MakeNewMovieRef
-MAMA()
-MamaBase()
-Margin
-Market
-MarketDataStateUpdatedEventArgs
-MarketDepth
-MarketDepthLevels
-MarketDepthProvider
-MarketDepthUpdatedEventArgs
-MarketIfTouchedOrder()
-MarketOrder()
-MarketParticipant
-MarketParticipants
-MarketPosition
-MarketQuote
-MarketQuotes
-MarketSecurity
-Maroon
-MassIndex()
-MaxBarsBack
-MaxBarsForward
-MaxConsecLosers
-MaxConsecWinners
-MaxContractProfit
-MaxContracts
-MaxContractsHeld
-MaxEntries
-MAXGAIN
-MaxIDDrawDown
-MaxList
-MaxList2
-MAXLOSS
-MaxPositionLoss
-MaxPositionProfit
-MaxShares
-MaxSharesHeld
-McClellanOsc()
-Median()
-MedianArray()
-MedianPrice()
-MEDIUM
-MediumAquamarine
-MediumBlue
-MediumOrchid
-MediumPurple
-MediumSeaGreen
-MediumSlateBlue
-MediumSpringGreen
-MediumTurquoise
-MediumVioletRed
-MenuItem
-MenuItemCollection
-MessageLog
-MFI()
-MidnightBlue
-MidPoint()
-MidStr
-MilliSecondsFromDateTime
-MinList
-MinList2
-MinMove
-MintCream
-MinutesFromDateTime
-MinutesIntoWeek()
-MinutesToTime()
-MistyRose
-MIVONASK
-MIVONBID
-MIVONCLOSE
-MIVONRAWASK
-MIVONRAWBID
-Moc
-Moccasin
-Mod
-Mode()
-ModeArray()
-MODELPOSITION
-MODELPRICE
-MODELRATE
-MODELRATE2
-MODELVOLATILITY
-Momentum()
-Monday
-MoneyFlow()
-MoneyMgtStopAmt
-Month
-MonthFromDateTime
-MouseEventArgs
-MRO()
-MULTIPLE
-MyColors()
-MyPrice()
-MYSELF
-NameValueCollection
-NavajoWhite
-Navy
-Neg
-Net_Profit_Margin
-NetProfit
-NetworkCredential
-NewLine
-News
-NewsAuthor
-NewsAuthors
-NewsContent
-NewsCount
-NewsFeed
-NewsFeeds
-NewsItem
-NewsProvider
-NewsUpdatedEventArgs
-Next
-Next3rdFriday()
-NoPlot
-NormCumDensity()
-NormCumDensityArray()
-NormDensity()
-NormDensityArray()
-NormGradientColor()
-NormSCDensity()
-Notification
-NRBar()
-NthExtremes()
-NthExtremesArray()
-NthHighest()
-NthHighestArray()
-NthHighestBar()
-NthLowest()
-NthLowestArray()
-NthLowestBar()
-NthMaxList
-NthMinList
-NumDecimals()
-Numeric
-NumericArray
-NumericArrayRef
-NumericRank()
-NumericRankArray()
-NumericRef
-NumericSeries
-NumericSimple
-NumericUpDown
-NumEvenTrades
-NUMFUTURES
-NUMLEGS
-NumLosTrades
-NUMOPTIONS
-NumToStr
-NumUnits()
-NumWinTrades
-NVI()
-Object
-OBV()
-OBVCustom()
-OCOOrderTicket
-OHLCPeriodsAgo()
-OHLCVCollection()
-OldLace
-Olive
-OliveDrab
-Once
-OneAlert()
-Open
-OpenD()
-OpenFileDialog
-OpenInt
-OpenM()
-OpenPositionProfit
-OpenSession()
-OpenW()
-OpenY()
-OPTION
-OptionChain
-OptionChainProvider
-OptionChainUpdatedEventArgs
-OptionComplex()
-OptionPrice()
-OptionsComplex()
-OptionSecurity
-OPTIONTYPE
-Orange
-OrangeRed
-Orchid
-Order
-OrderDuration
-OrderElementMoveEventArgs
-OrderEntryPreferences
-OrderFields
-Orders
-OrdersProvider
-OrderTemplate
-OrderTemplateEditor
-OrderTemplateInfo
-OrderTemplateInfoList
-OrderTicket
-OrderTicketBase
-OrderTicketBaseCollection
-OrderTickets
-OrderUpdatedEventArgs
-OrderVisualElement
-OS_AnnualDividend()
-OS_Binomial()
-OS_CheckProx()
-OS_DaysToExp()
-OS_DaysToFarExp()
-OS_DaysToNearExp()
-OS_DivsBetweenDates()
-OS_FindCall()
-OS_FindPut()
-OS_FindSeries()
-OS_FracDaysToExp()
-OS_GrossIn()
-OS_GrossOut()
-OS_Intrinsic()
-OS_MaxNumStrikes()
-OSOOrderTicket
-OutsideBar()
-Over
-Padding
-Pager_DefaultName
-Pager_Send
-PaleGoldenrod
-PaleGreen
-PaleTurquoise
-PaleVioletRed
-Panel
-PapayaWhip
-Parabolic()
-ParabolicCustom()
-ParabolicSAR()
-PartialFillInfo
-PartialFillInfoCollection
-Partner
-PartSessionCountDay()
-PeachPuff
-Pennant()
-PERatio
-PercentChange()
-Percentile()
-PercentileArray()
-PercentProfit
-PercentR()
-PercentRank()
-PercentRankArray()
-Permutation()
-Peru
-PFE()
-Pink
-Pivot()
-PivotHighVS()
-PivotHighVSBar()
-PivotLowVS()
-PivotLowVSBar()
-PivotReversalGen()
-PlaceOrder()
-Platform
-PlatformClientHost
-PlayMovieChain
-PlaySound
-Plot
-PlotClickEventArgs
-PlotPaintBar
-PlotPB
-PlotVisualElement
-Plum
-PM_GetCellValue
-PM_GetNumColumns
-PM_GetRowHeight
-PM_High
-PM_Low
-PM_SetCellValue
-PM_SetHigh
-PM_SetLow
-PM_SetNumColumns
-PM_SetRowHeight
-Pob
-Point
-POINTER
-PointValue
-PopUpConfiguration
-PortfolioHost
-PortfolioState
-Pos
-POSITION
-PositionFields
-POSITIONID
-PositionProfit
-PositionProfitCustom()
-Positions
-PositionsProvider
-POSITIONSTATUS
-PositionUpdatedEventArgs
-PowderBlue
-Power
-PreDeleteElementEventArgs
-PreShowElementMenuEventArgs
-PrevClose
-PrevOpenInt
-PrevVolume
-Price_To_Book
-PriceActivationRule
-PriceAlert
-PriceOscillator()
-PriceScale
-PriceSeries
-PriceSeriesProvider
-PriceSeriesUpdatedEventArgs
-PriceVolTrend()
-Print
-Printer
-ProbAbove()
-ProbBelow()
-ProbBetween()
-Product
-PROFIT
-ProfitCF
-ProfitTargetStop
-ProgressBar
-PROTECTIVE
-Psych()
-Purple
-PUT
-PUTCOUNT
-PUTITMCOUNT
-PutOpenInt
-PUTOTMCOUNT
-PUTSERIESCOUNT
-PUTSTRIKECOUNT
-PutVolume
-PVI()
-q_Ask
-q_AskExchange
-q_AskSize
-q_Bid
-q_BidExchange
-q_BidSize
-q_BigPointValue
-q_CallOpenInt
-q_CallVolume
-q_Category
-q_Close
-q_DailyLimit
-q_Date
-q_DateEX
-q_DateLastAsk
-q_DateLastAskEX
-q_DateLastBid
-q_DateLastBidEX
-q_DateLastTrade
-q_DateLastTradeEX
-q_DownVolume
-q_ExchangeListed
-q_ExpirationDate
-q_ExpirationDateEX
-q_High
-q_IVolatlity
-q_Last
-q_LastTradingDate
-q_LastTradingDateEX
-q_Low
-q_Margin
-q_MinMove
-q_MinutesDelayed
-q_NewsCount
-q_NumOptions
-q_Offer
-q_Open
-q_OpenInterest
-q_OptionType
-q_PreviousClose
-q_PreviousDate
-q_PreviousOpenInterest
-q_PreviousTime
-q_PreviousVolume
-q_PrevTotalVolume
-q_PutOpenInt
-q_PutVolume
-q_StrikePrice
-q_Time
-q_TimeEX
-q_TimeLastAsk
-q_TimeLastAskEX
-q_TimeLastBid
-q_TimeLastBidEX
-q_TimeLastTrade
-q_TimeLastTradeEX
-q_TotalVolume
-q_TradeVolume
-q_UnchangedVolume
-q_UpVolume
-q_Yield
-QQE()
-Quartile()
-QuartileArray()
-Queue
-Quick_Ratio
-Quote
-QuoteConditions
-QuoteFields
-QuoteFieldValue()
-Quotes
-QuotesProvider
-QuoteUpdatedEventArgs
-RadarScreenHost
-RadioButton
-RaiseRunTimeError
-Random
-Range()
-RangeLeader()
-Ranking
-RateOfChange()
-RAWASK
-RAWBID
-RCI()
-RealizedTradeSummaries
-RealizedTradeSummary
-RecentOcc()
-Rectangle
-Red
-ReferenceEquals()
-Region
-REGULARSESSION
-Repeat
-ReplaceTicket
-Ret_On_Avg_Equity
-RevSize
-RGB
-RGBToLegacyColor
-RHO
-RichTextBox
-RightSide
-RightStr
-RosyBrown
-Round
-Round2Fraction()
-RowStyle
-RoyalBlue
-RS_Average()
-RS_BarsPerDay()
-RS_DailyDataArray()
-RS_Extremes()
-RS_PriceExtension()
-RS_ReversalPatterns()
-RS_TrueExtremes()
-RSI()
-RSIJP()
-RSquare()
-RSquareArray()
-RSSNews
-RSSProvider
-RunCommand
-RunCommandOnLastBar()
-SaddleBrown
-Salmon
-SandyBrown
-Saturday
-SaveFileDialogl
-Screen
-SDECOMMENTARY
-SeaGreen
-Seashell
-SecondsFromDateTime
-SecondsIntoWeek()
-Sell
-SellShort
-SemiStandardDev()
-SemiVariancePS()
-SeriesCollection
-SERIESCOUNT
-Sess1EndTime
-Sess1FirstBarTime
-Sess1StartTime
-Sess2EndTime
-Sess2FirstBarTime
-Sess2StartTime
-SessionCount
-SessionCountDay()
-SessionCountMS
-SessionEndDay
-SessionEndDayMS
-SessionEndTime
-SessionEndTimeMS
-SessionFirstBarTime()
-SessionStartDay
-SessionStartDayMS
-SessionStartTime
-SessionStartTimeMS
-SetAllOrNone
-SetBreakEven
-SetBuyMinusSellPlus
-SetDiscretion
-SetDollarTrailing
-SetExitOnClose
-SetFPCompareAccuracy
-SetNonDisplay
-SetNOW
-SetPeg
-SetPercentTrailing
-SetPlotBGColor
-SetPlotColor
-SetPlotType
-SetPlotWidth
-SetProfitTarget
-SetRoute
-SetShaveImprove
-SetShowOnly
-SetStopContract
-SetStopLoss
-SetStopPosition
-SetStopShare
-SetSubscriberOnly
-Settlement
-SGA_Exp_By_NetSales
-Share
-Shares
-SharesOut
-Sheet
-Short
-ShortRollAdj
-ShowLongStop()
-ShowShortStop()
-SICCode
-Sienna
-Sign
-Signal
-SignalList
-Silver
-Sine
-Size
-SizeF
-Skew()
-SkewArray()
-SkewOpt()
-Skip
-SkyBlue
-SlateBlue
-SlateGray
-Slider
-Slippage
-SlowD()
-SlowDCustom()
-SlowDCustomOrig()
-SlowK()
-SlowKCustom()
-SlowKCustomOrig()
-SmoothedAverage()
-SnapFundExists
-Snow
-Solid
-Sort2DArray()
-SortArray()
-SortHeap2DArray()
-SortHeapArray()
-SoundConfiguration
-Spaces
-SpringGreen
-Square
-SquareRoot
-Stack
-StandardDev()
-StandardDevAnnual()
-StandardDevArray()
-Standardize()
-StandardizeArray()
-StartDate
-StateChangedEventArgs
-stAutoSession
-StdDev()
-StdDevS()
-StdError()
-StdErrorArray()
-StdErrorArray2()
-SteelBlue
-Stochastic()
-StochasticExp()
-StockSplit
-StockSplitCount
-StockSplitDate
-StockSplitTime
-Stop
-StopLimitOrder()
-StopMarketOrder()
-StopWatch
-strategy
-StrategyAutomation
-StrategyBacktesting
-StrategyFillOrderEventArgs
-StrategyGroupState
-StrategyHost
-StrategyList
-StrategyNewOrderEventArgs
-StrColorToNum()
-StreamReader
-StreamWriter
-stRegularSession
-STRIKE
-STRIKECOUNT
-STRIKEITMCOUNT
-STRIKEOTCOUNT
-String
-StringArray
-StringArrayRef
-StringRef
-StringSeries
-StringSimple
-StringToDate
-StringToDateTime
-StringToTime
-StrLen
-StrToNum
-StyleType
-SumList
-Summation()
-SummationArray()
-SummationFC()
-SummationIf()
-SummationRecArray()
-SummationSqrArray()
-Sunday
-SwingHigh()
-SwingHighBar()
-SwingIndex()
-SwingLow()
-SwingLowBar()
-Switch
-Symbol
-SymbolAttributes
-SymbolAttributesProvider
-SymbolAttributesUpdatedEventsArgs
-SymbolContext
-SymbolLinking
-SymbolLinkingEventsArgs
-SymbolList
-SymbolListCollection
-SymbolListDialog
-SymbolListItem
-SymbolListsProvider
-SymbolListUpdatedEventArgsr
-SymbolLookupDialog
-SymbolName
-SymbolRoot
-SymbolsCollection
-SymbolSession
-SymbolSessions
-SystemColors
-SystemException
-TabControl
-TabControlEventArgs
-TableLayotColumnStyleCollection
-TableLayoutControlCollection
-TableLayoutPanel
-TableLayoutRowStyleCollection
-TableLayoutStyle
-TabPage
-Tan
-Tangent
-TARGET
-TARGETTYPE
-Teal
-TEMA()
-Text
-Text_Delete
-Text_Exist()
-Text_Float()
-Text_GetActive
-Text_GetColor
-Text_GetDate
-Text_GetFirst
-Text_GetHStyle
-Text_GetNext
-Text_GetString
-Text_GetTime
-Text_GetValue
-Text_GetVStyle
-Text_New
-Text_SetColor
-Text_SetLocation
-Text_SetString
-Text_SetStyle
-TextBox
-TextLabel
-THEORETICALGROSSIN
-THEORETICALGROSSOUT
-THEORETICALVALUE
-THETA
-Theta
-This
-Thistle
-Thursday
-Ticks
-TICKTYPE
-Time
-TimeAlert
-TimeAndSalesItem
-TimeAndSalesProvider
-TimeAndSalesUpdatedEventsArgs
-Timer
-TimeSeriesForecast()
-TimeSpan
-TimeToMinutes()
-TimeToString
-TL_Delete
-TL_Exist()
-TL_GetActive
-TL_GetAlert
-TL_GetBeginDate
-TL_GetBeginTime
-TL_GetBeginVal
-TL_GetColor
-TL_GetEndDate
-TL_GetEndTime
-TL_GetEndVal
-TL_GetExtLeft
-TL_GetExtRight
-TL_GetFirst
-TL_GetNext
-TL_GetSize
-TL_GetStyle
-TL_GetValue
-TL_New
-TL_SetAlert
-TL_SetBegin
-TL_SetColor
-TL_SetEnd
-TL_SetExtLeft
-TL_SetExtRight
-TL_SetSize
-TL_SetStyle
-TLAngle()
-TLAngleEasy()
-TLSlope()
-TLSlopeEasy()
-TLValue()
-TLValueEasy()
-Today
-TokenList
-Tomato
-Tomorrow
-Tool_Black
-Tool_Blue
-Tool_Cyan
-Tool_DarkBlue
-Tool_DarkBrown
-Tool_DarkCyan
-Tool_DarkGray
-Tool_DarkGreen
-Tool_DarkMagenta
-Tool_DarkRed
-Tool_DarkYellow
-Tool_Dashed
-Tool_Dashed2
-Tool_Dashed3
-Tool_Dotted
-Tool_Green
-Tool_LightGray
-Tool_Magenta
-Tool_Red
-Tool_Solid
-Tool_White
-Tool_Yellow
-ToString()
-Total
-TotalBarsEvenTrades
-TotalBarsLosTrades
-TotalBarsWinTrades
-TotalTrades
-TradeDate
-TradeDateEX
-TradeDirectionSeries
-TradeExch
-TradeTime
-TradeTimeEX
-TradeVolume
-TradingStateUpdatedEventArgs
-TrailingStopAmt
-TrailingStopFloor
-TrailingStopOrder()
-TrailingStopPct
-TrendLine
-TriAverage()
-TriAverage_Gen()
-TrimMean()
-TrimMeanArray()
-TRIX()
-TrueFalse
-TrueFalseArray
-TrueFalseArrayRef
-TrueFalseRef
-TrueFalseSeries
-TrueFalseSimple
-TrueHigh()
-TrueLow()
-TrueRange()
-TrueRangeCustom()
-TSColors
-tsdata
-TSI()
-TSLocale
-TtlDbt_By_NetAssts
-Tuesday
-Turquoise
-TypicalPrice()
-UlcerIndex()
-UltimateOscillator()
-Under
-Underlying
-UnionSess1EndTime
-UnionSess1FirstBar
-UnionSess1StartTime
-UnionSess2EndTime
-UnionSess2FirstBar
-UnionSess2StartTime
-Units
-UnrealizedTradeSummaries
-UnrealizedTradeSummary
-UNSIGNED
-Until
-UpColorDefault()
-UpdateEventArgs
-UploadDataCompletedEventArgs
-UploadStringCompletedEventArgs
-UpperStr
-UpTicks
-Uri
-Value
-Variables
-VarianceArray()
-VariancePS()
-VARSIZE
-VARSTARTADDR
-Vector
-VEGA
-Vega
-VerticalLine
-VerticalStyle
-VHF()
-Violet
-VisualConfiguration
-VisualElement
-VOID
-Volatility()
-VolatilityStdDev()
-Volume
-Volume Ratio JP()
-VolumeDay()
-VolumeMonth()
-VolumeOsc()
-VolumeROC()
-VolumeSession()
-VolumeWeek()
-VolumeYear()
-VSBCOMMENTARY
-vStyle
-VWAP
-WAverage()
-WebBrowser
-WebBrowserDocumentCompetedEventArgs
-WebBrowserNavigatedEventArgs
-WebBrowserNavigatingEventArgs
-WebBrowserProgressChangedEventArgs
-WebClient
-WebHeaderCollection
-WebView2
-WebView2CoreWebView2InitializationCompletedEventArgs
-WebView2NavigationCompletedEventArgs
-WebView2SourceChangedEventArgs
-Wednesday
-WeightedClose()
-Wheat
-White
-WhiteSmoke
-Window
-WORD
-Workbook
-XAverage()
-XAverageOrig()
-XmlAttribute
-XmlAttributeCollection
-XmlCDataSection
-XmlCharacterData
-XmlCollection
-XmlComment
-XmlDeclaration
-XmlDocument
-XmlDocumentType
-XmlElement
-XmlNode
-XmlNodeList
-XmlProcessingInstruction
-XmlText
-XmlWhiteSpace
-XYPoint
-Year
-YearFromDateTime
-Yellow
-YellowGreen
-Yesterday
-ZProb()
-FALSE
-TRUE
+AB_AddCellRange:function
+AB_AverageCells:function
+AB_AveragePrice:function
+AB_CellCount:function
+AB_Median:function
+AB_Mode:function
+AB_NextColor:function
+AB_NextLabel:function
+AB_RowHeightCalc:function
+AB_StdDev:function
+AbsoluteBreadth:function
+AccumDist:function
+AccumSwingIndex:function
+AdaptiveMovAvg:function
+AdvanceDeclineDiff:function
+AdvanceDeclineRatio:function
+ADX:function
+ADXCustom:function
+ADXR:function
+ADXRCustom:function
+ArmsIndex:function
+Aroon:function
+AroonDown:function
+AroonOsc:function
+AroonUp:function
+Average:function
+AverageArray:function
+AverageFC:function
+AvgDeviation:function
+AvgDeviationArray:function
+AvgPrice:function
+AvgTrueRange:function
+BarAnnualization:function
+BarNumber:function
+BearishDivergence:function
+BjerkStensCall:function
+BjerkStensPhi:function
+BlackModel:function
+BlackScholes:function
+BollingerBand:function
+BullishDivergence:function
+C_3WhSolds_3BlkCrows:function
+C_AbandonedBaby:function
+C_AbandonedBabyBottom:function
+C_AbandonedBabyTop:function
+C_AdvanceBlock:function
+C_BullEng_BearEng:function
+C_BullHar_BearHar:function
+C_Doji:function
+C_Hammer_HangingMan:function
+C_HaramiCross:function
+C_InvertHammer:function
+C_Kicking:function
+C_Marubozu:function
+C_MarubozuBlackOpening:function
+C_MarubozuWhiteOpening:function
+C_MeetingLines:function
+C_MornDoji_EveDoji:function
+C_MornStar_EveStar:function
+C_PierceLine_DkCloud:function
+C_ShootingStar:function
+C_TasukiGap:function
+C_TasukiGapDownside:function
+C_TasukiGapUpside:function
+C_ThreeMethods:function
+C_ThreeMethodsFalling:function
+C_ThreeMethodsRising:function
+C_ThreeStarsInTheSouth:function
+C_TriStar:function
+CalcDate:function
+CalcTime:function
+CCI:function
+CCICustom:function
+ChaikinMoneyFlow:function
+ChaikinOsc:function
+ChaikinVolatility:function
+CloseD:function
+CloseM:function
+CloseSession:function
+CloseW:function
+CloseY:function
+CMO:function
+CoefficientR:function
+CoefficientRArray:function
+CoefficientREasy:function
+Combination:function
+CopyArray:function
+CopyColumn:function
+Correlation:function
+CorrelationArray:function
+CountIF:function
+Covar:function
+CovarArray:function
+CovarEasy:function
+CSI:function
+Cum:function
+CurrentAsk:function
+CurrentBid:function
+CurrentSession:function
+CurrentSessionMS:function
+DailyLosers:function
+DailyWinners:function
+DaysToExpiration:function
+DEMA:function
+Detrend:function
+DevSqrd:function
+DevSqrdArray:function
+DirMovement:function
+Disparity:function
+Divergence:function
+DMI:function
+DMICustom:function
+DMIMinus:function
+DMIMinusCustom:function
+DMIPlus:function
+DMIPlusCustom:function
+DownColorDefault:function
+EaseOfMovement:function
+ELDate:function
+ELDate_Consol:function
+ELDateToString:function
+EntriesToday:function
+ExitsToday:function
+ExtremePriceRatio:function
+Extremes:function
+ExtremesArray:function
+ExtremesFC:function
+Factorial:function
+FAMA:function
+FastD:function
+FastDCustom:function
+FastDCustomOrig:function
+FastHighestBar:function
+FastK:function
+FastKCustom:function
+FastKCustomEasy:function
+FastKCustomOrig:function
+FastLowestBar:function
+FindBar:function
+FirstSession:function
+FirstSessionMS:function
+Fisher:function
+FisherINV:function
+FundBoolean:function
+FundDate:function
+FundPeriodEndDate:function
+FundSetup:function
+FundString:function
+FundValue:function
+FundValueTTM:function
+GCD:function
+GenerateStrike:function
+GetRGBValues:function
+HarmonicMean:function
+HarmonicMeanArray:function
+HeapPush:function
+HeapPush2D:function
+HeapSift:function
+HeapSift2D:function
+HighD:function
+Highest:function
+HighestArray:function
+HighestBar:function
+HighestFC:function
+HighM:function
+HighSession:function
+HighW:function
+HighY:function
+HMA:function
+HPI:function
+IFF:function
+IFFLogic:function
+IFFString:function
+ImpliedVolatility:function
+ImpliedVolatilityEx:function
+InfoBox:function
+InsideBar:function
+Intrinsic:function
+KeltnerChannel:function
+Kurtosis:function
+KurtosisArray:function
+KurtosisOpt:function
+LastBarOnChart:function
+LastBarOnChartEx:function
+LastCalcDate:function
+LastCalcTime:function
+LastDayOfMonth:function
+LastHour:function
+LastSession:function
+LastSessionMS:function
+Leader:function
+LimitIfTouchedOrder:function
+LimitOrder:function
+LinearReg:function
+LinearRegAngle:function
+LinearRegAngleFC:function
+LinearRegFC:function
+LinearRegSlope:function
+LinearRegSlopeFC:function
+LinearRegValue:function
+LinearRegValueFC:function
+LinRegAngleArray:function
+LinRegAngleArray2:function
+LinRegArray:function
+LinRegArray2:function
+LinRegForecastArray:function
+LinRegForecastArray2:function
+LinRegIntercepArray2:function
+LinRegInterceptArray:function
+LinRegSlopeArray:function
+LinRegSlopeArray2:function
+LogXY:function
+LowD:function
+Lowest:function
+LowestArray:function
+LowestBar:function
+LowestFC:function
+LowM:function
+LowSession:function
+LowW:function
+LowY:function
+LRO:function
+LWAccDis:function
+MACD:function
+MAMA:function
+MamaBase:function
+MarketIfTouchedOrder:function
+MarketOrder:function
+MassIndex:function
+McClellanOsc:function
+Median:function
+MedianArray:function
+MedianPrice:function
+MFI:function
+MidPoint:function
+MinutesIntoWeek:function
+MinutesToTime:function
+Mode:function
+ModeArray:function
+Momentum:function
+MoneyFlow:function
+MRO:function
+MyColors:function
+MyPrice:function
+Next3rdFriday:function
+NormCumDensity:function
+NormCumDensityArray:function
+NormDensity:function
+NormDensityArray:function
+NormGradientColor:function
+NormSCDensity:function
+NRBar:function
+NthExtremes:function
+NthExtremesArray:function
+NthHighest:function
+NthHighestArray:function
+NthHighestBar:function
+NthLowest:function
+NthLowestArray:function
+NthLowestBar:function
+NumDecimals:function
+NumericRank:function
+NumericRankArray:function
+NumUnits:function
+NVI:function
+OBV:function
+OBVCustom:function
+OHLCPeriodsAgo:function
+OHLCVCollection:function
+OneAlert:function
+OpenD:function
+OpenM:function
+OpenSession:function
+OpenW:function
+OpenY:function
+OptionPrice:function
+OptionsComplex:function
+OS_AnnualDividend:function
+OS_Binomial:function
+OS_CheckProx:function
+OS_DaysToExp:function
+OS_DaysToFarExp:function
+OS_DaysToNearExp:function
+OS_DivsBetweenDates:function
+OS_FindCall:function
+OS_FindPut:function
+OS_FindSeries:function
+OS_FracDaysToExp:function
+OS_GrossIn:function
+OS_GrossOut:function
+OS_Intrinsic:function
+OS_MaxNumStrikes:function
+OutsideBar:function
+Parabolic:function
+ParabolicCustom:function
+ParabolicSAR:function
+PartSessionCountDay:function
+Pennant:function
+PercentChange:function
+Percentile:function
+PercentileArray:function
+PercentR:function
+PercentRank:function
+PercentRankArray:function
+Permutation:function
+PFE:function
+Pivot:function
+PivotHighVS:function
+PivotHighVSBar:function
+PivotLowVS:function
+PivotLowVSBar:function
+PivotReversalGen:function
+PlaceOrder:function
+PositionProfitCustom:function
+PriceOscillator:function
+PriceVolTrend:function
+ProbAbove:function
+ProbBelow:function
+ProbBetween:function
+Psych:function
+PVI:function
+QQE:function
+Quartile:function
+QuartileArray:function
+QuoteFieldValue:function
+Range:function
+RangeLeader:function
+RateOfChange:function
+RCI:function
+RecentOcc:function
+Round2Fraction:function
+RS_Average:function
+RS_BarsPerDay:function
+RS_DailyDataArray:function
+RS_Extremes:function
+RS_PriceExtension:function
+RS_ReversalPatterns:function
+RS_TrueExtremes:function
+RSI:function
+RSIJP:function
+RSquare:function
+RSquareArray:function
+RunCommandOnLastBar:function
+SecondsIntoWeek:function
+SemiStandardDev:function
+SemiVariancePS:function
+SessionCountDay:function
+SessionFirstBarTime:function
+ShowLongStop:function
+ShowShortStop:function
+Skew:function
+SkewArray:function
+SkewOpt:function
+SlowD:function
+SlowDCustom:function
+SlowDCustomOrig:function
+SlowK:function
+SlowKCustom:function
+SlowKCustomOrig:function
+SmoothedAverage:function
+Sort2DArray:function
+SortArray:function
+SortHeap2DArray:function
+SortHeapArray:function
+StandardDev:function
+StandardDevAnnual:function
+StandardDevArray:function
+Standardize:function
+StandardizeArray:function
+StdDev:function
+StdDevS:function
+StdError:function
+StdErrorArray:function
+StdErrorArray2:function
+Stochastic:function
+StochasticExp:function
+StopLimitOrder:function
+StopMarketOrder:function
+StrColorToNum:function
+Summation:function
+SummationArray:function
+SummationFC:function
+SummationIf:function
+SummationRecArray:function
+SummationSqrArray:function
+SwingHigh:function
+SwingHighBar:function
+SwingIndex:function
+SwingLow:function
+SwingLowBar:function
+TEMA:function
+Text_Exist:function
+Text_Float:function
+TimeSeriesForecast:function
+TimeToMinutes:function
+TL_Exist:function
+TLAngle:function
+TLAngleEasy:function
+TLSlope:function
+TLSlopeEasy:function
+TLValue:function
+TLValueEasy:function
+TrailingStopOrder:function
+TriAverage:function
+TriAverage_Gen:function
+TrimMean:function
+TrimMeanArray:function
+TRIX:function
+TrueHigh:function
+TrueLow:function
+TrueRange:function
+TrueRangeCustom:function
+TSI:function
+TypicalPrice:function
+UlcerIndex:function
+UltimateOscillator:function
+UpColorDefault:function
+VarianceArray:function
+VariancePS:function
+VHF:function
+Volatility:function
+VolatilityStdDev:function
+Volume Ratio JP:function
+VolumeDay:function
+VolumeMonth:function
+VolumeOsc:function
+VolumeROC:function
+VolumeSession:function
+VolumeWeek:function
+VolumeYear:function
+WAverage:function
+WeightedClose:function
+XAverage:function
+XAverageOrig:function
+ZProb:function
+
+AccountsProvider:class
+CustomBarSeriesProvider:class
+DataProvider:class
+ExtendedDataProvider:class
+FundamentalQuotesProvider:class
+MarketDepthProvider:class
+NewsProvider:class
+OptionChainProvider:class
+OrdersProvider:class
+PositionsProvider:class
+QuotesProvider:class
+PriceSeriesProvider:class
+RSSProvider:class
+SymbolAttributesProvider:class
+SymbolListsProvider:class
+TimeAndSalesProvider:class
+GenericRequestProvider:class
+ActivationRules:class
+BracketOrderTicket:class
+OCOOrderTicket:class
+OSOOrderTicket:class
+OrderTemplateInfoList:class
+OrderTicket:class
+OrderTickets:class
+PriceActivationRule:class
+ReplaceTicket:class
+ChartingHost:class
+Host:class
+PlatformClientHost:class
+PortfolioHost:class
+RadarScreenHost:class
+StrategyHost:class
+Alarm:class_el
+GlobalValue:class
+Timer:class
+Platform:class
+Workbook:class
+Dictionary:class
+GlobalDictionary:class
+Queue:class
+Stack:class
+Vector:class
+Account:class
+Accounts:class
+AccountFields:class
+AccountUpdatedEventArgs:class
+ActiveAccountChangedEventArgs:class
+ActivationRuleCollection:class
+AddEventArgs:class
+AggregateMarketQuote:class
+AggregateMarketQuotes:class
+AlertConfiguration:class
+AlarmEventArgs:class
+AnalysisTechnique:class
+BackgroundVisualElement:class
+BarVisualElement:class
+CellClickEven:class
+ChartControlEven:class
+ChartElementClickEven:class
+ChartVisualElement:class
+ChartWindow:class
+ClickEventArgs:class
+ConnectionStatus:class
+CustomBarSeries:class
+CustomBarSeriesUpdatedEventArgs:class
+DataStream:class
+DataStreams:class
+DateTime:class
+DialogActionCompletedEventArgs:class
+DialogStatusChangedEventArgs:class
+DoubleSeries:class
+DrawingObjectVisualElement:class
+ElementSelectedEven:class
+Environment:class
+ExtendedDataRow:class
+ExtendedDataTable:class
+ExtendedDataUpdatedEventArgs:class
+FormatStyle:class
+FundamentalFields:class
+FundamentalQuote:class
+FundamentalQuotes:class
+FundamentalQuoteUpdatedEventArgs:class
+GenericRequestUpdatedEventArgs:class
+GenericResponse:class
+ItemProcessedEventArgs:class
+Leg:class
+ListOfFieldIds:class
+MarketDataStateUpdatedEventArgs:class
+MarketDepth:class
+MarketDepthLevels:class
+MarketDepthUpdatedEventArgs:class
+MarketParticipant:class
+MarketParticipants:class
+MarketQuote:class
+MarketQuotes:class
+MarketSecurity:class
+News:class
+NewsAuthor:class
+NewsAuthors:class
+NewsContent:class
+NewsFeed:class
+NewsFeeds:class
+NewsItem:class
+NewsUpdatedEventArgs:class
+OptionChain:class
+OptionChainUpdatedEventArgs:class
+OptionSecurity:class
+Order:class
+OrderElementMoveEven:class
+OrderEntryPreferences:class
+Orders:class
+OrderDuration:class
+OrderFields:class
+OrderTemplate:class
+OrderTemplateEditor:class
+OrderTemplateInfo:class
+OrderTicketBase:class
+OrderTicketBaseCollection:class
+OrderUpdatedEventArgs:class
+OrderVisualElement:class
+PartialFillInfo:class
+PartialFillInfoCollection:class
+PlotClickEven:class
+PlotVisualElement:class
+PortfolioState:class
+Position:class
+PositionFields:class
+Positions:class
+PositionUpdatedEventArgs:class
+PreDeleteElementEven:args
+PreShowElementMenuEven:args
+PriceSeries:class
+PriceSeriesUpdatedEventArgs:class
+Quote:class
+QuoteConditions:class
+Quotes:class
+QuoteFields:class
+QuoteUpdatedEventArgs:class
+Ranking:class
+RealizedTradeSummaries:class
+RealizedTradeSummary:class
+RSSNews:class
+Sheet:class
+SignalList:class
+StateChangedEventArgs:class
+StopWatch:class
+StrategyGroupState:class
+StreamReader:class
+StreamWriter:class
+SymbolAttributes:class
+SymbolAttributesUpdatedEventsArgs:class
+SymbolContext:class
+SymbolLinking:class
+SymbolLinkingEventsArgs:class
+SymbolList:class
+SymbolListItem:class
+SymbolListCollection:class
+SymbolListUpdatedEventArgsr:class
+SymbolsCollection:class
+SymbolSession:class
+SymbolSessions:class
+TabControlEventArgs:class
+TimeAndSalesItem:class
+TimeAndSalesUpdatedEventsArgs:class
+TimeSpan:class
+TokenList:class
+TradingStateUpdatedEventArgs:class
+TSColors:class
+TSLocale:class
+UnrealizedTradeSummaries:class
+UnrealizedTradeSummary:class
+VisualElement:class
+WebBrowserDocumentCompetedEventArgs:class
+WebBrowserNavigatedEventArgs:class
+WebBrowserNavigatingEventArgs:class
+WebBrowserProgressChangedEventArgs:class
+Window:class
+XmlAttribute:class
+XmlAttributeCollection:class
+XmlCDataSection:class
+XmlCharacterData:class
+XmlCollection:class
+XmlComment:class
+XmlDeclaration:class
+XmlDocument:class
+XmlDocumentType:class
+XmlElement:class
+XmlNode:class
+XmlNodeList:class
+XmlProcessingInstruction:class
+XmlText:class
+XmlWhiteSpace:class
+AnalysisTechnique:class_el
+DotNetElComponent:class_el
+DotNetObject:class_el
+ELComponent:class_el
+ELEnum:class_el
+ELString:class_el
+ElWFComponent:class_el
+EventArgs:class_el
+Object:class_el
+Partner:class_el
+SystemException:class_el
+Exception:class_el
+ValueType:class_el
+Signal:class
+SignalList:class
+Strategy:class
+StrategyAutomation:class
+StrategyBacktesting:class
+StrategyList:class
+StrategyFillOrderEventArgs:class
+StrategyNewOrderEventArgs:class
+AsyncCompletedEventArgs:class_el
+DownloadDataCompletedEventArgs:class_el
+DownloadStringCompletedEventArgs:class_el
+NameValueCollection:class_el
+NetworkCredential:class_el
+UploadDataCompletedEventArgs:class_el
+UploadStringCompletedEventArgs:class_el
+Uri:class_el
+WebClient:class_el
+WebHeaderCollection:class_el
+AddEventArgs:class
+AlertConfiguration:class
+AlertEventArgs:class
+AudibleConfiguration:class
+BNPoint:class
+Color:class_win
+DeleteEventArgs:class
+DOPoint:class
+DrawingObject:class
+DrawingObjects:class
+DrawingObjectEventArgs:class
+DrawObjects:class
+DTPoint:class
+Ellipse:class
+Font:class_win
+HorizontalLine:class
+Notification:class
+Point:class_win
+PopUpConfiguration:class
+PriceAlert:class
+Rectangle:class
+SoundConfiguration:class
+TextLabel:class
+TimeAlert:class
+TrendLine:class
+UpdateEventArgs:class
+VerticalLine:class
+VisualConfiguration:class
+XYPoint:class
+Axis:class_win
+BackgroundGradientStyle:class_win
+BorderRadius:class_win
+Button:class_win
+ButtonBase:class_win
+CancelEventArgs:class_win
+Chart:class_win
+ChartArea:class_win
+ChartArea3DStyle:class_win
+ChartAreaCollection:class_win
+ChartSeries:class_win
+CheckBox:class_win
+Color:class_win
+ColumnHeader:class_win
+ColumnHeaderCollection:class_win
+ColumnStyle:class_win
+ComboBox:class_win
+CommonDialog:class_win
+ContainerControl:class_win
+ContextMenu:class_win
+Control:class_win
+ControlCollection:class_win
+ConvertEventArgs:class_win
+Cursor:class_win
+DataGridView:class_win
+DataGridViewButtonColumn:class_win
+DataGridViewCell:class_win
+DataGridViewCellCancelEventArgs:class_win
+DataGridViewCellCollection:class_win
+DataGridViewCellEventArgs:class_win
+DataGridViewCellFormattingEventArgs:class_win
+DataGridViewCellMouseEventArgs:class_win
+DataGridViewCellParsingEventArgs:class_win
+DataGridViewCellStyle:class_win
+DataGridViewCheckBoxColumn:class_win
+DataGridViewColumn:class_win
+DataGridViewColumnCollection:class_win
+DataGridViewComboBoxCellObjectCollection:class_win
+DataGridViewComboBoxColumn:class_win
+DataGridViewDataErrorEventArgs:class_win
+DataGridViewDateTimePickerColumn:class_win
+DataGridViewEditingControlShowingEventArgs:class_win
+DataGridViewLinkColumn:class_win
+DataGridViewNumericUpDownColumn:class_win
+DataGridViewRow:class_win
+DataGridViewRowCollection:class_win
+DataGridViewSelectedCellCollection:class_win
+DataGridViewSelectedColumnCollection:class_win
+DataGridViewSelectedRowCollection:class_win
+DataGridViewSortCompareEventArgs:class_win
+DataGridViewTextBoxColumn:class_win
+DataPoint:class_win
+DataPointCollection:class_win
+DateTimePicker:class_win
+DialogStatusChangedEventArgs:class_win
+ElementPosition:class_win
+ExecuteScriptDoneEventArgs:class_win
+FastSymbolLookupComboBox:class_win
+FileDialog:class_win
+FlatButtonAppea:class_win
+Form:class_win
+FormClosedEventsArgs:class_win
+FormClosingEventsArgs:class_win
+GroupBox:class_win
+HandledEventArgs:class_win
+HTMLDocument:class_win
+IButtonControl:class_win
+Image:class_win
+KeyEventArgs:class_win
+KeyPressEventArgs:class_win
+Label:class_win
+LabelStyle:class_win
+LinkLabel:class_win
+ListView:class_win
+ListViewItem:class_win
+MenuItem:class_win
+MenuItemCollection:class_win
+MouseEventArgs:class_win
+NumericUpDown:class_win
+OpenFileDialog:class_win
+Padding:class_win
+Panel:class_win
+ProgressBar:class_win
+RadioButton:class_win
+RichTextBox:class_win
+RowStyle:class_win
+SaveFileDialogl:class_win
+SeriesCollection:class_win
+Size:class_win
+SizeF:class_win
+Slider:class_win
+SymbolListDialog:class_win
+SymbolLookupDialog:class_win
+SystemColors:class_win
+TabControl:class_win
+TableLayotColumnStyleCollection:class_win
+TableLayoutControlCollection:class_win
+TableLayoutPanel:class_win
+TableLayoutRowStyleCollection:class_win
+TableLayoutStyle:class_win
+TabPage:class_win
+TextBox:class_win
+WebBrowser:class_win
+WebBrowserDocumentCompetedEventArgs:class_win
+WebBrowserNavigatedEventArgs:class_win
+WebBrowserNavigatingEventArgs:class_win
+WebBrowserProgressChangedEventArgs:class_win
+WebView2:class_win
+WebView2CoreWebView2InitializationCompletedEventArgs:class_win
+WebView2NavigationCompletedEventArgs:class_win
+WebView2CoreWebView2InitializationCompletedEventArgs:class_win
+WebView2SourceChangedEventArgs:class_win
+WebView2CoreWebView2InitializationCompletedEventArgs:class_win
+
+AccountState:enumeration
+AccountType:enumeration
+AccountUpdateReason:enumeration
+AlertFrequency:enumeration
+AreaAlignmentOrientations:enumeration
+AreaAlignmentStyles:enumeration
+AudibleOptions:enumeration
+AutomationMode:enumeration
+AutomationType:enumeration
+AxisType:enumeration
+BorderStyle:enumeration
+BuiltInType:enumeration
+BuySellType:enumeration
+CharacterCasing:enumeration
+ChartColorPalette:enumeration
+ChartVisualElement:enumeration
+ChartVisualElementType:enumeration
+ComboBoxStyle:enumeration
+ComparisonOperator:enumeration
+ContentAlignment:enumeration
+CostType:enumeration
+Currency:enumeration
+CustomBarSeriesUpdateReason:enumeration
+DataChartType:enumeration
+DataGridViewAutoSizeColumnMode:enumeration
+DataGridViewCellBorderStyle:enumeration
+DataGridViewColumnHeadersHeightSizeMode:enumeration
+DataGridViewColumnSortMode:enumeration
+DataGridViewComboBoxDisplayStyle:enumeration
+DataGridViewContentAlignment:enumeration
+DataGridViewHeaderBorderStyle:enumeration
+DataGridViewSelectionMode:enumeration
+DataGridViewTriState:enumeration
+DataIntervalType:enumeration
+DataRangeType:enumeration
+DataState:enumeration
+DataStreamUpdateReason:enumeration
+Datatype:enumeration
+DateTimeIntervalType:enumeration
+DateTimePickerFormat:enumeration
+DialogAction:enumeration
+DialogResult:enumeration
+DockStyle:enumeration
+DOEnumerator:enumeration
+EntryExitType:enumeration
+FastSymbolLookupCategory:enumeration
+FileAccess:enumeration
+FileAttributes:enumeration
+FileMode:enumeration
+FileOptions:enumeration
+FileShare:enumeration
+FillPattern:enumeration
+FlatStyle:enumeration
+FontStyle:enumeration
+FormWindowState:enumeration
+FundamentalUpdateReason:enumeration
+GeneratingApplication:enumeration
+GenericRequestUpdateReason:enumeration
+GradientStyle:enumeration
+HorizontalStyle:enumeration
+HowLong:enumeration
+HttpRequestHeader:enumeration
+HttpResponseHeader:enumeration
+IOGType:enumeration
+ItemProcessedAction:enumeration
+Key:enumeration
+Keys:enumeration
+KnownColor:enumeration
+LimitOrderAssumption:enumeration
+LinearGradientMode:enumeration
+LogicalOperator:enumeration
+LookInsideBar:enumeration
+MarketDataConnectionState:enumeration
+MarketDepthUpdateReason:enumeration
+MarketOrderAssumption:enumeration
+MarketQuoteState:enumeration
+MarketQuoteStatus:enumeration
+MarketSide:enumeration
+MouseButton:enumeration
+NewsContentState:enumeration
+NewsFilterType:enumeration
+NewsHistoryType:enumeration
+NewsUpdateReason:enumeration
+ObjectCategory:enumeration
+OptionChainUpdateReason:enumeration
+OptionExpirationStyle:enumeration
+OptionExpirationType:enumeration
+OptionType:enumeration
+OrderAction:enumeration
+OrderActionLeg:enumeration
+OrderComparisonOperation:enumeration
+OrderLogicalOperation:enumeration
+OrderState:enumeration
+OrderStateDetail:enumeration
+OrderTemplateAction:enumeration
+OrderTemplateType:enumeration
+OrderTicketType:enumeration
+OrderTriggerType:enumeration
+OrderType:enumeration
+OrderUpdateReason:enumeration
+PegBehavior:enumeration
+PointType:enumeration
+PositionType:enumeration
+PositionUpdateReason:enumeration
+PriceCondition:enumeration
+PriceSeriesUpdateReason:enumeration
+PriceStyle:enumeration
+PyramidingType:enumeration
+QuoteUpdateReason:enumeration
+RichTextBoxStreamType:enumeration
+SecurityType:enumeration
+SeriesChartType:enumeration
+SeriesMarkerStyle:enumeration
+SizeType:enumeration
+SliderOrientation:enumeration
+Sort Order:enumeration
+StopType:enumeration
+StrategyOrderDirection:enumeration
+StrategyOrderType:enumeration
+StringComparison:enumeration
+StyleType:enumeration
+SymbolAttributesUpdateReason:enumeration
+TabControlAction:enumeration
+TableLayoutPanelGrowStyle:enumeration
+TimeAndSalesDataFilterType:enumeration
+TimeAndSalesItemTickType:enumeration
+TimeAndSalesTradeOptions:enumeration
+TimeZone:enumeration
+TradeSize:enumeration
+TradingConnectionState:enumeration
+TrailingStopBehavior:enumeration
+UpdateType:enumeration
+UriHostNameType:enumeration
+TableLayoutPanelCellBorderStyle:enumeration
+VerticalStyle:enumeration
+VerticalType:enumeration
+VisualOptions:enumeration
+WebBrowserReadyState:enumeration
+WeekDays:enumeration
+Weight:enumeration
+XmlNodeType:enumeration
+
+AB_AddCell:reserved word
+AB_GetCellChar:reserved word
+AB_GetCellColor:reserved word
+AB_GetCellDate:reserved word
+AB_GetCellTime:reserved word
+AB_GetCellValue:reserved word
+AB_GetNumCells:reserved word
+AB_GetZoneHigh:reserved word
+AB_GetZoneLow:reserved word
+AB_High:reserved word
+AB_Low:reserved word
+AB_RemoveCell:reserved word
+AB_RowHeight:reserved word
+AB_SetActiveCell:reserved word
+AB_SetRowHeight:reserved word
+AB_SetZone:reserved word
+Abort:reserved word
+Above:reserved word
+AbsValue:reserved word
+ActivityData:reserved word
+AddToMovieChain:reserved word
+Ago:reserved word
+Alert:reserved word
+AlertEnabled:reserved word
+AliceBlue:reserved word
+All:reserved word
+AntiqueWhite:reserved word
+Aqua:reserved word
+Aquamarine:reserved word
+Arctangent:reserved word
+ARGB:reserved word
+Array_Compare:reserved word
+Array_Copy:reserved word
+Array_GetMaxIndex:reserved word
+Array_GetType:reserved word
+Array_SetMaxIndex:reserved word
+Array_SetValRange:reserved word
+Array_Sort:reserved word
+Array_Sum:reserved word
+ARRAYSIZE:reserved word
+ARRAYSTARTADDR:reserved word
+ASSET:reserved word
+ASSETTYPE:reserved word
+ASSETVOLATILITY:reserved word
+AsType:reserved word
+AtCommentaryBar:reserved word
+AUTOSESSION:reserved word
+AvgBarsEvenTrade:reserved word
+AvgBarsLosTrade:reserved word
+AvgBarsWinTrade:reserved word
+AvgEntryPrice:reserved word
+AvgList:reserved word
+Azure:reserved word
+Bar:reserved word
+BarDateTime:reserved word
+BarInterval:reserved word
+Bars:reserved word
+BarsSinceEntry:reserved word
+BarsSinceExit:reserved word
+BarStatus:reserved word
+BarType:reserved word
+BaseCurrency:reserved word
+Beige:reserved word
+Below:reserved word
+Beta:reserved word
+Beta_Down:reserved word
+Beta_Up:reserved word
+Bisque:reserved word
+Black:reserved word
+BlanchedAlmond:reserved word
+BlockNumber:reserved word
+Blue:reserved word
+Blue:reserved word
+BlueViolet:reserved word
+Book_Val_Per_Share:reserved word
+BoxSize:reserved word
+BreakEvenStopFloor:reserved word
+BreakPoint:reserved word
+Brown:reserved word
+Burlywood:reserved word
+Buy:reserved word
+BuyToCover:reserved word
+CadetBlue:reserved word
+CALL:reserved word
+CALLCOUNT:reserved word
+CALLITMCOUNT:reserved word
+CallOpenInt:reserved word
+CALLOTMCOUNT:reserved word
+CALLSERIESCOUNT:reserved word
+CALLSTRIKECOUNT:reserved word
+Cancel:reserved word
+Category:reserved word
+Ceiling:reserved word
+Chartreuse:reserved word
+CheckAlert:reserved word
+CheckCommentary:reserved word
+Chocolate:reserved word
+ClearDebug:reserved word
+CLEARPRINTLOG:reserved word
+COARSE:reserved word
+Commentary:reserved word
+CommentaryCL:reserved word
+CommentaryEnabled:reserved word
+Commission:reserved word
+CommodityNumber:reserved word
+ComputerDateTime:reserved word
+Continue:reserved word
+Contract:reserved word
+ContractMonth:reserved word
+ContractProfit:reserved word
+Contracts:reserved word
+ContractSize:reserved word
+ContractYear:reserved word
+Coral:reserved word
+CornflowerBlue:reserved word
+Cornsilk:reserved word
+Cosine:reserved word
+COST:reserved word
+Cotangent:reserved word
+CreateLeg:reserved word
+Cross:reserved word
+Crosses:reserved word
+Current:reserved word
+Current_Ratio:reserved word
+CurrentBar:reserved word
+CurrentContracts:reserved word
+CurrentDate:reserved word
+CurrentEntries:reserved word
+CurrentOpenInt:reserved word
+CurrentShares:reserved word
+CurrentTime:reserved word
+CustomerID:reserved word
+Cyan:reserved word
+D:reserved word
+DailyTrades:reserved word
+DailyTradesDN:reserved word
+DailyTradesUC:reserved word
+DailyTradesUP:reserved word
+DarkBlue:reserved word
+DarkBrown:reserved word
+DarkCyan:reserved word
+DarkGoldenrod:reserved word
+DarkGray:reserved word
+DarkGreen:reserved word
+DarkKhaki:reserved word
+DarkMagenta:reserved word
+DarkOliveGreen:reserved word
+DarkOrange:reserved word
+DarkOrchid:reserved word
+DarkRed:reserved word
+DarkSalmon:reserved word
+DarkSeaGreen:reserved word
+DarkSlateBlue:reserved word
+DarkSlateGray:reserved word
+DarkTurquoise:reserved word
+DarkViolet:reserved word
+DataCompression:reserved word
+DataInUnion:reserved word
+Date:reserved word
+DateTimeToString:reserved word
+DateToJulian:reserved word
+DateToString:reserved word
+Day:reserved word
+DayFromDateTime:reserved word
+DayOfMonth:reserved word
+DayOfWeek:reserved word
+DayOfWeekFromDateTime:reserved word
+Days:reserved word
+DeepPink:reserved word
+DeepSkyBlue:reserved word
+DefineCustField:reserved word
+DEFINEDLLFUNC:reserved word
+DeliveryMonth:reserved word
+DeliveryYear:reserved word
+DELTA:reserved word
+Description:reserved word
+DimGray:reserved word
+Dividend:reserved word
+Dividend_Yield:reserved word
+DividendCount:reserved word
+DividendDate:reserved word
+DividendFreq:reserved word
+DividendTime:reserved word
+DivYield:reserved word
+DodgerBlue:reserved word
+DoubleQuote:reserved word
+DownTo:reserved word
+EasyLanguageVersion:reserved word
+EL_DateStr:reserved word
+ELDateToDateTime:reserved word
+ELTimeToDateTime:reserved word
+EncodeDate:reserved word
+EncodeTime:reserved word
+Entry:reserved word
+EntryDate:reserved word
+EntryDateTime:reserved word
+EntryPrice:reserved word
+EntryTime:reserved word
+EPS:reserved word
+EPS_PChng_Y_Ago:reserved word
+EPS_PChng_YTD:reserved word
+EPSCount:reserved word
+EPSDate:reserved word
+EPSEstimate:reserved word
+EPSTime:reserved word
+ExchListed:reserved word
+ExecOffset:reserved word
+ExitDate:reserved word
+ExitDateTime:reserved word
+ExitPrice:reserved word
+ExitTime:reserved word
+ExpDate:reserved word
+ExpDateEX:reserved word
+ExpirationDate:reserved word
+EXPIRATIONSTYLE:reserved word
+ExpStyle:reserved word
+ExpValue:reserved word
+EXTERNAL:reserved word
+File:reserved word
+FileAppend:reserved word
+FileDelete:reserved word
+FINE:reserved word
+Firebrick:reserved word
+FirstNoticeDate:reserved word
+FirstNoticeDateEX:reserved word
+FIRSTOPTION:reserved word
+Floor:reserved word
+FloralWhite:reserved word
+FND:reserved word
+FNDEX:reserved word
+ForestGreen:reserved word
+FormatDate:reserved word
+FormatTime:reserved word
+FracPortion:reserved word
+FreeCshFlwPerShare:reserved word
+Friday:reserved word
+Fuchsia:reserved word
+FUTURE:reserved word
+FUTURETYPE:reserved word
+G_Rate_EPS_NY:reserved word
+G_Rate_Nt_In_NY:reserved word
+G_Rate_P_Net_Inc:reserved word
+Gainsboro:reserved word
+GAMMA:reserved word
+GetAccount:reserved word
+GetAccountID:reserved word
+GetAccountLotSize:reserved word
+GetAccountStatus:reserved word
+GetAccountType:reserved word
+GetAllOrNone:reserved word
+GetAppInfo:reserved word
+GetBackgroundColor:reserved word
+GetBDAccountEquity:reserved word
+GetBDAccountNetWorth:reserved word
+GetBDCashBalance:reserved word
+GetBDDayTradingBuyingPower:reserved word
+GetBDMarginRequirement:reserved word
+GetBDOvernightBuyingPower:reserved word
+GetBDTradeEquity:reserved word
+GetBuyMinusSellPlus:reserved word
+GetBValue:reserved word
+GetCDRomDrive:reserved word
+GetCountry:reserved word
+GetCurrency:reserved word
+GetDiscretion:reserved word
+GetExchangeName:reserved word
+GetFundData:reserved word
+GetFundDataAsBoolean:reserved word
+GetFundDataAsString:reserved word
+GetFundPeriodEndDate:reserved word
+GetFundPostDate:reserved word
+GetGValue:reserved word
+GetLastFundDataError:reserved word
+GetNonDisplay:reserved word
+GetNOW:reserved word
+GetNumAccounts:reserved word
+GetNumPositions:reserved word
+GetOpenOrderInitialMargin:reserved word
+GetPeg:reserved word
+GetPlotBGColor:reserved word
+GetPlotColor:reserved word
+GetPlotWidth:reserved word
+GetPositionAveragePrice:reserved word
+GetPositionMarketValue:reserved word
+GetPositionOpenPL:reserved word
+GetPositionQuantity:reserved word
+GetPositionSymbol:reserved word
+GetPositionTotalCost:reserved word
+GetRTAccountEquity:reserved word
+GetRTAccountNetWorth:reserved word
+GetRTCashBalance:reserved word
+GetRTCostOfPositions:reserved word
+GetRTDaytradingBuyingPower:reserved word
+GetRTInitialMargin:reserved word
+GetRTMaintMargin:reserved word
+GetRTMarginRequirement:reserved word
+GetRTOvernightBuyingPower:reserved word
+GetRTPurchasingPower:reserved word
+GetRTRealizedPL:reserved word
+GetRTTradeEquity:reserved word
+GetRTUnrealizedPL:reserved word
+GetRValue:reserved word
+GetScreenName:reserved word
+GetShaveImprove:reserved word
+GetShowOnly:reserved word
+GetStrategyName:reserved word
+GetSubscriberOnly:reserved word
+GetSymbolName:reserved word
+GetSystemName:reserved word
+GetTodaysRTTradeEquity:reserved word
+GetUnclearedDeposits:reserved word
+GhostWhite:reserved word
+Gold:reserved word
+Goldenrod:reserved word
+Gr_Rate_P_EPS:reserved word
+GradientColor:reserved word
+Gray:reserved word
+Green:reserved word
+GreenYellow:reserved word
+GrossLoss:reserved word
+GrossProfit:reserved word
+High52Wk:reserved word
+Higher:reserved word
+HistFundExists:reserved word
+Honeydew:reserved word
+HotPink:reserved word
+HoursFromDateTime:reserved word
+I_AvgEntryPrice:reserved word
+I_ClosedEquity:reserved word
+I_CurrentContracts:reserved word
+I_CurrentShares:reserved word
+I_MarketPosition:reserved word
+I_OpenEquity:reserved word
+IEasyLanguageObject:reserved word
+In:reserved word
+IncludeSignal:reserved word
+IncludeSystem:reserved word
+IncMonth:reserved word
+IndianRed:reserved word
+Indigo:reserved word
+InfiniteLoopDetect:reserved word
+INITIALMARGIN:reserved word
+Inst_Percent_Held:reserved word
+InStr:reserved word
+IntervalType:reserved word
+IntPortion:reserved word
+IntraBarOrderGeneration:reserved word
+IsFundDataAvailable:reserved word
+IsValidFundField:reserved word
+IVolatility:reserved word
+Ivory:reserved word
+JulianToDate:reserved word
+Khaki:reserved word
+LargestLosTrade:reserved word
+LargestWinTrade:reserved word
+Last:reserved word
+Last_Split_Date:reserved word
+Last_Split_Fact:reserved word
+LastCalcDateTime:reserved word
+LastCalcJDate:reserved word
+LastCalcMMTime:reserved word
+LastTradingDate:reserved word
+Lavender:reserved word
+LavenderBlush:reserved word
+LawnGreen:reserved word
+LEAPYear:reserved word
+LeftSide:reserved word
+LeftStr:reserved word
+LEG:reserved word
+LegacyColorToRGB:reserved word
+LegacyColorValue:reserved word
+LEGTYPE:reserved word
+LemonChiffon:reserved word
+LightBlue:reserved word
+LightCoral:reserved word
+LightCyan:reserved word
+LightGoldenrodYellow:reserved word
+LightGray:reserved word
+LightGreen:reserved word
+LightPink:reserved word
+LightSalmon:reserved word
+LightSeaGreen:reserved word
+LightSkyBlue:reserved word
+LightSlateGray:reserved word
+LightSteelBlue:reserved word
+LightYellow:reserved word
+Lime:reserved word
+LimeGreen:reserved word
+Limit:reserved word
+Linen:reserved word
+LiveDate:reserved word
+LiveTime:reserved word
+Log:reserved word
+LongRollAdj:reserved word
+LossCF:reserved word
+Low52Wk:reserved word
+Lower:reserved word
+LowerStr:reserved word
+LTD:reserved word
+LTDEX:reserved word
+Magenta:reserved word
+MakeNewMovieRef:reserved word
+Margin:reserved word
+Market:reserved word
+MarketPosition:reserved word
+Maroon:reserved word
+MaxBarsBack:reserved word
+MaxBarsForward:reserved word
+MaxConsecLosers:reserved word
+MaxConsecWinners:reserved word
+MaxContractProfit:reserved word
+MaxContracts:reserved word
+MaxContractsHeld:reserved word
+MaxEntries:reserved word
+MAXGAIN:reserved word
+MaxIDDrawDown:reserved word
+MaxList:reserved word
+MaxList2:reserved word
+MAXLOSS:reserved word
+MaxPositionLoss:reserved word
+MaxPositionProfit:reserved word
+MaxShares:reserved word
+MaxSharesHeld:reserved word
+MEDIUM:reserved word
+MediumAquamarine:reserved word
+MediumBlue:reserved word
+MediumOrchid:reserved word
+MediumPurple:reserved word
+MediumSeaGreen:reserved word
+MediumSlateBlue:reserved word
+MediumSpringGreen:reserved word
+MediumTurquoise:reserved word
+MediumVioletRed:reserved word
+MessageLog:reserved word
+Method:reserved word
+MidnightBlue:reserved word
+MidStr:reserved word
+MillisecondsFromDateTime:reserved word
+MinList:reserved word
+MinList2:reserved word
+MinMove:reserved word
+MintCream:reserved word
+MinutesFromDateTime:reserved word
+MistyRose:reserved word
+MIVIterationCount:reserved word
+MIVONASK:reserved word
+MIVONBID:reserved word
+MIVONCLOSE:reserved word
+MIVONRAWASK:reserved word
+MIVONRAWBID:reserved word
+MIVonRawMid:reserved word
+Moc:reserved word
+Moccasin:reserved word
+Mod:reserved word
+MODELPOSITION:reserved word
+MODELPRICE:reserved word
+MODELRATE:reserved word
+MODELRATE2:reserved word
+MODELVOLATILITY:reserved word
+Monday:reserved word
+MoneyMgtStopAmt:reserved word
+Month:reserved word
+MonthFromDateTime:reserved word
+MULTIPLE:reserved word
+MYSELF:reserved word
+NavajoWhite:reserved word
+Navy:reserved word
+Neg:reserved word
+Net_Profit_Margin:reserved word
+NetProfit:reserved word
+NewLine:reserved word
+NewsCount:reserved word
+Next:reserved word
+NthMaxList:reserved word
+NthMinList:reserved word
+NumericArray:reserved word
+NumericArrayRef:reserved word
+NumericRef:reserved word
+NumEvenTrades:reserved word
+NUMFUTURES:reserved word
+NUMLEGS:reserved word
+NumLosTrades:reserved word
+NUMOPTIONS:reserved word
+NumToStr:reserved word
+NumWinTrades:reserved word
+ObjectRef:reserved word
+ObjectSimple:reserved word
+OldLace:reserved word
+Olive:reserved word
+OliveDrab:reserved word
+Once:reserved word
+OpenPositionProfit:reserved word
+OPTION:reserved word
+OPTIONTYPE:reserved word
+Orange:reserved word
+OrangeRed:reserved word
+Orchid:reserved word
+Out:reserved word
+Over:reserved word
+Override:reserved word
+Pager_DefaultName:reserved word
+Pager_Send:reserved word
+PaleGoldenrod:reserved word
+PaleGreen:reserved word
+PaleTurquoise:reserved word
+PaleVioletRed:reserved word
+PapayaWhip:reserved word
+PeachPuff:reserved word
+PERatio:reserved word
+PercentProfit:reserved word
+Peru:reserved word
+Pink:reserved word
+PlayMovieChain:reserved word
+PlaySound:reserved word
+PlotPaintBar:reserved word
+PlotPB:reserved word
+Plum:reserved word
+PM_GetCellValue:reserved word
+PM_GetNumColumns:reserved word
+PM_GetRowHeight:reserved word
+PM_High:reserved word
+PM_Low:reserved word
+PM_SetCellValue:reserved word
+PM_SetHigh:reserved word
+PM_SetLow:reserved word
+PM_SetNumColumns:reserved word
+PM_SetRowHeight:reserved word
+Pob:reserved word
+Pos:reserved word
+POSITION:reserved word
+POSITIONID:reserved word
+PositionProfit:reserved word
+POSITIONSTATUS:reserved word
+PowderBlue:reserved word
+Power:reserved word
+Price_To_Book:reserved word
+PriceScale:reserved word
+Print:reserved word
+Printer:reserved word
+Product:reserved word
+PROFIT:reserved word
+ProfitCF:reserved word
+ProfitTargetStop:reserved word
+PROTECTIVE:reserved word
+Purple:reserved word
+PUT:reserved word
+PUTCOUNT:reserved word
+PUTITMCOUNT:reserved word
+PutOpenInt:reserved word
+PUTOTMCOUNT:reserved word
+PUTSERIESCOUNT:reserved word
+PUTSTRIKECOUNT:reserved word
+q_Ask:reserved word
+q_AskExchange:reserved word
+q_AskSize:reserved word
+q_Bid:reserved word
+q_BidExchange:reserved word
+q_BidSize:reserved word
+q_BigPointValue:reserved word
+q_CallOpenInt:reserved word
+q_CallVolume:reserved word
+q_Category:reserved word
+q_Close:reserved word
+q_DailyLimit:reserved word
+q_Date:reserved word
+q_DateEX:reserved word
+q_DateLastAsk:reserved word
+q_DateLastAskEX:reserved word
+q_DateLastBid:reserved word
+q_DateLastBidEX:reserved word
+q_DateLastTrade:reserved word
+q_DownVolume:reserved word
+q_ExchangeListed:reserved word
+q_ExpirationDate:reserved word
+q_ExpirationDateEX:reserved word
+q_High:reserved word
+q_IVolatility:reserved word
+q_Last:reserved word
+q_LastTradingDate:reserved word
+q_LastTradingDateEX:reserved word
+q_Low:reserved word
+q_Margin:reserved word
+q_MinMove:reserved word
+q_MinutesDelayed:reserved word
+q_NewsCount:reserved word
+q_NumOptions:reserved word
+q_Offer:reserved word
+q_Open:reserved word
+q_OpenInterest:reserved word
+q_OptionType:reserved word
+q_PreviousClose:reserved word
+q_PreviousDate:reserved word
+q_PreviousOpenInterest:reserved word
+q_PreviousTime:reserved word
+q_PreviousVolume:reserved word
+q_PrevTotalVolume:reserved word
+q_PutOpenInt:reserved word
+q_PutVolume:reserved word
+q_StrikePrice:reserved word
+q_Time:reserved word
+q_TimeEX:reserved word
+q_TimeLastAsk:reserved word
+q_TimeLastAskEX:reserved word
+q_TimeLastBid:reserved word
+q_TimeLastBidEX:reserved word
+q_TimeLastTrade:reserved word
+q_TimeLastTradeEX:reserved word
+q_TotalVolume:reserved word
+q_TradeVolume:reserved word
+q_UnchangedVolume:reserved word
+q_UpVolume:reserved word
+q_Yield:reserved word
+Quick_Ratio:reserved word
+RaiseRunTimeError:reserved word
+Random:reserved word
+RAWASK:reserved word
+RAWBID:reserved word
+Reciprocal:reserved word
+Red:reserved word
+REGULARSESSION:reserved word
+Repeat:reserved word
+Ret_On_Avg_Equity:reserved word
+Return:reserved word
+RevSize:reserved word
+RGB:reserved word
+RGBToLegacyColor:reserved word
+RHO:reserved word
+RightSide:reserved word
+RightStr:reserved word
+RosyBrown:reserved word
+Round:reserved word
+RoyalBlue:reserved word
+RunCommand:reserved word
+SaddleBrown:reserved word
+Salmon:reserved word
+SameTickOpt:reserved word
+SandyBrown:reserved word
+Saturday:reserved word
+Screen:reserved word
+SeaGreen:reserved word
+Seashell:reserved word
+SecondsFromDateTime:reserved word
+Self:reserved word
+Sell:reserved word
+SellShort:reserved word
+SERIESCOUNT:reserved word
+Sess1EndTime:reserved word
+Sess1FirstBarTime:reserved word
+Sess1StartTime:reserved word
+Sess2EndTime:reserved word
+Sess2FirstBarTime:reserved word
+Sess2StartTime:reserved word
+SessionCount:reserved word
+SessionCountMS:reserved word
+SessionEndDay:reserved word
+SessionEndDayMS:reserved word
+SessionEndTime:reserved word
+SessionEndTimeMS:reserved word
+SessionStartDay:reserved word
+SessionStartDayMS:reserved word
+SessionStartTime:reserved word
+SessionStartTimeMS:reserved word
+SetAllOrNone:reserved word
+SetBreakEven:reserved word
+SetBuyMinusSellPlus:reserved word
+SetDiscretion:reserved word
+SetDollarTrailing:reserved word
+SetExitOnClose:reserved word
+SetFPCompareAccuracy:reserved word
+SetNonDisplay:reserved word
+SetNOW:reserved word
+SetPeg:reserved word
+SetPercentTrailing:reserved word
+SetPlotBGColor:reserved word
+SetPlotColor:reserved word
+SetPlotType:reserved word
+SetPlotWidth:reserved word
+SetProfitTarget:reserved word
+SetRouteName:reserved word
+SetShaveImprove:reserved word
+SetShowOnly:reserved word
+SetStopContract:reserved word
+SetStopLoss:reserved word
+SetStopPosition:reserved word
+SetStopShare:reserved word
+SetSubscriberOnly:reserved word
+Settlement:reserved word
+SGA_Exp_By_NetSales:reserved word
+Share:reserved word
+Shares:reserved word
+SharesOut:reserved word
+Short:reserved word
+ShortRollAdj:reserved word
+SICCode:reserved word
+Sienna:reserved word
+Sign:reserved word
+Silver:reserved word
+Sine:reserved word
+Skip:reserved word
+SkyBlue:reserved word
+SlateBlue:reserved word
+SlateGray:reserved word
+Slippage:reserved word
+SnapFundExists:reserved word
+Snow:reserved word
+Spaces:reserved word
+SpringGreen:reserved word
+Square:reserved word
+SquareRoot:reserved word
+StartDate:reserved word
+Stateless:reserved word
+stAutoSession:reserved word
+SteelBlue:reserved word
+StockSplit:reserved word
+StockSplitCount:reserved word
+StockSplitDate:reserved word
+StockSplitTime:reserved word
+Stop:reserved word
+stRegularSession:reserved word
+STRIKE:reserved word
+STRIKECOUNT:reserved word
+STRIKEITMCOUNT:reserved word
+STRIKEOTCOUNT:reserved word
+StringToDate:reserved word
+StringToDateTime:reserved word
+StringToTime:reserved word
+StrLen:reserved word
+StrToNum:reserved word
+SumList:reserved word
+Sunday:reserved word
+Symbol:reserved word
+SymbolName:reserved word
+SymbolRoot:reserved word
+T:reserved word
+Tan:reserved word
+Tangent:reserved word
+TARGET:reserved word
+TARGETTYPE:reserved word
+Teal:reserved word
+Text:reserved word
+Text_Delete:reserved word
+Text_GetActive:reserved word
+Text_GetColor:reserved word
+Text_GetDate:reserved word
+Text_GetFirst:reserved word
+Text_GetHStyle:reserved word
+Text_GetNext:reserved word
+Text_GetString:reserved word
+Text_GetTime:reserved word
+Text_GetValue:reserved word
+Text_GetVStyle:reserved word
+Text_New:reserved word
+Text_SetColor:reserved word
+Text_SetLocation:reserved word
+Text_SetString:reserved word
+Text_SetStyle:reserved word
+THEORETICALGROSSIN:reserved word
+THEORETICALGROSSOUT:reserved word
+THEORETICALVALUE:reserved word
+THETA:reserved word
+This:reserved word
+Thistle:reserved word
+Thursday:reserved word
+TICKTYPE:reserved word
+Time:reserved word
+TimeToString:reserved word
+TL_Delete:reserved word
+TL_GetActive:reserved word
+TL_GetAlert:reserved word
+TL_GetBeginDate:reserved word
+TL_GetBeginTime:reserved word
+TL_GetBeginVal:reserved word
+TL_GetColor:reserved word
+TL_GetEndDate:reserved word
+TL_GetEndTime:reserved word
+TL_GetEndVal:reserved word
+TL_GetExtLeft:reserved word
+TL_GetExtRight:reserved word
+TL_GetFirst:reserved word
+TL_GetNext:reserved word
+TL_GetSize:reserved word
+TL_GetStyle:reserved word
+TL_GetValue:reserved word
+TL_New:reserved word
+TL_SetAlert:reserved word
+TL_SetBegin:reserved word
+TL_SetColor:reserved word
+TL_SetEnd:reserved word
+TL_SetExtLeft:reserved word
+TL_SetExtRight:reserved word
+TL_SetSize:reserved word
+TL_SetStyle:reserved word
+Today:reserved word
+Tomato:reserved word
+Tomorrow:reserved word
+Tool_Black:reserved word
+Tool_Blue:reserved word
+Tool_Cyan:reserved word
+Tool_DarkBlue:reserved word
+Tool_DarkBrown:reserved word
+Tool_DarkCyan:reserved word
+Tool_DarkGray:reserved word
+Tool_DarkGreen:reserved word
+Tool_DarkMagenta:reserved word
+Tool_DarkRed:reserved word
+Tool_DarkYellow:reserved word
+Tool_Dashed:reserved word
+Tool_Dashed2:reserved word
+Tool_Dashed3:reserved word
+Tool_Dotted:reserved word
+Tool_Green:reserved word
+Tool_LightGray:reserved word
+Tool_Magenta:reserved word
+Tool_Red:reserved word
+Tool_Solid:reserved word
+Tool_White:reserved word
+Tool_Yellow:reserved word
+Total:reserved word
+TotalBarsEvenTrades:reserved word
+TotalBarsLosTrades:reserved word
+TotalBarsWinTrades:reserved word
+TotalTrades:reserved word
+TradeDate:reserved word
+TradeDateEX:reserved word
+TradeDirectionSeries:reserved word
+TradeExch:reserved word
+TradeTime:reserved word
+TradeTimeEX:reserved word
+TradeVolume:reserved word
+TradingDaysLeft:reserved word
+TrailingStopAmt:reserved word
+TrailingStopFloor:reserved word
+TrailingStopPct:reserved word
+TtlDbt_By_NetAssts:reserved word
+Tuesday:reserved word
+Turquoise:reserved word
+Under:reserved word
+Underlying:reserved word
+UnionSess1EndTime:reserved word
+UnionSess1FirstBar:reserved word
+UnionSess1StartTime:reserved word
+UnionSess2EndTime:reserved word
+UnionSess2FirstBar:reserved word
+UnionSess2StartTime:reserved word
+Units:reserved word
+Until:reserved word
+UpperStr:reserved word
+VEGA:reserved word
+Violet:reserved word
+VSBCOMMENTARY:reserved word
+VWAP:reserved word
+Wednesday:reserved word
+Wheat:reserved word
+White:reserved word
+WhiteSmoke:reserved word
+Xor:reserved word
+Year:reserved word
+YearFromDateTime:reserved word
+Yellow:reserved word
+YellowGreen:reserved word
+Yesterday:reserved word
+
+If:reserved word
+Else:reserved word
+While:reserved word
+For:reserved word
+Then:reserved word
+To:reserved word
+Once:reserved word
+Begin:reserved word
+Throw:reserved word
+Or:reserved word
+And:reserved word
+Not:reserved word
+End:reserved word
+Switch:reserved word
+Case:reserved word
+Default:reserved word
+Using:reserved word
+Input:reserved word
+Inputs:reserved word
+Const:reserved word
+Consts:reserved word
+Constant:reserved word
+Constants:reserved word
+Var:reserved word
+Vars:reserved word
+Variable:reserved word
+Variables:reserved word
+Catch:reserved word
+Try:reserved word
+Try-Catch-Finally:reserved word
+Finally:reserved word
+New:reserved word
+Break:reserved word
+
+O:reserved word
+Open:reserved word
+C:reserved word
+Close:reserved word
+H:reserved word
+High:reserved word
+L:reserved word
+Low:reserved word
+I:reserved word
+OpenInt:reserved word
+DailyClose:reserved word
+DailyHigh:reserved word
+DailyLimit:reserved word
+DailyLow:reserved word
+DailyOpen:reserved word
+DailyVolume:reserved word
+DailyVolumeDN:reserved word
+DailyVolumeUC:reserved word
+DailyVolumeUp:reserved word
+V:reserved word
+Volume:reserved word
+Point:reserved word
+PointValue:reserved word
+PrevClose:reserved word
+PrevOpenInt:reserved word
+PrevVolume:reserved word
+DownTicks:reserved word
+Ticks:reserved word
+UpTicks:reserved word
+ASK:reserved word
+AskDate:reserved word
+AskDateEX:reserved word
+AskExch:reserved word
+AskSize:reserved word
+AskTime:reserved word
+AskTimeEX:reserved word
+BID:reserved word
+BidDate:reserved word
+BidDateEX:reserved word
+BidDirectionNNM:reserved word
+BidExch:reserved word
+BidSize:reserved word
+BidTime:reserved word
+BidTimeEX:reserved word
+BigPointValue:reserved word
+CallVolume:reserved word
+PutVolume:reserved word
+InsideAsk:reserved word
+InsideBid:reserved word
+
+INT:reserved word
+INT64:reserved word
+DOUBLE:reserved word
+FLOAT:reserved word
+String:reserved word
+IntrabarPersist:reserved word
+Null:reserved word
+BYTE:reserved word
+BOOL:reserved word
+CHAR:reserved word
+TRUE:reserved word
+FALSE:reserved word
+TrueFalse:reserved word
+TrueFalseArray:reserved word
+TrueFalseArrayRef:reserved word
+TrueFalseRef:reserved word
+TrueFalseSeries:reserved word
+TrueFalseSimple:reserved word
+WORD:reserved word
+DWORD:reserved word
+POINTER:reserved word
+UNSIGNED:reserved word
+LONG:reserved word
+LPBOOL:reserved word
+LPBYTE:reserved word
+LPDOUBLE:reserved word
+LPDWORD:reserved word
+LPFLOAT:reserved word
+LPINT:reserved word
+LPLONG:reserved word
+LPSTR:reserved word
+LPWORD:reserved word
+VARSIZE:reserved word
+VARSTARTADDR:reserved word
+Void:reserved word
+Array:reserved word
+Numeric:reserved word
+NumericSeries:reserved word
+NumericSimple:reserved word
+StringArray:reserved word
+StringArrayRef:reserved word
+StringRef:reserved word
+StringSeries:reserved word
+StringSimple:reserved word
+
+Value:reserved word
+Data:reserved word
+Plot:reserved word
+NoPlot:reserved word
+
+#BEGINALERT:reserved word
+#BEGINCMTRY:reserved word
+#BEGINCMTRYORALERT:reserved word
+#END:reserved word
+#EndRegion:reserved word
+#EVENTS:reserved word
+#Region:reserved word
+
+At$:reserved word
