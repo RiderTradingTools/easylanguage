@@ -359,7 +359,7 @@ function fetchHoverText(hovered_keyword, keyword_attributeValue) {
                       header1.remove(); 
                     });
                     contentDiv.querySelectorAll('img').forEach(imgs => {
-                      imgs.remove(); 
+                      imgs.replaceWith(' '); 
                     });
 
                     // replace some tags, fix web links
@@ -368,6 +368,10 @@ function fetchHoverText(hovered_keyword, keyword_attributeValue) {
                       .replace(/href=\"\.\./gi, 'href="'+rep_url)
                       .replace(/href=\"#\"/gi, '')
                       .replace(/xmlns=\"http:\/\/www.w3.org\/1999\/xhtml\"/gi, '')
+                      .replace(/<\/td>/gi,'&nbsp;</td>&nbsp;')
+                      .replace(/<div class=\"collapsable\"/gi, '<br>&nbsp; <div class="collapsable"')
+                      .replace(/<h5/gi, '<h4')
+                      .replace(/h5>/gi, 'h4>')
                       .replace(/<h2/gi, '<h4')
                       .replace(/h2>/gi, 'h4>');
 
@@ -385,7 +389,7 @@ function fetchHoverText(hovered_keyword, keyword_attributeValue) {
                     markdownText.appendMarkdown(`\n<hr>\n`);
                     markdownText.appendMarkdown(markdown);
                     markdownText.appendMarkdown(`\n<hr>\n`);
-                    markdownText.appendMarkdown(`\n&nbsp;$(link) &nbsp; ` + url);
+                    markdownText.appendMarkdown(`\n\n&nbsp;$(link) &nbsp; ` + url);
 
                     resolve(markdownText);
 
