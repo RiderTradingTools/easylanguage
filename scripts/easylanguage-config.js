@@ -94,7 +94,7 @@ class ESLDocumentSymbolProvider {
       let icon_using = vscode.SymbolKind.Interface;
       let icon_inputs = vscode.SymbolKind.Null;
       let icon_vars = vscode.SymbolKind.Variable;
-      let icon_method = vscode.SymbolKind.Class;
+      let icon_method = vscode.SymbolKind.Method;
       let icon_region = vscode.SymbolKind.Number;
       let icon_begin = vscode.SymbolKind.Array;
       let inside_X = false;
@@ -297,9 +297,10 @@ function fetchHoverText(hovered_keyword, keyword_attributeValue) {
     let url = ``;
     let rep_url = ``;
     let rep_url2 = ``;
+    let title_icon = ``;
 
     if (keyword.toLowerCase() == 'var' || keyword.toLowerCase() == 'vars' || keyword.toLowerCase() == 'variables') { keyword = 'Variable'; }
-    if (keyword.toLowerCase() == 'input') { keyword = 'Inputs'; }
+    if (keyword.toLowerCase() == 'input' || keyword.toLowerCase() == 'displayname' || keyword.toLowerCase() == 'tooltip') { keyword = 'Inputs'; }
     if (keyword.toLowerCase() == 'consts' || keyword.toLowerCase() == 'constant' || keyword.toLowerCase() == 'constants') { keyword = 'Const'; }
     if (keyword.startsWith('#')) { keyword = keyword.replace(/#/gi, '_'); }
 
@@ -311,22 +312,26 @@ function fetchHoverText(hovered_keyword, keyword_attributeValue) {
       url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/${encodeURIComponent(keyword)}_reserved_word_.htm`;
       rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elword`;
       rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/`;
+      title_icon = `$(symbol-keyword)`;
     }
     else if (keyword_attributeValue == 'function') {
       url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/${encodeURIComponent(keyword)}_function_.htm`;
       rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elword`;
       rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/`;
+      title_icon = `$(symbol-function)`;
     }
     else if (keyword_attributeValue.startsWith('class')) {
       url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/${encodeURIComponent(keyword_attributeValue)}/${encodeURIComponent(keyword)}_class.htm`;
       rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject`;
       rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/`;
       keyword_attributeValue = 'class';
+      title_icon = `$(symbol-class)`;
     }
     else if (keyword_attributeValue == 'enumeration') {
       url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/enumeration/${encodeURIComponent(keyword)}_enumeration.htm`;
       rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject`;
       rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/enumeration/`;
+      title_icon = `$(symbol-enum)`;
     }
 
     if (url == ``) { return; } // no match, no url to pull 
@@ -379,7 +384,7 @@ function fetchHoverText(hovered_keyword, keyword_attributeValue) {
                     let markdown = turndownService.turndown(htmlFixedText);
                                         
                     const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${display_keyword}&nbsp;</span>`;
-                    const markdownText = new vscode.MarkdownString(`&nbsp;$(lightbulb)`);
+                    const markdownText = new vscode.MarkdownString(`&nbsp;${title_icon}`);
                     markdownText.isTrusted = true; 
                     markdownText.supportHtml = true;
                     markdownText.supportThemeIcons = true;
@@ -468,9 +473,9 @@ async function activate(context) {
             const lineStartPos = new vscode.Position(startPos.line, 0);
             const lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
             if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // Skip matches on commented lines
-            
-            const styledString = `&nbsp;&nbsp;<span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
-            const markdownText = new vscode.MarkdownString(`$(getting-started-beginner)`);
+
+            const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
+            const markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-function)`);
               markdownText.supportHtml = true;
               markdownText.appendMarkdown(styledString);
               markdownText.appendText(`  (user function)\n`);
@@ -496,12 +501,20 @@ async function activate(context) {
 
     // Register completion provider
     const completionProvider = vscode.languages.registerCompletionItemProvider(
-        { scheme: 'file', language: 'easylanguage' }, // Apply to all files
+        { scheme: 'file', language: 'easylanguage' },
         {
             provideCompletionItems(document, position) {
                 const allKeywords = trie.getAllWords();
                 return allKeywords.map((keyword) => {
-                    const item = new vscode.CompletionItem(keyword, vscode.CompletionItemKind.Keyword);
+
+                    let itemKind = vscode.CompletionItemKind.Function;
+                    let attribute = attributesMap.get(keyword); 
+
+                    if (attribute == 'class') { itemKind = vscode.CompletionItemKind.Class; }
+                    if (attribute == 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; }
+                    if (attribute == 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; }
+
+                    const item = new vscode.CompletionItem(keyword, itemKind);
                     return item;
                 });
             },
