@@ -5,12 +5,14 @@
 		"actionBar.toggledBackground": "#383a49",
 		"activityBarBadge.background": "#007acc",
 		"checkbox.border": "#6b6b6b",
+
 		"editor.background": "#1e1e1e",
 		"editor.foreground": "#d4d4d4",
 		"editor.inactiveSelectionBackground": "#3a3d41",
 		"editor.selectionHighlightBackground": "#add6ff26",
-		"editorIndentGuide.activeBackground1": "#707070",
+		"editorIndentGuide.activeBackground1": "#3877ff41",
 		"editorIndentGuide.background1": "#404040",
+
 		"input.placeholderForeground": "#a6a6a6",
 		"list.activeSelectionIconForeground": "#ffffff",
 		"list.dropBackground": "#383b3d",
@@ -142,7 +144,7 @@
 		//"editor.lineHighlightBorder": "#282828",
 		//"editor.linkedEditingBackground": "#ff00004d",
 		//"editor.rangeHighlightBackground": "#ffffff0b",
-		//"editor.selectionBackground": "#264f78",
+		"editor.selectionBackground": "#02495982",
 		//"editor.snippetFinalTabstopHighlightBorder": "#525252",
 		//"editor.snippetTabstopHighlightBackground": "#7c7c7c4d",
 		//"editor.stackFrameHighlightBackground": "#ffff0033",
@@ -852,26 +854,10 @@
 				"foreground": "#D7BA7D"
 			}
 		},
-		{	// custom user methods, which are methods that start with _ character, for example:  _GetColorFromInteger()
-			"scope": "esl.user_methods",
-			"settings": {
-				"foreground": "#ff6f00",
-                "fontStyle":"bold"
-			}
-		},
 		{	// classes
 			"scope": "esl.class",
 			"settings": {
 				"foreground": "#af74ed"
-			}
-		},
-		{	// order functions
-			"scope": [
-				"esl.function.order"
-			],
-			"settings": {
-				"foreground": "#16bcc4",
-				"fontStyle": "bold"
 			}
 		},
 		{	// control words: begin, end, if, then, etc
@@ -1250,12 +1236,6 @@
 			],
 			"settings": {
 				"foreground": "#569CD6"
-			}
-		},
-		{
-			"scope": "esl.function.git-rebase",
-			"settings": {
-				"foreground": "#9CDCFE"
 			}
 		},
 		{

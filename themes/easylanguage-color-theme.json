@@ -8,8 +8,8 @@
 		"editor.background": "#ffffff",
 		"editor.foreground": "#000000",
 		"editor.inactiveSelectionBackground": "#e5ebf1",
-		"editor.selectionHighlightBackground": "#add6ffA0",
-		"editorIndentGuide.activeBackground1": "#939393",
+		"editor.selectionHighlightBackground": "#007efca0",
+		"editorIndentGuide.activeBackground1": "#0000ff54",
 		"editorIndentGuide.background1": "#d3d3d3",
 		"editorSuggestWidget.background": "#f3f3f3",
 		"input.placeholderForeground": "#767676",
@@ -146,7 +146,7 @@
 		"editor.lineHighlightBorder": "#fff",
 		//"editor.linkedEditingBackground": "#ff00004d",
 		//"editor.rangeHighlightBackground": "#fdff0033",
-		"editor.selectionBackground": "#add6ff",
+		"editor.selectionBackground": "#ffadfb82",
 		//"editor.snippetFinalTabstopHighlightBorder": "#0a326480",
 		//"editor.snippetTabstopHighlightBackground": "#0a326433",
 		//"editor.stackFrameHighlightBackground": "#ffff6673",
@@ -763,7 +763,7 @@
                 "comment.block"
             ],
 			"settings": {
-				"foreground": "#77c277",
+				"foreground": "#899789",
                 "fontStyle": "italic"
 			}
 		},
@@ -776,29 +776,13 @@
 		{	// functions
 			"scope": "esl.function",
 			"settings": {
-				"foreground": "#b151a9"
-			}
-		},
-		{	// custom user methods, which are methods that start with _ character, for example:  _GetColorFromInteger()
-			"scope": "esl.user_methods",
-			"settings": {
-				"foreground": "#b300ff",
-                "fontStyle":"italic"
+				"foreground": "#a200b1"
 			}
 		},
 		{	// classes
 			"scope": "esl.class",
 			"settings": {
-				"foreground": "#00bfff"
-			}
-		},
-		{	// order functions
-			"scope": [
-				"esl.function.order"
-			],
-			"settings": {
-				"foreground": "#16bcc4",
-                "fontStyle": "bold"
+				"foreground": "#6742de"
 			}
 		},
 		{	// control words: begin, end, if, then, etc
@@ -817,7 +801,7 @@
 		{	// price data:  High/Low/Open/Close
 			"scope": "esl.pricedata",
 			"settings": {
-				"foreground": "#0379ac",
+				"foreground": "#0190b1",
                 "fontStyle": "bold"
 			}
 		},
@@ -829,14 +813,14 @@
 				"keyword.operator.minus.exponent"
 			],
 			"settings": {
-				"foreground": "#01b0a1",
+				"foreground": "#fb00ff",
                 "fontStyle": "bold"
 			}
 		},
 		{	// operators
 			"scope": "constant.operator",
 			"settings": {
-				"foreground": "#07570b"
+				"foreground": "#008507"
 			}
 		},
 		{	// skip words
@@ -849,13 +833,13 @@
 		{	// var scope: int, double, bool, True/False, etc
 			"scope": "variable.type",
 			"settings": {
-				"foreground": "#fb00ff"
+				"foreground": "#0050fd"
 			}
 		},
 		{	// Value1, Plot1, Condition1, etc
 			"scope": "variable.esl",
 			"settings": {
-				"foreground": "#c416c4"
+				"foreground": "#808022" // "#e76305"
 			}
 		},
 

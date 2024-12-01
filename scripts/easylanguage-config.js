@@ -302,6 +302,7 @@ function fetchHoverText(hovered_keyword, keyword_attributeValue) {
     if (keyword.toLowerCase() == 'var' || keyword.toLowerCase() == 'vars' || keyword.toLowerCase() == 'variables') { keyword = 'Variable'; }
     if (keyword.toLowerCase() == 'input' || keyword.toLowerCase() == 'displayname' || keyword.toLowerCase() == 'tooltip') { keyword = 'Inputs'; }
     if (keyword.toLowerCase() == 'consts' || keyword.toLowerCase() == 'constant' || keyword.toLowerCase() == 'constants') { keyword = 'Const'; }
+    if (keyword.toLowerCase() == 'drawingobjects') { keyword = 'drawobjects'; } 
     if (keyword.startsWith('#')) { keyword = keyword.replace(/#/gi, '_'); }
 
     // function example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/adx_function_.htm
@@ -426,7 +427,6 @@ async function activate(context) {
     const trie = new Trie();
     const file1Path = context.asAbsolutePath('easylanguage-complete.txt'); // Path to the first file
     const file2Path = context.asAbsolutePath('custom-user-functions.txt'); // Path to the second file
-    // const turndownService = new TurndownService();
 
     // Load attribute-keyword pairs from easylanguage-complete.txt
     const attributesMap = await loadAttributeKeywordsFromFile(file1Path);

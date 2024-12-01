@@ -501,7 +501,7 @@ CustomBarSeries:class
 CustomBarSeriesUpdatedEventArgs:class
 DataStream:class
 DataStreams:class
-DateTime:class
+DateTime:class_el
 DialogActionCompletedEventArgs:class
 DialogStatusChangedEventArgs:class
 DoubleSeries:class
@@ -1932,6 +1932,8 @@ StringArrayRef:reserved word
 StringRef:reserved word
 StringSeries:reserved word
 StringSimple:reserved word
+DisplayName:reserved word
+ToolTip:reserved word
 
 Value:reserved word
 Data:reserved word

@@ -12,20 +12,22 @@
 		"debugToolBar.background": "#ddd6c1",
 		"dropdown.background": "#eee8d5",
 		"dropdown.border": "#d3af86",
+
 		"editor.background": "#fdf6e3",
-		"editor.foreground": "#556b73",
+		"editor.foreground": "#0b232b",
 		"editor.lineHighlightBackground": "#eee8d5",
-		"editor.selectionBackground": "#eee8d5",
+		"editor.selectionBackground": "#e7d395",
 		"editorCursor.foreground": "#657b83",
 		"editorGroup.border": "#ddd6c1",
 		"editorGroup.dropBackground": "#ddd6c1aa",
 		"editorGroupHeader.tabsBackground": "#d9d2c2",
 		"editorHoverWidget.background": "#ccc4b0",
-		"editorIndentGuide.activeBackground1": "#081e2580",
-		"editorIndentGuide.background1": "#586e7580",
-		"editorLineNumber.activeForeground": "#567983",
+		"editorIndentGuide.activeBackground1": "#0000ff56",
+		// "editorIndentGuide.background1": "#586e7580",
+		"editorLineNumber.activeForeground": "#9708a7",
 		"editorWhitespace.foreground": "#586e7580",
 		"editorWidget.background": "#eee8d5",
+
 		"extensionButton.prominentBackground": "#b58900",
 		"extensionButton.prominentHoverBackground": "#584c27aa",
 		"focusBorder": "#b49471",
@@ -852,26 +854,10 @@
 				"foreground": "#268BD2"
 			}
 		},
-		{	// custom user methods, which are methods that start with _ character, for example:  _GetColorFromInteger()
-			"scope": "esl.user_methods",
-			"settings": {
-				"foreground": "#ff6f00",
-                "fontStyle":"italic"
-			}
-		},
 		{	// classes
 			"scope": "esl.class",
 			"settings": {
 				"foreground": "#7329c2"
-			}
-		},
-		{	// order functions
-			"scope": [
-				"esl.function.order"
-			],
-			"settings": {
-				"foreground": "#7b00ff",
-                "fontStyle": "bold"
 			}
 		},
 		{	// control words: begin, end, if, then, etc

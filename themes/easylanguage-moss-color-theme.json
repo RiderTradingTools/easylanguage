@@ -13,11 +13,12 @@
 		"dropdown.background": "#0a0c0a",
 		"dropdown.border": "#0a0c0a",
 		"dropdown.foreground": "#d8ebe5",
+		
 		"editor.background": "#141814",
 		"editor.foreground": "#d8ebe5",
 		"editor.hoverHighlightBackground": "#36a6a622",
 		"editor.lineHighlightBackground": "#15372090",
-		"editor.selectionBackground": "#ff5d3855",
+		"editor.selectionBackground": "#65027291",
 		"editor.wordHighlightBackground": "#bcd42a22",
 		"editor.wordHighlightStrongBackground": "#ff5d3822",
 		"editorBracketMatch.background": "#26a6a644",
@@ -28,6 +29,7 @@
 		"editorGutter.background": "#0a0c0a",
 		"editorGutter.deletedBackground": "#e61f44",
 		"editorGutter.modifiedBackground": "#f7b83d",
+		"editorIndentGuide.activeBackground1": "#07a6b149",
 		"editorIndentGuide.background1": "#262e26",
 		"editorLineNumber.foreground": "#3d4a3d",
 		"editorLink.activeForeground": "#26a6a6",
@@ -45,6 +47,7 @@
 		"editorWhitespace.foreground": "#262e26",
 		"editorWidget.background": "#262e26",
 		"editorWidget.border": "#3d4a3d",
+		
 		"extensionButton.prominentBackground": "#26a6a6",
 		"extensionButton.prominentForeground": "#ffffff",
 		"extensionButton.prominentHoverBackground": "#30cfcf",
@@ -271,8 +274,7 @@
 		//"editorHoverWidget.foreground": "#d8ebe5",
 		//"editorHoverWidget.highlightForeground": "#2aaaff",
 		//"editorHoverWidget.statusBarBackground": "#2e372e",
-		//"editorIndentGuide.activeBackground": "#262e26",
-		//"editorIndentGuide.activeBackground1": "#262e26",
+		// "editorIndentGuide.activeBackground": "#07a6b149",
 		//"editorIndentGuide.activeBackground2": "#00000000",
 		//"editorIndentGuide.activeBackground3": "#00000000",
 		//"editorIndentGuide.activeBackground4": "#00000000",
@@ -836,48 +838,32 @@
                 "comment.block"
             ],
 			"settings": {
-				"foreground": "#35544a",
+				"foreground": "#304440",
                 "fontStyle": "italic"
 			}
 		},
 		{	// reserved keywords
 			"scope": "esl.reserved",
 			"settings": {
-				"foreground": "#FF5D38"
+				"foreground": "#335fbb"
 			}
 		},
 		{	// functions
 			"scope": "esl.function",
 			"settings": {
-				"foreground": "#FF5D38"
-			}
-		},
-		{	// custom user methods, which are methods that start with _ character, for example:  _GetColorFromInteger()
-			"scope": "esl.user_methods",
-			"settings": {
-				"foreground": "#b149c3",
-                "fontStyle":"italic"
+				"foreground": "#e05D38"
 			}
 		},
 		{	// classes
 			"scope": "esl.class",
 			"settings": {
-				"foreground": "#00bfff"
-			}
-		},
-		{	// order functions
-			"scope": [
-				"esl.function.order"
-			],
-			"settings": {
-				"foreground": "#16bcc4",
-                "fontStyle": "bold"
+				"foreground": "#00e0b0"
 			}
 		},
 		{	// control words: begin, end, if, then, etc
 			"scope": "esl.control.keyword",
 			"settings": {
-				"foreground": "#00e0fa"
+				"foreground": "#00e0ff"
 			}
 		},
 		{	// sectional control words: region, etc
@@ -902,7 +888,7 @@
 				"keyword.operator.minus.exponent"
 			],
 			"settings": {
-				"foreground": "#fd70dea0",
+				"foreground": "#eb70de",
                 "fontStyle": "bold"
 			}
 		},
