@@ -224,7 +224,7 @@ class ESLDocumentSymbolProvider {
 
 
 //////////////////////////////////
-// Helper function to check file existence
+// Helper function to check/confirm a file exists
 const fileExists = async (filePath) => {
     try {
         await fs.promises.access(filePath, fs.constants.F_OK);
@@ -236,12 +236,12 @@ const fileExists = async (filePath) => {
 
 
 //////////////////////////////////
-// Function to read attribute-value pairs from easylanguage-complete.txt
+// Function to read EasyLanguage attribute-value pairs from easylanguage-complete.txt
 const loadAttributeKeywordsFromFile = async (filePath) => {
     const attributesMap = new Map();
     const exists = await fileExists(filePath);
     if (!exists) {
-        console.warn(`File not found: ${filePath}`);
+        console.warn(`[RTT EasyLanguage] WARNING: EasyLanguage keywords are disabled; file not found: ${filePath}`);
         return attributesMap;
     }
 
@@ -255,7 +255,7 @@ const loadAttributeKeywordsFromFile = async (filePath) => {
             }
         });
     } catch (error) {
-        console.error(`Error reading file: ${filePath}`, error);
+        console.error(`[RTT EasyLanguage] Error reading file: ${filePath}`, error);
     }
 
     return attributesMap;
@@ -263,13 +263,14 @@ const loadAttributeKeywordsFromFile = async (filePath) => {
 
 
 //////////////////////////////////
-// Function to read keywords from file
+// Function to read custom user function keywords from file
 const loadKeywordsFromFile = async (filePath) => {
     const keywordsSet = new Set();
     const exists = await fileExists(filePath);
+
     if (!exists) {
-        console.warn(`File not found: ${filePath}`);
-        return [];
+        console.info(`[RTT EasyLanguage] INFO: No custom user functions found; file not found: ${filePath}`);
+        return Array.from(keywordsSet);
     }
 
     try {
@@ -277,7 +278,7 @@ const loadKeywordsFromFile = async (filePath) => {
         const keywords = data.split('\n').map((line) => line.trim()).filter((line) => line !== '');
         keywords.forEach((keyword) => keywordsSet.add(keyword));
     } catch (error) {
-        console.error(`Error reading file: ${filePath}`, error);
+        console.error(`[RTT EasyLanguage] Error reading file: ${filePath}`, error);
     }
 
     return Array.from(keywordsSet); // Convert Set to Array to avoid duplicates
@@ -425,42 +426,52 @@ async function activate(context) {
     context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage', scheme: 'file' }, provider));
 
     const trie = new Trie();
-    const file1Path = context.asAbsolutePath('easylanguage-complete.txt'); // Path to the first file
-    const file2Path = context.asAbsolutePath('custom-user-functions.txt'); // Path to the second file
 
     // Load attribute-keyword pairs from easylanguage-complete.txt
+    const file1Path = context.asAbsolutePath('easylanguage-complete.txt'); 
     const attributesMap = await loadAttributeKeywordsFromFile(file1Path);
-    const reserved_keywords = Array.from(attributesMap.keys()); // Extract only keywords for highlighting
+    let reserved_keywords = null;
+    if (attributesMap.size > 0){
+
+      reserved_keywords = Array.from(attributesMap.keys()); // Extract keywords for highlighting
+      // Insert keywords into the Trie
+      reserved_keywords.forEach((keyword) => trie.insert(keyword));
+      console.log('[RTT EasyLanguage] Trie initialized with EasyLanguage keywords');
+      // Register hover provider
+      registerHoverProvider(context, reserved_keywords, attributesMap);
+    }
+
 
     // Load keywords from custom-user-functions.txt
+    const file2Path = context.asAbsolutePath('custom-user-functions.txt'); 
     const user_func_keywords = await loadKeywordsFromFile(file2Path);
+    let usr_func_decorationType = null;
+    if (user_func_keywords.length > 0) {
 
-    // Insert all keywords into the Trie
-    reserved_keywords.forEach((keyword) => trie.insert(keyword));
-    user_func_keywords.forEach((keyword) => trie.insert(keyword));
-    console.log('Trie initialized with keywords from both files.');
+      user_func_keywords.forEach((keyword) => trie.insert(keyword));
+      console.log('[RTT EasyLanguage] Trie initialized with custom user function keywords');
+      
+      usr_func_decorationType = vscode.window.createTextEditorDecorationType({
+        light: {    // used in light color themes
+          fontStyle: 'italic',
+          color: '#b300ff',
+          backgroundColor: 'rgba(188, 65, 250, 0.05)'
+        },
+        dark: {   // used in dark color themes
+          fontStyle: 'bold',
+          color: '#ff6f00',
+          backgroundColor: 'rgba(255, 165, 0, 0.05)'
+        }
+      });
+    }
 
-    // Register hover provider
-    registerHoverProvider(context, reserved_keywords, attributesMap);
-
-    const usr_func_decorationType = vscode.window.createTextEditorDecorationType({
-      light: {    // used in light color themes
-        fontStyle: 'italic',
-        color: '#b300ff',
-        backgroundColor: 'rgba(188, 65, 250, 0.05)'
-      },
-      dark: {   // used in dark color themes
-        fontStyle: 'bold',
-        color: '#ff6f00',
-        backgroundColor: 'rgba(255, 165, 0, 0.05)'
-      }
-    });
 
     let timeout = null;
 
     // Function to update decorations
     const updateDecorations = (editor) => {
         if (!editor) { return; }
+        if (!usr_func_decorationType) { return; }
 
         const text = editor.document.getText();
 
@@ -605,7 +616,7 @@ function registerHoverProvider(context, reserved_keywords, attributesMap) {
                 const hoverText = await fetchHoverText(hovered_keyword, keyword_attributeValue);
                 return new vscode.Hover(hoverText);
             } catch (error) {
-                console.error(error);
+                console.error(`[RTT EasyLanguage] ` + error);
                 return new vscode.Hover('Unable to fetch description at the moment.');
             }
         }
