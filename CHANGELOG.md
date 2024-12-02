@@ -49,7 +49,7 @@ All notable changes to the "easylanguage" extension will be documented in this f
  - Fixed the **Range** function keyword.
  
 
-## 1.1.0
+## 2.0.1
  - Added syntax highlighting for Methods and user functions: 
    - Keywords starting with `_` character will be highlighted as Methods/Functions
    - For example:  `_GetColorFromInteger()` will be highlighted.

@@ -415,6 +415,12 @@ async function activate(context) {
 
     const trie = new Trie();
 
+    // Register the reload command
+    const reloadCommand = vscode.commands.registerCommand('easylanguage.reloadExtension', () => {
+      vscode.commands.executeCommand('workbench.action.reloadWindow'); // Reloads the vsCode window
+    });
+    context.subscriptions.push(reloadCommand);    
+
     // Load attribute-keyword pairs from easylanguage-complete.txt
     const filePath_keywords = context.asAbsolutePath('easylanguage-complete.txt'); 
     const attributesMap = await loadAttributeKeywordsFromFile(filePath_keywords);

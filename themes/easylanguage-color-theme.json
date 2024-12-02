@@ -727,6 +727,11 @@
 		//"welcomePage.background": null,
 		//"window.activeBorder": null,
 		//"window.inactiveBorder": null
+      "symbolIcon.interfaceForeground": "#569CD6",
+      "symbolIcon.nullForeground": "#0000FF",
+      "symbolIcon.variableForeground": "#0000FF",
+      "symbolIcon.numberForeground": "#7676e7",
+      "symbolIcon.arrayForeground": "#0000FF"
 	},
 
 

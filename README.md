@@ -155,7 +155,7 @@ You can create a Task to launch TradeStation web help:
  - Version *1.0.7* &nbsp; - Added support for file extension .el and .elf for MultiCharts PowerLanguage compatibility.
  - Version *1.0.8* &nbsp; - Fixed the Plot and Plot1-99 keywords regex.
  - Version *1.0.9* &nbsp; - Fixed the Range function keyword.
- - Version *1.1.0* &nbsp; - Added syntax highlighting for Methods and user functions: keywords starting with _ character will be highlighted. Fixed Outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
+ - Version *2.0.1* &nbsp; - Added syntax highlighting for Methods and user functions: keywords starting with _ character will be highlighted. Fixed Outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
 
 <br>
 <br>

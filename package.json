@@ -36,6 +36,12 @@
            }
          }
        },
+       "commands": [
+         {
+           "command": "easylanguage.reloadExtension",
+           "title": "Reload EasyLanguage Extension (after adding/removing custom user functions)"
+         }
+       ],       
       "languages": [
          {
             "id": "easylanguage",

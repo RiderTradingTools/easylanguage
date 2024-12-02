@@ -802,6 +802,12 @@
 		//"welcomePage.background": null,
 		//"window.activeBorder": null,
 		//"window.inactiveBorder": null
+      "symbolIcon.interfaceForeground": "#76608e",
+      "symbolIcon.nullForeground": "#569CD6",
+      "symbolIcon.variableForeground": "#569CD6",
+      "symbolIcon.methodForeground": "#af74ed",
+      "symbolIcon.numberForeground": "#2f648f",
+      "symbolIcon.arrayForeground": "#569CD6"
 	},
 
 
