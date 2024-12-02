@@ -85,6 +85,7 @@ class Trie {
 
 
 //////////////////////////////////
+// Class to create the code Outline view
 class ESLDocumentSymbolProvider {
   provideDocumentSymbols(document, token) {
     return new Promise((resolve, reject) => {
@@ -224,7 +225,7 @@ class ESLDocumentSymbolProvider {
 
 
 //////////////////////////////////
-// Helper function to check/confirm a file exists
+// Helper function to check/confirm file exists
 const fileExists = async (filePath) => {
     try {
         await fs.promises.access(filePath, fs.constants.F_OK);
@@ -262,31 +263,9 @@ const loadAttributeKeywordsFromFile = async (filePath) => {
 };
 
 
-//////////////////////////////////
-// Function to read custom user function keywords from file
-const loadKeywordsFromFile = async (filePath) => {
-    const keywordsSet = new Set();
-    const exists = await fileExists(filePath);
-
-    if (!exists) {
-        console.info(`[RTT EasyLanguage] INFO: No custom user functions found; file not found: ${filePath}`);
-        return Array.from(keywordsSet);
-    }
-
-    try {
-        const data = await fs.promises.readFile(filePath, 'utf8');
-        const keywords = data.split('\n').map((line) => line.trim()).filter((line) => line !== '');
-        keywords.forEach((keyword) => keywordsSet.add(keyword));
-    } catch (error) {
-        console.error(`[RTT EasyLanguage] Error reading file: ${filePath}`, error);
-    }
-
-    return Array.from(keywordsSet); // Convert Set to Array to avoid duplicates
-};
-
 
 //////////////////////////////////
-// Function to fetch content from web page
+// Function to fetch content from web page -- clean it up, and present in hover
 function fetchHoverText(hovered_keyword, keyword_attributeValue) {
   return new Promise((resolve, reject) => {
 
@@ -414,6 +393,15 @@ function fetchHoverText(hovered_keyword, keyword_attributeValue) {
 }
 
 
+//////////////////////////////////
+// Load any custom user function keywords from the vsCode settings
+const loadUserFunctionsFromSettings = () => {
+  const config = vscode.workspace.getConfiguration('easylanguage');
+  const userFuncKeywords = config.get('customUserFunctions', []);  
+  return userFuncKeywords;
+};    
+
+
 
 
 
@@ -428,8 +416,8 @@ async function activate(context) {
     const trie = new Trie();
 
     // Load attribute-keyword pairs from easylanguage-complete.txt
-    const file1Path = context.asAbsolutePath('easylanguage-complete.txt'); 
-    const attributesMap = await loadAttributeKeywordsFromFile(file1Path);
+    const filePath_keywords = context.asAbsolutePath('easylanguage-complete.txt'); 
+    const attributesMap = await loadAttributeKeywordsFromFile(filePath_keywords);
     let reserved_keywords = null;
     if (attributesMap.size > 0){
 
@@ -441,15 +429,13 @@ async function activate(context) {
       registerHoverProvider(context, reserved_keywords, attributesMap);
     }
 
-
-    // Load keywords from custom-user-functions.txt
-    const file2Path = context.asAbsolutePath('custom-user-functions.txt'); 
-    const user_func_keywords = await loadKeywordsFromFile(file2Path);
+    // Load user keywords from the vsCode settings
+    const user_func_keywords = loadUserFunctionsFromSettings();
     let usr_func_decorationType = null;
     if (user_func_keywords.length > 0) {
 
       user_func_keywords.forEach((keyword) => trie.insert(keyword));
-      console.log('[RTT EasyLanguage] Trie initialized with custom user function keywords');
+      console.log('[RTT EasyLanguage] Trie initialized with custom user function keywords from vsCode settings');
       
       usr_func_decorationType = vscode.window.createTextEditorDecorationType({
         light: {    // used in light color themes
@@ -554,14 +540,18 @@ async function activate(context) {
     // Push the completion provider to the context
     context.subscriptions.push(completionProvider);
 }
+/////////////////////////////////////////////////////////
+
+
 
 
 //////////////////////////////////
-// Deactivate function
+// Function to Deactivate the extension
 function deactivate() {}
 
 
 //////////////////////////////////
+// Exports
 module.exports = {
     activate,
     deactivate,
