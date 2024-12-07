@@ -20,28 +20,67 @@
    "activationEvents": [
       "onLanguage: easylanguage"
    ],
-   "main": "./scripts/easylanguage-config.js",
+   "main": "./dist/extension.js",
    "contributes": {
       "configuration": {
          "type": "object",
          "title": "EasyLanguage Extension Settings",
          "properties": {
-           "easylanguage.customUserFunctions": {
-             "type": "array",
-             "default": [],
-             "description": "List of custom user functions.",
-             "items": {
-               "type": "string"
-             }
-           }
+            "easylanguage.customUserFunctions": {
+               "type": "array",
+               "default": [],
+               "description": "List of custom user functions. After an update reload EasyLanguage extension to pickup the changes.",
+               "items": {
+                  "type": "string"
+               }
+            },
+
+            "easylanguage.customUserFunctionsDarkThemeBackgroundColor": {
+               "type": "string",
+               "default": "rgba(255, 165, 0, 0.05)",
+               "format": "color",
+               "description": "Background color of Custom User Functions in dark themes."
+            },
+            "easylanguage.customUserFunctionsDarkThemeColor": {
+               "type": "string",
+               "default": "#ff6f00",
+               "format": "color",
+               "description": "Font color of Custom User Functions in dark themes."
+            },
+            "easylanguage.customUserFunctionsDarkThemeStyle": {
+               "type": "string",
+               "default": "bold",
+               "enum": ["normal", "italic", "bold"],
+               "description": "Font style of Custom User Functions in dark themes."
+            },
+
+            "easylanguage.customUserFunctionsLightThemeBackgroundColor": {
+               "type": "string",
+               "default": "rgba(188, 65, 250, 0.05)",
+               "format": "color",
+               "description": "Background color of Custom User Functions in light themes."
+            },
+            "easylanguage.customUserFunctionsLightThemeColor": {
+               "type": "string",
+               "default": "#b300ff",
+               "format": "color",
+               "description": "Font color of Custom User Functions in light themes."
+            },
+            "easylanguage.customUserFunctionsLightThemeStyle": {
+               "type": "string",
+               "default": "italic",
+               "enum": ["normal", "italic", "bold"],
+               "description": "Font style of Custom User Functions in light themes."
+            }
+   
          }
-       },
-       "commands": [
+      },
+      "commands": [
          {
-           "command": "easylanguage.reloadExtension",
-           "title": "Reload EasyLanguage Extension (after adding/removing custom user functions)"
+            "command": "easylanguage.reloadExtension",
+            "title": "Reload EasyLanguage Extension (after adding/removing custom user functions)"
          }
-       ],       
+      ],
       "languages": [
          {
             "id": "easylanguage",
@@ -102,8 +141,18 @@
       "type": "git",
       "url": "https://github.com/RiderTradingTools/easylanguage"
    },
+   "funding": {
+      "type": "individual",
+      "url": "https://ridertradingtools.com/donation"
+   },
    "devDependencies": {
-      "@types/node": "^20.1.0"
+      "@types/node": "^20.1.0",
+      "esbuild": "^0.24.0"
+   },
+   "scripts": {
+      "esbuild-base": "esbuild ./scripts/easylanguage-config.js --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
+      "dev": "npm run esbuild-base -- --sourcemap --watch",
+      "pre-publish": "npm run esbuild-base -- --minify"
    },
    "dependencies": {
       "fund": "^1.0.0",

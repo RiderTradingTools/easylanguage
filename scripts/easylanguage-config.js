@@ -410,22 +410,22 @@ const loadUserFunctionsFromSettings = () => {
 /////////////////////////////////////////////////////////
 async function activate(context) {
 
-    const provider = new ESLDocumentSymbolProvider();
-    context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage', scheme: 'file' }, provider));
+  const provider = new ESLDocumentSymbolProvider();
+  context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage', scheme: 'file' }, provider));
 
-    const trie = new Trie();
+  const trie = new Trie();
 
-    // Register the reload command
-    const reloadCommand = vscode.commands.registerCommand('easylanguage.reloadExtension', () => {
+  // Register the reload command
+  const reloadCommand = vscode.commands.registerCommand('easylanguage.reloadExtension', () => {
       vscode.commands.executeCommand('workbench.action.reloadWindow'); // Reloads the vsCode window
-    });
-    context.subscriptions.push(reloadCommand);    
+  });
+  context.subscriptions.push(reloadCommand);    
 
-    // Load attribute-keyword pairs from easylanguage-complete.txt
-    const filePath_keywords = context.asAbsolutePath('easylanguage-complete.txt'); 
-    const attributesMap = await loadAttributeKeywordsFromFile(filePath_keywords);
-    let reserved_keywords = null;
-    if (attributesMap.size > 0){
+  // Load attribute-keyword pairs from easylanguage-complete.txt
+  const filePath_keywords = context.asAbsolutePath('easylanguage-complete.txt'); 
+  const attributesMap = await loadAttributeKeywordsFromFile(filePath_keywords);
+  let reserved_keywords = null;
+  if (attributesMap.size > 0){
 
       reserved_keywords = Array.from(attributesMap.keys()); // Extract keywords for highlighting
       // Insert keywords into the Trie
@@ -433,118 +433,174 @@ async function activate(context) {
       console.log('[RTT EasyLanguage] Trie initialized with EasyLanguage keywords');
       // Register hover provider
       registerHoverProvider(context, reserved_keywords, attributesMap);
-    }
+  }
 
-    // Load user keywords from the vsCode settings
-    const user_func_keywords = loadUserFunctionsFromSettings();
-    let usr_func_decorationType = null;
-    if (user_func_keywords.length > 0) {
+  // Load user keywords from the vsCode settings
+  const user_func_keywords = loadUserFunctionsFromSettings();
+  let usr_func_decorationType = null;
+  if (user_func_keywords.length > 0) {
 
       user_func_keywords.forEach((keyword) => trie.insert(keyword));
       console.log('[RTT EasyLanguage] Trie initialized with custom user function keywords from vsCode settings');
       
-      usr_func_decorationType = vscode.window.createTextEditorDecorationType({
-        light: {    // used in light color themes
-          fontStyle: 'italic',
-          color: '#b300ff',
-          backgroundColor: 'rgba(188, 65, 250, 0.05)'
-        },
-        dark: {   // used in dark color themes
-          fontStyle: 'bold',
-          color: '#ff6f00',
-          backgroundColor: 'rgba(255, 165, 0, 0.05)'
-        }
-      });
-    }
+      // Function to create decoration type based on the current settings
+      const createDecorationType = () => {
+          const lightBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeBackgroundColor');
+          const lightColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeColor');
+          const lightFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeStyle');
 
+          const darkBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeBackgroundColor');
+          const darkColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeColor');
+          const darkFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeStyle');
 
-    let timeout = null;
+          return vscode.window.createTextEditorDecorationType({
+              light: { // Used in light themes
+                  backgroundColor: lightBackgroundColor,
+                  color: lightColor,
+                  fontStyle: lightFontStyle,
+              },
+              dark: { // Used in dark themes
+                  backgroundColor: darkBackgroundColor,
+                  color: darkColor,
+                  fontStyle: darkFontStyle,
+              },
+          });
+      };
 
-    // Function to update decorations
-    const updateDecorations = (editor) => {
-        if (!editor) { return; }
-        if (!usr_func_decorationType) { return; }
+      // Create initial decoration type
+      usr_func_decorationType = createDecorationType();
+  }
 
-        const text = editor.document.getText();
+  let timeout = null;
 
-        // Match and decorate custom user function keywords
-        const regexFile2 = new RegExp(`\\b(${user_func_keywords.join('|')})\\b`, 'gi');
-        const decorationsFile2 = [];
-        while ((match = regexFile2.exec(text)) !== null) {
-            const startPos = editor.document.positionAt(match.index);
-            const endPos = editor.document.positionAt(match.index + match[0].length);
-            const lineStartPos = new vscode.Position(startPos.line, 0);
-            const lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
-            if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // Skip matches on commented lines
+  // Function to update decorations
+  const updateDecorations = (editor) => {
+      if (!editor || !usr_func_decorationType) { return; }
 
-            const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
-            const markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-function)`);
-              markdownText.supportHtml = true;
-              markdownText.appendMarkdown(styledString);
-              markdownText.appendText(`  (user function)\n`);
-              markdownText.appendMarkdown(`\n`);
+      const text = editor.document.getText();
 
-            markdownText.isTrusted = true; 
-            markdownText.supportThemeIcons = true;
-            
-            decorationsFile2.push({ 
+      // Match and decorate custom user function keywords
+      const regexFile2 = new RegExp(`\\b(${user_func_keywords.join('|')})\\b`, 'gi');
+      const decorationsFile2 = [];
+      let match;
+      while ((match = regexFile2.exec(text)) !== null) {
+          const startPos = editor.document.positionAt(match.index);
+          const endPos = editor.document.positionAt(match.index + match[0].length);
+          const lineStartPos = new vscode.Position(startPos.line, 0);
+          const lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
+          if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // Skip matches on commented lines
+
+          const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
+          const markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-function)`);
+          markdownText.supportHtml = true;
+          markdownText.appendMarkdown(styledString);
+          markdownText.appendText(`  (user function)\n`);
+          markdownText.appendMarkdown(`\n`);
+
+          markdownText.isTrusted = true; 
+          markdownText.supportThemeIcons = true;
+          
+          decorationsFile2.push({ 
               range: new vscode.Range(startPos, endPos), 
               hoverMessage: markdownText 
+          });
+      }
+      editor.setDecorations(usr_func_decorationType, decorationsFile2);
+  };
+
+  const triggerUpdateDecorations = (editor) => {
+      if (timeout) {
+          clearTimeout(timeout);
+      }
+      timeout = setTimeout(() => updateDecorations(editor), 500);
+  };
+
+  // Register completion provider
+  const completionProvider = vscode.languages.registerCompletionItemProvider(
+      { scheme: 'file', language: 'easylanguage' },
+      {
+          provideCompletionItems(document, position) {
+              const allKeywords = trie.getAllWords();
+              return allKeywords.map((keyword) => {
+
+                  let itemKind = vscode.CompletionItemKind.Function;
+                  let attribute = attributesMap.get(keyword); 
+
+                  if (attribute == 'class') { itemKind = vscode.CompletionItemKind.Class; }
+                  if (attribute == 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; }
+                  if (attribute == 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; }
+
+                  const item = new vscode.CompletionItem(keyword, itemKind);
+                  return item;
+              });
+          },
+      }
+  );
+
+  // Register listeners for updating decorations
+  const activeEditor = vscode.window.activeTextEditor;
+  if (activeEditor) {
+      triggerUpdateDecorations(activeEditor);
+  }
+
+  vscode.window.onDidChangeActiveTextEditor((editor) => {
+      if (editor) {
+          triggerUpdateDecorations(editor);
+      }
+  }, null, context.subscriptions);
+
+  vscode.workspace.onDidChangeTextDocument((event) => {
+      const activeEditor = vscode.window.activeTextEditor;
+      if (activeEditor && event.document === activeEditor.document) {
+          triggerUpdateDecorations(activeEditor);
+      }
+  }, null, context.subscriptions);
+
+  // Watch for changes in settings to refresh the keywords and/or decoration style dynamically
+  vscode.workspace.onDidChangeConfiguration((event) => {
+      if (event.affectsConfiguration('easylanguage')) {
+              
+        // Refresh the decoration type when settings change
+        if (usr_func_decorationType) {
+            usr_func_decorationType.dispose(); // Dispose of old decoration type
+        }
+
+        // Function to create decoration type based on the current settings
+        let updateDecorationType = () => {
+            const lightBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeBackgroundColor');
+            const lightColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeColor');
+            const lightFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeStyle');
+
+            const darkBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeBackgroundColor');
+            const darkColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeColor');
+            const darkFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeStyle');
+
+            return vscode.window.createTextEditorDecorationType({
+                light: { // Used in light themes
+                    backgroundColor: lightBackgroundColor,
+                    color: lightColor,
+                    fontStyle: lightFontStyle,
+                },
+                dark: { // Used in dark themes
+                    backgroundColor: darkBackgroundColor,
+                    color: darkColor,
+                    fontStyle: darkFontStyle,
+                },
             });
-        }
-        editor.setDecorations(usr_func_decorationType, decorationsFile2);
-    };
+        };
 
-    const triggerUpdateDecorations = (editor) => {
-        if (timeout) {
-            clearTimeout(timeout);
-        }
-        timeout = setTimeout(() => updateDecorations(editor), 500);
-    };
+        usr_func_decorationType = updateDecorationType(); // update new decoration type
+        console.log('[RTT EasyLanguage] Custom user function keywords style updated from vsCode settings');
 
-    // Register completion provider
-    const completionProvider = vscode.languages.registerCompletionItemProvider(
-        { scheme: 'file', language: 'easylanguage' },
-        {
-            provideCompletionItems(document, position) {
-                const allKeywords = trie.getAllWords();
-                return allKeywords.map((keyword) => {
-
-                    let itemKind = vscode.CompletionItemKind.Function;
-                    let attribute = attributesMap.get(keyword); 
-
-                    if (attribute == 'class') { itemKind = vscode.CompletionItemKind.Class; }
-                    if (attribute == 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; }
-                    if (attribute == 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; }
-
-                    const item = new vscode.CompletionItem(keyword, itemKind);
-                    return item;
-                });
-            },
-        }
-    );
-
-    // Register listeners for updating decorations
-    const activeEditor = vscode.window.activeTextEditor;
-    if (activeEditor) {
-        triggerUpdateDecorations(activeEditor);
-    }
-
-    vscode.window.onDidChangeActiveTextEditor((editor) => {
-        if (editor) {
-            triggerUpdateDecorations(editor);
-        }
-    }, null, context.subscriptions);
-
-    vscode.workspace.onDidChangeTextDocument((event) => {
         const activeEditor = vscode.window.activeTextEditor;
-        if (activeEditor && event.document === activeEditor.document) {
-            triggerUpdateDecorations(activeEditor);
+        if (activeEditor) {
+            updateDecorations(activeEditor); // Reapply decorations
         }
-    }, null, context.subscriptions);
+      }
+  }, null, context.subscriptions);
 
-    // Push the completion provider to the context
-    context.subscriptions.push(completionProvider);
+  // Push the completion provider to the context
+  context.subscriptions.push(completionProvider);
 }
 /////////////////////////////////////////////////////////
 

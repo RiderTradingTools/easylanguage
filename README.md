@@ -9,21 +9,24 @@ Because the TradeStation development environment lacks the excellent features an
 
 <br>
 
-# Features
+# Feature Overview
 
 - Syntax Highlighting
+  - Reserved Keywords
+  - Functions
+  - Custom User Functions
+  - Classes
+  - Skip Words
   - Strings
   - Comments
   - Numbers
-  - Skip words
-  - Control
-  - Orders
-  - and majority of the reserved words and functions
-- Code Outline
+- **EasyLanguage Keyword Definitions** &nbsp; <i>( new! )</i>
+  - Hovering will reveal the EasyLanguage definitions from help.tradestation.com
+- **Auto Complete** &nbsp; <i>( new! )</i>
+  - Auto-complete of EasyLanguage reserved keywords, classes, functions, enumerations
+- **Code Outline** &nbsp; <i>( updated )</i>
   - Outline view of code sections/symbols
-- Simple Auto Complete
-  - basic auto-complete of numerous reserved words and function names
-- Themes
+- **Themes** &nbsp; <i>( updated )</i>
    - 2 light themes:
      - Standard (TradeStation development environment)
      - Solarized
@@ -32,7 +35,7 @@ Because the TradeStation development environment lacks the excellent features an
      - Moss
 - Auto Closing
   - brackets
-  - begin..end
+  - begin ... end
   - quotes
 - Snippets
   - if
@@ -45,43 +48,49 @@ Because the TradeStation development environment lacks the excellent features an
   - others  
   
 
-<br>
+<br><br>
 
-# Screenshots
+# Features
 
-<img src="https://ridertradingtools.com/images/easylanguage/screenshot_standard_theme.png" alt="easylanguage sample screenshot" width="80%">  
+## EasyLanguage definitions
+Hovering over keywords reveals EasyLanguage definitions from help.tradestation.com.
+
+<img src="https://ridertradingtools.com/images/easylanguage/example-hover.gif" alt="hover reveals easylanguage definition">  
+
+
+## Auto Complete
+Auto-complete for the EasyLanguage classes, functions, reserved keywords, and enumerations.
+
+<img src="https://ridertradingtools.com/images/easylanguage/auto-complete.gif" alt="easylanguage auto-complete">  
+
+
+## Code Outline
+View the Code Outline showing sections/symbols.
+
+<img src="https://ridertradingtools.com/images/easylanguage/example-code-outline.gif" alt="easylanguage code outline">  
+
 
 ## Themes
+Several custom color themes to chose from.
 
-- Standard theme  
-<img src="https://ridertradingtools.com/images/easylanguage/screenshot_standard_theme.png" width="80%">    
+<img src="https://ridertradingtools.com/images/easylanguage/example-themes.gif" alt="easylanguage themes">  
+
+- Standard theme -- extends the TradeStation development environment colors
+<img src="https://ridertradingtools.com/images/easylanguage/screenshot_standard_theme.png" width="50%">    
 
 - Solarized theme  
-<img src="https://ridertradingtools.com/images/easylanguage/screenshot_solarized_theme.png" width="80%">    
+<img src="https://ridertradingtools.com/images/easylanguage/screenshot_solarized_theme.png" width="50%">    
 
 - Dark theme  
-<img src="https://ridertradingtools.com/images/easylanguage/screenshot_dark_theme.png" width="80%">    
+<img src="https://ridertradingtools.com/images/easylanguage/screenshot_dark_theme.png" width="50%">    
 
 - Moss theme  
-<img src="https://ridertradingtools.com/images/easylanguage/screenshot_moss_theme.png" width="80%">    
+<img src="https://ridertradingtools.com/images/easylanguage/screenshot_moss_theme.png" width="50%">    
 
 
-## Side-by-Side Screenshots
+<br><br>
 
-- Standard theme
-<img src="https://ridertradingtools.com/images/easylanguage/side-by-side_1__(standard_theme).png">  
-
-- Solarized theme
-<img src="https://ridertradingtools.com/images/easylanguage/side-by-side_2__(solarized_theme).png">  
-
-- Dark theme
-<img src="https://ridertradingtools.com/images/easylanguage/side-by-side_3__(dark_theme).png">  
-
-- Moss theme
-<img src="https://ridertradingtools.com/images/easylanguage/side-by-side_4b__(moss_theme).png">  
-
-
-## File Extension
+# File Extension
 
 Supported file extension for code files:
 - &nbsp; <strong><code>.easylanguage</code></strong>
@@ -142,9 +151,9 @@ You can create a Task to launch TradeStation web help:
 </code>
 
 
-<br>
+<br><br>
 
-## Release Notes
+# Release Notes
 *(see CHANGELOG for additional details and screenshots)*
  - Version *1.0.1* &nbsp; - Intial release.  
  - Version *1.0.2* &nbsp; - Added missing keywords and classes. Modified themes. Updated snippets. 
@@ -155,13 +164,18 @@ You can create a Task to launch TradeStation web help:
  - Version *1.0.7* &nbsp; - Added support for file extension .el and .elf for MultiCharts PowerLanguage compatibility.
  - Version *1.0.8* &nbsp; - Fixed the Plot and Plot1-99 keywords regex.
  - Version *1.0.9* &nbsp; - Fixed the Range function keyword.
- - Version *2.0.1* &nbsp; - Added syntax highlighting for Methods and user functions: keywords starting with _ character will be highlighted. Fixed Outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
+ - Version *2.0.1* &nbsp; - Major update! 
+    - Hovering over keywords reveals EasyLanguage definitions from help.tradestation.com.
+    - Auto-complete for the EasyLanguage classes, functions, reserved keywords, and enumerations.
+    - Better syntax highlighting for all EasyLanguage keywords.
+    - Ability to add custom user functions so they are highlighted as well.
+    - Fixed code outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
 
 <br>
 <br>
 <br>
-
+<br>
 
 ---
-#### Disclaimer
+### Disclaimer
 Not affiliated in any way, shape or form (other than a client) of TradeStation or TradeStation Group, Inc.
