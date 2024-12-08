@@ -1,8 +1,8 @@
 
 <p align="center"> <img src="https://ridertradingtools.com/images/easylanguage/ts_dev_env_icon.png" alt="easylanguage logo"> </p>
-<h1  align="center"> easylanguage support </h1> 
+<h1  align="center"> EasyLanguage Support </h1> 
 
-### Adds syntax support for easylanguage in Visual Studio Code. 
+### Adds syntax support for EasyLanguage in Visual Studio Code. 
 
 ### <em>Why?</em>
 Because the TradeStation development environment lacks the excellent features and usability of Visual Studio Code!
@@ -25,7 +25,7 @@ Because the TradeStation development environment lacks the excellent features an
 - **Auto Complete** &nbsp; <i>( new! )</i>
   - Auto-complete of EasyLanguage reserved keywords, classes, functions, enumerations
 - **Custom User Functions** &nbsp; <i>( new! )</i> 
-  - Include custom user functions so they get highlighted, with capability to modify syntax styling.
+  - Include custom user functions so they get highlighted, with capability to modify styling.
 - **Code Outline** &nbsp; <i>( updated )</i>
   - Outline view of code sections/symbols
 - **Themes** &nbsp; <i>( updated )</i>
@@ -67,7 +67,7 @@ Auto-complete for the EasyLanguage classes, functions, reserved keywords, and en
 
 
 ## Include Custom User Functions
-Include custom user functions so they get highlighted, with capability to modify syntax styling.
+Include custom user functions so they get highlighted, with capability to modify styling.
 
 <img src="https://ridertradingtools.com/images/easylanguage/user-function-styling.gif" alt="easylanguage add custom user functions">  
 
@@ -130,7 +130,7 @@ You can create a Task to launch TradeStation web help:
 &nbsp; &nbsp; "version": "2.0.0",   <br>
 &nbsp; &nbsp; "tasks": [{   <br>
 &nbsp; &nbsp; &nbsp; &nbsp;             // launch tradestation web help, and search on reserved word   <br>
-&nbsp; &nbsp; &nbsp; &nbsp;             "label": "easylanguage web help",   <br>
+&nbsp; &nbsp; &nbsp; &nbsp;             "label": "EasyLanguage web help",   <br>
 &nbsp; &nbsp; &nbsp; &nbsp;             "type": "shell",   <br>
 &nbsp; &nbsp; &nbsp; &nbsp;             "presentation": {   <br>
 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;                  "echo": false,   <br>
@@ -153,7 +153,7 @@ You can create a Task to launch TradeStation web help:
 { <br>
 &nbsp; &nbsp;                 "key": "f1",   <br>
 &nbsp; &nbsp;                 "command": "workbench.action.tasks.runTask",   <br>
-&nbsp; &nbsp;                 "args": "easylanguage web help",   <br>
+&nbsp; &nbsp;                 "args": "EasyLanguage web help",   <br>
 &nbsp; &nbsp;                 "when": "editorHasSelection"   <br>
 }   <br>
 </code>

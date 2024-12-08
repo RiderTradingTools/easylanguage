@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to the "easylanguage" extension will be documented in this file.
+All notable changes to the "EasyLanguage" extension will be documented in this file.
 
 
 ## 1.0.1
@@ -57,5 +57,5 @@ All notable changes to the "easylanguage" extension will be documented in this f
  <img src="https://ridertradingtools.com/images/easylanguage/auto-complete.gif" width="50%" alt="easylanguage auto-complete">  
  - Fixed code outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks.
  <img src="https://ridertradingtools.com/images/easylanguage/example-code-outline.gif" width="50%" alt="easylanguage code outline">  
- - Include custom user functions so they get highlighted, with capability to modify syntax styling.
+ - Include custom user functions so they get highlighted, with capability to modify styling.
  <img src="https://ridertradingtools.com/images/easylanguage/user-function-styling.gif" width="50%" alt="easylanguage add custom user functions">  
