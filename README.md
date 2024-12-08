@@ -24,6 +24,8 @@ Because the TradeStation development environment lacks the excellent features an
   - Hovering will reveal the EasyLanguage definitions from help.tradestation.com
 - **Auto Complete** &nbsp; <i>( new! )</i>
   - Auto-complete of EasyLanguage reserved keywords, classes, functions, enumerations
+- **Custom User Functions** &nbsp; <i>( new! )</i> 
+  - Include custom user functions so they get highlighted, with capability to modify syntax styling.
 - **Code Outline** &nbsp; <i>( updated )</i>
   - Outline view of code sections/symbols
 - **Themes** &nbsp; <i>( updated )</i>
@@ -62,6 +64,12 @@ Hovering over keywords reveals EasyLanguage definitions from help.tradestation.c
 Auto-complete for the EasyLanguage classes, functions, reserved keywords, and enumerations.
 
 <img src="https://ridertradingtools.com/images/easylanguage/auto-complete.gif" alt="easylanguage auto-complete">  
+
+
+## Include Custom User Functions
+Include custom user functions so they get highlighted, with capability to modify syntax styling.
+
+<img src="https://ridertradingtools.com/images/easylanguage/user-function-styling.gif" alt="easylanguage add custom user functions">  
 
 
 ## Code Outline
@@ -168,7 +176,7 @@ You can create a Task to launch TradeStation web help:
     - Hovering over keywords reveals EasyLanguage definitions from help.tradestation.com.
     - Auto-complete for the EasyLanguage classes, functions, reserved keywords, and enumerations.
     - Better syntax highlighting for all EasyLanguage keywords.
-    - Ability to add custom user functions so they are highlighted as well.
+    - Ability to add custom user functions so they are highlighted as well; with editable font styling.
     - Fixed code outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
 
 <br>
