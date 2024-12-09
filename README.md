@@ -57,7 +57,7 @@ Because the TradeStation development environment lacks the excellent features an
 ## EasyLanguage definitions
 Hovering over keywords reveals EasyLanguage definitions from help.tradestation.com.
 
-<img src="https://ridertradingtools.com/images/easylanguage/example-hover.gif" alt="hover reveals easylanguage definition">  
+<img src="https://ridertradingtools.com/images/easylanguage/hover-over-definitions.gif" alt="hover reveals easylanguage definition">  
 
 
 ## Auto Complete

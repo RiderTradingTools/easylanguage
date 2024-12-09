@@ -51,7 +51,7 @@ All notable changes to the "EasyLanguage" extension will be documented in this f
 
 ## 2.0.1  <i> &nbsp; Major update </i>
  - Hovering over keywords reveals EasyLanguage definitions from help.tradestation.com.
- <img src="https://ridertradingtools.com/images/easylanguage/example-hover.gif" width="50%" alt="hover reveals easylanguage definition">  
+ <img src="https://ridertradingtools.com/images/easylanguage/hover-over-definitions.gif" width="50%" alt="hover reveals easylanguage definition">  
  - Better syntax highlighting for all EasyLanguage keywords.
  - Auto-complete for the EasyLanguage classes, functions, reserved keywords, and enumerations.
  <img src="https://ridertradingtools.com/images/easylanguage/auto-complete.gif" width="50%" alt="easylanguage auto-complete">  
