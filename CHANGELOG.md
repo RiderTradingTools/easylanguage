@@ -50,12 +50,10 @@ All notable changes to the "EasyLanguage" extension will be documented in this f
  
 
 ## 2.0.1  <i> &nbsp; Major update </i>
- - Hovering over keywords reveals EasyLanguage definitions from help.tradestation.com.
- <img src="https://ridertradingtools.com/images/easylanguage/hover-over-definitions.gif" width="50%" alt="hover reveals easylanguage definition">  
- - Better syntax highlighting for all EasyLanguage keywords.
- - Auto-complete for the EasyLanguage classes, functions, reserved keywords, and enumerations.
- <img src="https://ridertradingtools.com/images/easylanguage/auto-complete.gif" width="50%" alt="easylanguage auto-complete">  
- - Fixed code outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks.
- <img src="https://ridertradingtools.com/images/easylanguage/example-code-outline.gif" width="50%" alt="easylanguage code outline">  
- - Include custom user functions so they get highlighted, with capability to modify styling.
- <img src="https://ridertradingtools.com/images/easylanguage/user-function-styling.gif" width="50%" alt="easylanguage add custom user functions">  
+  - Hovering over keywords reveals EasyLanguage definitions from help.tradestation.com.
+  - Auto-complete for the EasyLanguage classes, functions, reserved keywords, and enumerations.
+  - Better syntax highlighting for all EasyLanguage keywords.
+  - Ability to add custom User Functions so they are highlighted, with capability to modify the font styling.
+  - Fixed the Code Outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
+  - Updated color themes.
+

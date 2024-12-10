@@ -7,11 +7,12 @@
 ### <em>Why?</em>
 Because the TradeStation development environment lacks the excellent features and usability of Visual Studio Code!
 
-<br>
+<br><br>
 
-# Feature Overview
 
-- Syntax Highlighting
+# <strong>Features</strong>
+
+## Syntax Highlighting
   - Reserved Keywords
   - Functions
   - Custom User Functions
@@ -20,94 +21,60 @@ Because the TradeStation development environment lacks the excellent features an
   - Strings
   - Comments
   - Numbers
-- **EasyLanguage Keyword Definitions** &nbsp; <i>( new! )</i>
-  - Hovering will reveal the EasyLanguage definitions from help.tradestation.com
-- **Auto Complete** &nbsp; <i>( new! )</i>
-  - Auto-complete of EasyLanguage reserved keywords, classes, functions, enumerations
-- **Custom User Functions** &nbsp; <i>( new! )</i> 
-  - Include custom user functions so they get highlighted, with capability to modify styling.
-- **Code Outline** &nbsp; <i>( updated )</i>
-  - Outline view of code sections/symbols
-- **Themes** &nbsp; <i>( updated )</i>
-   - 2 light themes:
-     - Standard (TradeStation development environment)
-     - Solarized
-   - 2 dark themes:
-     - Dark 
-     - Moss
-- Auto Closing
-  - brackets
-  - begin ... end
-  - quotes
-- Snippets
-  - if
-  - for loop
-  - while loop
-  - begin..end
-  - highest, lowest
-  - cross
-  - Day Trade
-  - others  
-  
 
-<br><br>
 
-# Features
-
-## EasyLanguage definitions
+## EasyLanguage Definition Pop-up
 Hovering over keywords reveals EasyLanguage definitions from help.tradestation.com.
 
-<img src="https://ridertradingtools.com/images/easylanguage/hover-over-definitions.gif" alt="hover reveals easylanguage definition">  
+<img src="https://ridertradingtools.com/images/easylanguage/hover-over-definitions.gif" width="1000" alt="hover reveals easylanguage definition">  
 
 
-## Auto Complete
+## Keyword Auto Complete
 Auto-complete for the EasyLanguage classes, functions, reserved keywords, and enumerations.
 
-<img src="https://ridertradingtools.com/images/easylanguage/auto-complete.gif" alt="easylanguage auto-complete">  
+<img src="https://ridertradingtools.com/images/easylanguage/auto-complete.gif" width="1000" alt="easylanguage auto-complete">  
 
 
-## Include Custom User Functions
-Include custom user functions so they get highlighted, with capability to modify styling.
+## Highlight Custom User Functions
+Ability to add custom User Functions so they are highlighted, with capability to modify the font styling.
 
-<img src="https://ridertradingtools.com/images/easylanguage/user-function-styling.gif" alt="easylanguage add custom user functions">  
+<img src="https://ridertradingtools.com/images/easylanguage/user-function-styling.gif" width="1000" alt="easylanguage add custom user functions">  
 
 
 ## Code Outline
 View the Code Outline showing sections/symbols.
 
-<img src="https://ridertradingtools.com/images/easylanguage/example-code-outline.gif" alt="easylanguage code outline">  
+<img src="https://ridertradingtools.com/images/easylanguage/example-code-outline.gif" width="1000" alt="easylanguage code outline">  
 
 
-## Themes
-Several custom color themes to chose from.
+## Color Themes
+Several custom color themes to chose from: &nbsp; Standard, &nbsp;Solarized, &nbsp;Dark, &nbsp;Moss
 
-<img src="https://ridertradingtools.com/images/easylanguage/example-themes.gif" alt="easylanguage themes">  
+<a href="https://ridertradingtools.com/images/easylanguage/standard_theme.png" target="_blank"><img src="https://ridertradingtools.com/images/easylanguage/standard_theme.png" width="400" /></a><a href="https://ridertradingtools.com/images/easylanguage/solarized_theme.png" target="_blank"><img src="https://ridertradingtools.com/images/easylanguage/solarized_theme.png" width="400" /><a href="https://ridertradingtools.com/images/easylanguage/dark_theme.png" target="_blank"><img src="https://ridertradingtools.com/images/easylanguage/dark_theme.png" width="400" /></a><a href="https://ridertradingtools.com/images/easylanguage/moss_theme.png" target="_blank"><img src="https://ridertradingtools.com/images/easylanguage/moss_theme.png" width="400" /></a>
 
-- Standard theme -- extends the TradeStation development environment colors
-<img src="https://ridertradingtools.com/images/easylanguage/screenshot_standard_theme.png" width="50%">    
-
-- Solarized theme  
-<img src="https://ridertradingtools.com/images/easylanguage/screenshot_solarized_theme.png" width="50%">    
-
-- Dark theme  
-<img src="https://ridertradingtools.com/images/easylanguage/screenshot_dark_theme.png" width="50%">    
-
-- Moss theme  
-<img src="https://ridertradingtools.com/images/easylanguage/screenshot_moss_theme.png" width="50%">    
+## Snippets
+  - if
+  - for loop
+  - while loop
+  - begin...end
+  - highest, lowest
+  - cross
+  - Day Trade
+  - others  
 
 
-<br><br>
+<br><br><br>
 
-# File Extension
+# <strong>File Extension</strong>
 
 Supported file extension for code files:
 - &nbsp; <strong><code>.easylanguage</code></strong>
 - &nbsp; <strong><code>.el</code></strong>
 - &nbsp; <strong><code>.elf</code></strong>
 
-<br>  
+<br><br><br>
 
-## Suggested Settings
+# <strong>Suggested Settings</strong>
 
 For auto-complete, to assist in completion and set priority of completion, you may find these settings useful:  
 - Set in your preferences settings:  <br>
@@ -161,7 +128,7 @@ You can create a Task to launch TradeStation web help:
 
 <br><br>
 
-# Release Notes
+# <strong>Release Notes</strong>
 *(see CHANGELOG for additional details and screenshots)*
  - Version *1.0.1* &nbsp; - Intial release.  
  - Version *1.0.2* &nbsp; - Added missing keywords and classes. Modified themes. Updated snippets. 
@@ -176,14 +143,14 @@ You can create a Task to launch TradeStation web help:
     - Hovering over keywords reveals EasyLanguage definitions from help.tradestation.com.
     - Auto-complete for the EasyLanguage classes, functions, reserved keywords, and enumerations.
     - Better syntax highlighting for all EasyLanguage keywords.
-    - Ability to add custom user functions so they are highlighted as well; with editable font styling.
+    - Ability to add custom user functions so they are highlighted, with editable font styling.
     - Fixed code outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
 
 <br>
 <br>
 <br>
-<br>
+
 
 ---
-### Disclaimer
+### <strong>Disclaimer</strong>
 Not affiliated in any way, shape or form (other than a client) of TradeStation or TradeStation Group, Inc.
