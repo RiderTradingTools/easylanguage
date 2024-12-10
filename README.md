@@ -48,7 +48,7 @@ View the Code Outline showing sections/symbols.
 
 
 ## Color Themes
-Several custom color themes to chose from: &nbsp; Standard, &nbsp;Solarized, &nbsp;Dark, &nbsp;Moss
+Several custom color themes to choose from: &nbsp; Standard, &nbsp;Solarized, &nbsp;Dark, &nbsp;Moss
 
 <a href="https://ridertradingtools.com/images/easylanguage/standard_theme.png" target="_blank"><img src="https://ridertradingtools.com/images/easylanguage/standard_theme.png" width="400" /></a><a href="https://ridertradingtools.com/images/easylanguage/solarized_theme.png" target="_blank"><img src="https://ridertradingtools.com/images/easylanguage/solarized_theme.png" width="400" /><a href="https://ridertradingtools.com/images/easylanguage/dark_theme.png" target="_blank"><img src="https://ridertradingtools.com/images/easylanguage/dark_theme.png" width="400" /></a><a href="https://ridertradingtools.com/images/easylanguage/moss_theme.png" target="_blank"><img src="https://ridertradingtools.com/images/easylanguage/moss_theme.png" width="400" /></a>
 
@@ -96,7 +96,7 @@ You can create a Task to launch TradeStation web help:
 &nbsp; &nbsp; // for the documentation about the tasks.json format    <br>
 &nbsp; &nbsp; "version": "2.0.0",   <br>
 &nbsp; &nbsp; "tasks": [{   <br>
-&nbsp; &nbsp; &nbsp; &nbsp;             // launch tradestation web help, and search on reserved word   <br>
+&nbsp; &nbsp; &nbsp; &nbsp;             // launch TradeStation web help, and search on reserved word   <br>
 &nbsp; &nbsp; &nbsp; &nbsp;             "label": "EasyLanguage web help",   <br>
 &nbsp; &nbsp; &nbsp; &nbsp;             "type": "shell",   <br>
 &nbsp; &nbsp; &nbsp; &nbsp;             "presentation": {   <br>
@@ -128,9 +128,15 @@ You can create a Task to launch TradeStation web help:
 
 <br><br>
 
+# <strong>Appreciation</strong>
+This extension is free!  &nbsp;  If you enjoy it and <strong>want to support the work - [please consider making a donation](https://ridertradingtools.com/product/donation/)</strong>.  &nbsp; <i>Thank you!</i>
+
+
+<br><br>
+
 # <strong>Release Notes</strong>
-*(see CHANGELOG for additional details and screenshots)*
- - Version *1.0.1* &nbsp; - Intial release.  
+*(see CHANGELOG for additional details)*
+ - Version *1.0.1* &nbsp; - Initial release.  
  - Version *1.0.2* &nbsp; - Added missing keywords and classes. Modified themes. Updated snippets. 
  - Version *1.0.3* &nbsp; - Fixed error in snippets. 
  - Version *1.0.4* &nbsp; - Added support for #region sections. Updated themes for regions. Fixed error in syntax of keywords. 
@@ -145,6 +151,7 @@ You can create a Task to launch TradeStation web help:
     - Better syntax highlighting for all EasyLanguage keywords.
     - Ability to add custom user functions so they are highlighted, with editable font styling.
     - Fixed code outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
+
 
 <br>
 <br>
