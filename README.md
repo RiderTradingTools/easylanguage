@@ -72,6 +72,12 @@ Supported file extension for code files:
 - &nbsp; <strong><code>.el</code></strong>
 - &nbsp; <strong><code>.elf</code></strong>
 
+
+<br><br><br>
+
+# <strong>Appreciation</strong>
+### This extension is free!  &nbsp;  <br/>If you enjoy it and want to support the work <a href="https://ridertradingtools.com/product/donation/" target="_blank">please consider making a donation</a>.  &nbsp;<i>Thank you!</i>
+
 <br><br><br>
 
 # <strong>Suggested Settings</strong>
@@ -126,11 +132,6 @@ You can create a Task to launch TradeStation web help:
 </code>
 
 
-<br><br>
-
-# <strong>Appreciation</strong>
-This extension is free!  &nbsp;  If you enjoy it and <strong>want to support the work - [please consider making a donation](https://ridertradingtools.com/product/donation/)</strong>.  &nbsp; <i>Thank you!</i>
-
 
 <br><br>
 
@@ -160,4 +161,4 @@ This extension is free!  &nbsp;  If you enjoy it and <strong>want to support the
 
 ---
 ### <strong>Disclaimer</strong>
-Not affiliated in any way, shape or form (other than a client) of TradeStation or TradeStation Group, Inc.
+Not affiliated in any way, shape or form (other than a client) of TradeStation / TradeStation Group, Inc.
