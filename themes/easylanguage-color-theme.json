@@ -759,7 +759,7 @@
 				"string.quoted.double"
 			],
 			"settings": {
-				"foreground": "#ac0000"
+				"foreground": "#b2224e"
 			}
 		},
       {	// comments
@@ -768,7 +768,7 @@
                 "comment.block"
             ],
 			"settings": {
-				"foreground": "#899789",
+				"foreground": "#2e8b56c9",
                 "fontStyle": "italic"
 			}
 		},
@@ -781,19 +781,19 @@
 		{	// functions
 			"scope": "esl.function",
 			"settings": {
-				"foreground": "#a200b1"
+				"foreground": "#800097"
 			}
 		},
 		{	// classes
 			"scope": "esl.class",
 			"settings": {
-				"foreground": "#6742de"
+				"foreground": "#744afc"
 			}
 		},
 		{	// control words: begin, end, if, then, etc
 			"scope": "esl.control.keyword",
 			"settings": {
-				"foreground": "#0000FF"
+				"foreground": "#0000ff"
 			}
 		},
 		{	// sectional control words: region, etc
@@ -825,7 +825,7 @@
 		{	// operators
 			"scope": "constant.operator",
 			"settings": {
-				"foreground": "#008507"
+				"foreground": "#006e6a"
 			}
 		},
 		{	// skip words
@@ -838,13 +838,13 @@
 		{	// var scope: int, double, bool, True/False, etc
 			"scope": "variable.type",
 			"settings": {
-				"foreground": "#0050fd"
+				"foreground": "#0000ff"
 			}
 		},
 		{	// Value1, Plot1, Condition1, etc
 			"scope": "variable.esl",
 			"settings": {
-				"foreground": "#808022" // "#e76305"
+				"foreground": "#978000" // "#e76305"
 			}
 		},
 
