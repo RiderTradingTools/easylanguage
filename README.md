@@ -76,7 +76,7 @@ Supported file extension for code files:
 <br><br><br>
 
 # <strong>Appreciation</strong>
-### This extension is free!  &nbsp;  <br/>If you enjoy it and want to support the work <a href="https://ridertradingtools.com/product/donation/" target="_blank">please consider making a donation</a>.  &nbsp;<i>Thank you!</i>
+### This extension is free!  &nbsp;  <br/>If you enjoy it and want to support the work <a href="https://ridertradingtools.com/donation" target="_blank">please consider making a donation</a>.  &nbsp;<i>Thank you!</i>
 
 <br><br><br>
 
