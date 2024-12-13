@@ -518,53 +518,81 @@ async function activate(context) {
   
   // Register completion provider
   const completionProvider = vscode.languages.registerCompletionItemProvider(
-      { scheme: 'file', language: 'easylanguage' },
-      {
-          provideCompletionItems(document, position, token, context) {
-              const customKeywords = trie.getAllWords().map((keyword) => {
-                  let itemKind = vscode.CompletionItemKind.Function;
-                  let attribute = attributesMap.get(keyword); 
-  
-                  if (attribute === 'class') { itemKind = vscode.CompletionItemKind.Class; }
-                  if (attribute === 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; }
-                  if (attribute === 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; }
-  
-                  const item = new vscode.CompletionItem(keyword, itemKind);
-                  item.sortText = 'a' + keyword; // Ensure custom items are sorted appropriately
-                  return item;
-              });
-  
-              const documentText = document.getText();
-              const variableRegex = /\b(\w+)\b/g;
-              const documentVariables = new Map();
-  
+    { scheme: 'file', language: 'easylanguage' },
+    {
+        provideCompletionItems(document, position, token, context) {
+            // Custom keywords from the Trie
+            const customKeywords = trie.getAllWords().map((keyword) => {
+                let itemKind = vscode.CompletionItemKind.Function;
+                let attribute = attributesMap.get(keyword); 
+
+                if (attribute === 'class') { itemKind = vscode.CompletionItemKind.Class; }
+                if (attribute === 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; }
+                if (attribute === 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; }
+
+                const item = new vscode.CompletionItem(keyword, itemKind);
+                item.sortText = 'a' + keyword;
+                return item;
+            });
+
+            const documentText = document.getText();
+            const lines = documentText.split('\n');
+            const variableRegex = /\b(\w+)\b/g;
+            const methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i
+            const documentVariables = new Map();
+            const documentMethods = new Map();
+
+            lines.forEach(line => {
+              if (line.trim().startsWith('//')) {
+                  return; // Ignore comment lines
+              }
+
               let match;
-              while ((match = variableRegex.exec(documentText)) !== null) {
-                  const variable = match[1];
-                  if (!documentVariables.has(variable)) {
-                      const item = new vscode.CompletionItem(variable, vscode.CompletionItemKind.Variable);
-                      documentVariables.set(variable, item);
+              // Extract methods first
+              if ((match = methodRegex.exec(line)) !== null) {
+                  const returnType = match[1];
+                  const methodName = match[2];
+                  if (!documentMethods.has(methodName)) {
+                      const item = new vscode.CompletionItem(methodName, vscode.CompletionItemKind.Method);
+                      item.detail = `Returns: ${returnType}`; // Explicit return type
+                      documentMethods.set(methodName, item);
+                  }
+              } else {
+                  // If not a method, extract variables
+                  while ((match = variableRegex.exec(line)) !== null) {
+                      const variable = match[1];
+                      if (!documentVariables.has(variable)) {
+                          const item = new vscode.CompletionItem(variable, vscode.CompletionItemKind.Variable);
+                          documentVariables.set(variable, item);
+                      }
                   }
               }
-  
-              const uniqueDocumentVariables = Array.from(documentVariables.values());
-  
-              // Combine and remove duplicates between custom keywords and document variables
-              const allCompletions = [...customKeywords, ...uniqueDocumentVariables];
-  
-              // Remove duplicate keywords that may exist in both custom and document variables
-              const uniqueCompletions = allCompletions.reduce((acc, current) => {
-                  const exists = acc.find(item => item.label === current.label);
-                  if (!exists) {
-                      acc.push(current);
-                  }
-                  return acc;
-              }, []);
-  
-              return uniqueCompletions;
-          },
-      }
+          });
+
+            const uniqueDocumentVariables = Array.from(documentVariables.values());
+            const uniqueDocumentMethods = Array.from(documentMethods.values());
+
+            // Combine all completion items
+            const allCompletions = [
+                ...customKeywords, 
+                ...uniqueDocumentVariables, 
+                ...uniqueDocumentMethods
+            ];
+
+            // Remove duplicate items
+            const uniqueCompletions = allCompletions.reduce((acc, current) => {
+                const exists = acc.find(item => item.label === current.label);
+                if (!exists) {
+                    acc.push(current);
+                }
+                return acc;
+            }, []);
+
+            return uniqueCompletions;
+        },
+    }
   );
+
     
   
   // Register listeners for updating decorations
