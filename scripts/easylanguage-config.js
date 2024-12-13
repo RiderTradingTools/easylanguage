@@ -520,78 +520,82 @@ async function activate(context) {
   const completionProvider = vscode.languages.registerCompletionItemProvider(
     { scheme: 'file', language: 'easylanguage' },
     {
-        provideCompletionItems(document, position, token, context) {
-            // Custom keywords from the Trie
-            const customKeywords = trie.getAllWords().map((keyword) => {
-                let itemKind = vscode.CompletionItemKind.Function;
-                let attribute = attributesMap.get(keyword); 
+            provideCompletionItems(document, position, token, context) {
+                // Custom keywords from the Trie
+                const allKeywords = trie.getAllWords();
+                const customKeywords = allKeywords.map((keyword) => {
+                    let itemKind = vscode.CompletionItemKind.Function;
+                    let itemKindDetail = `function`;
+                    let attribute = attributesMap.get(keyword.toLowerCase());
 
-                if (attribute === 'class') { itemKind = vscode.CompletionItemKind.Class; }
-                if (attribute === 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; }
-                if (attribute === 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; }
+                    if (attribute === 'class') { itemKind = vscode.CompletionItemKind.Class; itemKindDetail = `class` }
+                    if (attribute === 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; itemKindDetail = `reserved keyword` }
+                    if (attribute === 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; itemKindDetail = `enum` }
 
-                const item = new vscode.CompletionItem(keyword, itemKind);
-                item.sortText = 'a' + keyword;
-                return item;
-            });
+                    const item = new vscode.CompletionItem(keyword, itemKind);
+                    item.detail = itemKindDetail;
+                    item.sortText = ('a' + keyword).toLowerCase();
+                    return item;
+                });
 
-            const documentText = document.getText();
-            const lines = documentText.split('\n');
-            const variableRegex = /\b(\w+)\b/g;
-            const methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i
-            const documentVariables = new Map();
-            const documentMethods = new Map();
+                const documentText = document.getText();
+                const lines = documentText.split('\n');
+                const variableRegex = /\b(\w+)\b/g;
+                const methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i; // Case-insensitive method detection
+                const documentVariables = new Map();
+                const documentMethods = new Map();
 
-            lines.forEach(line => {
-              if (line.trim().startsWith('//')) {
-                  return; // Ignore comment lines
-              }
+                lines.forEach(line => {
+                    if (line.trim().startsWith('//') || line.trim().startsWith('{')) {
+                        return; // Ignore comment lines
+                    }
 
-              let match;
-              // Extract methods first
-              if ((match = methodRegex.exec(line)) !== null) {
-                  const returnType = match[1];
-                  const methodName = match[2];
-                  if (!documentMethods.has(methodName)) {
-                      const item = new vscode.CompletionItem(methodName, vscode.CompletionItemKind.Method);
-                      item.detail = `Returns: ${returnType}`; // Explicit return type
-                      documentMethods.set(methodName, item);
-                  }
-              } else {
-                  // If not a method, extract variables
-                  while ((match = variableRegex.exec(line)) !== null) {
-                      const variable = match[1];
-                      if (!documentVariables.has(variable)) {
-                          const item = new vscode.CompletionItem(variable, vscode.CompletionItemKind.Variable);
-                          documentVariables.set(variable, item);
-                      }
-                  }
-              }
-          });
+                    let match;
+                    // Extract methods first
+                    if ((match = methodRegex.exec(line)) !== null) {
+                        const returnType = match[1];
+                        const methodName = match[2];
+                        if (!documentMethods.has(methodName)) {
+                            const item = new vscode.CompletionItem(methodName, vscode.CompletionItemKind.Method);
+                            item.detail = `Returns: ${returnType}`; // Explicit return type
+                            documentMethods.set(methodName, item);
+                        }
+                    } else {
+                        // Extract variables only if not already identified as methods
+                        const methodNames = Array.from(documentMethods.keys());
+                        while ((match = variableRegex.exec(line)) !== null) {
+                            const variable = match[1];
+                            if (!documentVariables.has(variable) && !methodNames.includes(variable)) {
+                                const item = new vscode.CompletionItem(variable, vscode.CompletionItemKind.Variable);
+                                documentVariables.set(variable, item);
+                            }
+                        }
+                    }
+                });
 
-            const uniqueDocumentVariables = Array.from(documentVariables.values());
-            const uniqueDocumentMethods = Array.from(documentMethods.values());
+                const uniqueDocumentVariables = Array.from(documentVariables.values());
+                const uniqueDocumentMethods = Array.from(documentMethods.values());
 
-            // Combine all completion items
-            const allCompletions = [
-                ...customKeywords, 
-                ...uniqueDocumentVariables, 
-                ...uniqueDocumentMethods
-            ];
+                // Combine all completion items
+                const allCompletions = [
+                    ...customKeywords,
+                    ...uniqueDocumentVariables,
+                    ...uniqueDocumentMethods
+                ];
 
-            // Remove duplicate items
-            const uniqueCompletions = allCompletions.reduce((acc, current) => {
-                const exists = acc.find(item => item.label === current.label);
-                if (!exists) {
-                    acc.push(current);
-                }
-                return acc;
-            }, []);
+                // Remove duplicate items
+                const uniqueCompletions = allCompletions.reduce((acc, current) => {
+                    const exists = acc.find(item => item.label.toLowerCase() === current.label.toLowerCase());
+                    if (!exists) {
+                        acc.push(current);
+                    }
+                    return acc;
+                }, []);
 
-            return uniqueCompletions;
-        },
-    }
-  );
+                return uniqueCompletions;
+            },
+        }
+    );
 
     
   
