@@ -515,28 +515,58 @@ async function activate(context) {
       timeout = setTimeout(() => updateDecorations(editor), 500);
   };
 
+  
   // Register completion provider
   const completionProvider = vscode.languages.registerCompletionItemProvider(
       { scheme: 'file', language: 'easylanguage' },
       {
-          provideCompletionItems(document, position) {
-              const allKeywords = trie.getAllWords();
-              return allKeywords.map((keyword) => {
-
+          provideCompletionItems(document, position, token, context) {
+              const customKeywords = trie.getAllWords().map((keyword) => {
                   let itemKind = vscode.CompletionItemKind.Function;
                   let attribute = attributesMap.get(keyword); 
-
-                  if (attribute == 'class') { itemKind = vscode.CompletionItemKind.Class; }
-                  if (attribute == 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; }
-                  if (attribute == 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; }
-
+  
+                  if (attribute === 'class') { itemKind = vscode.CompletionItemKind.Class; }
+                  if (attribute === 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; }
+                  if (attribute === 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; }
+  
                   const item = new vscode.CompletionItem(keyword, itemKind);
+                  item.sortText = 'a' + keyword; // Ensure custom items are sorted appropriately
                   return item;
               });
+  
+              const documentText = document.getText();
+              const variableRegex = /\b(\w+)\b/g;
+              const documentVariables = new Map();
+  
+              let match;
+              while ((match = variableRegex.exec(documentText)) !== null) {
+                  const variable = match[1];
+                  if (!documentVariables.has(variable)) {
+                      const item = new vscode.CompletionItem(variable, vscode.CompletionItemKind.Variable);
+                      documentVariables.set(variable, item);
+                  }
+              }
+  
+              const uniqueDocumentVariables = Array.from(documentVariables.values());
+  
+              // Combine and remove duplicates between custom keywords and document variables
+              const allCompletions = [...customKeywords, ...uniqueDocumentVariables];
+  
+              // Remove duplicate keywords that may exist in both custom and document variables
+              const uniqueCompletions = allCompletions.reduce((acc, current) => {
+                  const exists = acc.find(item => item.label === current.label);
+                  if (!exists) {
+                      acc.push(current);
+                  }
+                  return acc;
+              }, []);
+  
+              return uniqueCompletions;
           },
       }
   );
-
+    
+  
   // Register listeners for updating decorations
   const activeEditor = vscode.window.activeTextEditor;
   if (activeEditor) {
