@@ -89,7 +89,7 @@ For auto-complete, to assist in completion and set priority of completion, you m
 "editor.suggest.localityBonus": true,  <br>
 "editor.suggest.filterGraceful": true,  <br>
 "editor.suggest.snippetsPreventQuickSuggestions": true,  <br>
-"editor.autoIndent":"advanced",  <br>
+"editor.autoIndent":"full",  <br>
 </code>
 
 <br>  
