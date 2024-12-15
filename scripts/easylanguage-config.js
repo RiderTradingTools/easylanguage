@@ -53,6 +53,7 @@ class Trie {
     insert(word) {
         if (word.length === 0) { return; }
         const lowerCaseWord = word.toLowerCase();
+        if (lowerCaseWord.startsWith('/**/')) { return; }
         if (this.contains(lowerCaseWord)) { return; }
         let node = this.root;
         for (let i = 0; i < lowerCaseWord.length; i++) {
@@ -272,17 +273,22 @@ function fetchHoverText(hovered_keyword, keyword_attributeValue) {
     const turndownService = new TurndownService();
     turndownService.use(gfm); 
 
-    let keyword = hovered_keyword;
+    let keyword = hovered_keyword.toLowerCase();
     let display_keyword = hovered_keyword;
     let url = ``;
     let rep_url = ``;
     let rep_url2 = ``;
     let title_icon = ``;
+    let classSuffix = `_class`;
 
-    if (keyword.toLowerCase() == 'var' || keyword.toLowerCase() == 'vars' || keyword.toLowerCase() == 'variables') { keyword = 'Variable'; }
-    if (keyword.toLowerCase() == 'input' || keyword.toLowerCase() == 'displayname' || keyword.toLowerCase() == 'tooltip') { keyword = 'Inputs'; }
-    if (keyword.toLowerCase() == 'consts' || keyword.toLowerCase() == 'constant' || keyword.toLowerCase() == 'constants') { keyword = 'Const'; }
-    if (keyword.toLowerCase() == 'drawingobjects') { keyword = 'drawobjects'; } 
+    if (keyword == 'var' || keyword == 'vars' || keyword == 'variables') { keyword = 'Variable'; }
+    if (keyword == 'input' || keyword == 'displayname' || keyword == 'tooltip') { keyword = 'Inputs'; }
+    if (keyword == 'consts' || keyword == 'constant' || keyword == 'constants') { keyword = 'Const'; }
+    if (keyword == 'drawingobjects') { keyword = 'drawobjects'; } 
+    if (keyword == 'namevaluecollection') { keyword = 'namevalueollection'; } 
+    if (keyword == 'globaldictionary') { keyword = 'global_dictionary'; } 
+    if (keyword == 'systemexception' || keyword == 'object' || keyword == 'exception' || keyword == 'valuetype' || keyword == 'eventargs' || keyword == 'elcomponent' || keyword == 'analysistechnique') { keyword = 'elsystem_' + keyword; } 
+    if (keyword == 'preshowelementmenueventargs' || keyword == 'predeleteelementeventargs' || keyword == 'plotclickeventargs' || keyword == 'orderelementmoveeventargs' || keyword == 'elementselectedeventargs' || keyword == 'chartelementclickeventargs' || keyword == 'cellclickeventargs') { classSuffix = ``; } 
     if (keyword.startsWith('#')) { keyword = keyword.replace(/#/gi, '_'); }
 
     // function example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/adx_function_.htm
@@ -302,7 +308,7 @@ function fetchHoverText(hovered_keyword, keyword_attributeValue) {
       title_icon = `$(symbol-function)`;
     }
     else if (keyword_attributeValue.startsWith('class')) {
-      url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/${encodeURIComponent(keyword_attributeValue)}/${encodeURIComponent(keyword)}_class.htm`;
+      url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/${encodeURIComponent(keyword_attributeValue)}/${encodeURIComponent(keyword)}${encodeURIComponent(classSuffix)}.htm`;
       rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject`;
       rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/`;
       keyword_attributeValue = 'class';
@@ -524,13 +530,22 @@ async function activate(context) {
                 // Custom keywords from the Trie
                 const allKeywords = trie.getAllWords();
                 const customKeywords = allKeywords.map((keyword) => {
+
                     let itemKind = vscode.CompletionItemKind.Function;
                     let itemKindDetail = `function`;
-                    let attribute = attributesMap.get(keyword.toLowerCase());
 
-                    if (attribute === 'class') { itemKind = vscode.CompletionItemKind.Class; itemKindDetail = `class` }
-                    if (attribute === 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; itemKindDetail = `reserved keyword` }
-                    if (attribute === 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; itemKindDetail = `enum` }
+                    // Check if keyword exists in attributesMap (case-insensitive) and pull attribute
+                    let keyword_attributeValue = null;
+                    for (const [keyword_map, attribute] of attributesMap.entries()) {
+                        if (keyword_map.toLowerCase() === keyword.toLowerCase()) {
+                            keyword_attributeValue = attribute;
+                            break;
+                        }
+                    }                     
+
+                    if (keyword_attributeValue === 'class') { itemKind = vscode.CompletionItemKind.Class; itemKindDetail = `class` }
+                    if (keyword_attributeValue === 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; itemKindDetail = `reserved keyword` }
+                    if (keyword_attributeValue === 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; itemKindDetail = `enumeration` }
 
                     const item = new vscode.CompletionItem(keyword, itemKind);
                     item.detail = itemKindDetail;
@@ -557,7 +572,7 @@ async function activate(context) {
                         const methodName = match[2];
                         if (!documentMethods.has(methodName)) {
                             const item = new vscode.CompletionItem(methodName, vscode.CompletionItemKind.Method);
-                            item.detail = `Returns: ${returnType}`; // Explicit return type
+                            item.detail = `method returns: ${returnType}`; // Explicit return type
                             documentMethods.set(methodName, item);
                         }
                     } else {
