@@ -8,6 +8,8 @@
 Because the TradeStation development environment lacks the excellent features and usability of Visual Studio Code!
 
 <br><br>
+<h1>version 2.0.1 &nbsp;-&nbsp; Dec 2024 &nbsp; <strong>MAJOR FEATURE UPDATE!</strong> </h1>
+<br><br>
 
 
 # <strong>Features</strong>
@@ -94,7 +96,7 @@ For auto-complete, to assist in completion and set priority of completion, you m
 
 <br>  
 
-You can create a Task to launch TradeStation web help:  
+<i>Optional: </i>&nbsp; You can create a Task to launch TradeStation web help:  
 - Create a Task, such as:  
 <code> 
 {   <br>

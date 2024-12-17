@@ -8,4 +8,4 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 
 The text of the above license is included in the file LICENSE in the source.
 
-Rider Trading Tools is not affiliated in any way with TradeStation or TradeStation Group, Inc. 
+Rider Trading Tools is not affiliated in any way with TradeStation / TradeStation Group, Inc. 
