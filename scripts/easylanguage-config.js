@@ -307,7 +307,7 @@ function fetchHoverText(hovered_keyword, keyword_attributeValue) {
       rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/`;
       title_icon = `$(symbol-function)`;
     }
-    else if (keyword_attributeValue.startsWith('class')) {
+    else if (keyword_attributeValue.startsWith('class') || keyword_attributeValue == 'collection') {
       url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/${encodeURIComponent(keyword_attributeValue)}/${encodeURIComponent(keyword)}${encodeURIComponent(classSuffix)}.htm`;
       rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject`;
       rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/`;
