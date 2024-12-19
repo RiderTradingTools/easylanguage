@@ -154,6 +154,7 @@ For auto-complete, to assist in completion and set priority of completion, you m
     - Better syntax highlighting for all EasyLanguage keywords.
     - Ability to add custom user functions so they are highlighted, with editable font styling.
     - Fixed code outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
+ - Version *2.0.2* &nbsp; - Cleaned up a few mismatched keywords in syntax.
 
 
 <br>

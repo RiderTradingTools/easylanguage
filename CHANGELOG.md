@@ -57,3 +57,7 @@ All notable changes to the "EasyLanguage" extension will be documented in this f
   - Fixed the Code Outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
   - Updated color themes.
 
+
+## 2.0.2
+ - Cleaned up a few mismatched keywords in syntax.
+

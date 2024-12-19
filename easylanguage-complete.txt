@@ -1987,18 +1987,18 @@ InsideBid:reserved word
 
 
 
-INT:reserved word
+Int:reserved word
 INT64:reserved word
-DOUBLE:reserved word
-FLOAT:reserved word
+Double:reserved word
+Float:reserved word
 String:reserved word
 IntrabarPersist:reserved word
 Null:reserved word
-BYTE:reserved word
-BOOL:reserved word
-CHAR:reserved word
-TRUE:reserved word
-FALSE:reserved word
+Byte:reserved word
+Bool:reserved word
+Char:reserved word
+True:reserved word
+False:reserved word
 TrueFalse:reserved word
 TrueFalseArray:reserved word
 TrueFalseArrayRef:reserved word
@@ -2009,7 +2009,7 @@ WORD:reserved word
 DWORD:reserved word
 POINTER:reserved word
 UNSIGNED:reserved word
-LONG:reserved word
+Long:reserved word
 LPBOOL:reserved word
 LPBYTE:reserved word
 LPDOUBLE:reserved word

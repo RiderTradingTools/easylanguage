@@ -4,7 +4,7 @@
    "description": "EasyLanguage syntax support & highlighting used in TradeStation platform",
    "publisher": "RiderTradingTools",
    "icon": "images/ts_dev_env_icon.png",
-   "version": "2.0.1",
+   "version": "2.0.2",
    "engines": {
       "vscode": "^1.80.0"
    },
@@ -29,7 +29,7 @@
             "easylanguage.customUserFunctions": {
                "type": "array",
                "default": [],
-               "description": "List of custom user functions. After an update reload EasyLanguage extension to pickup the changes.",
+               "description": "List of custom User Functions. After an update reload EasyLanguage extension (or restart vsCode) to pickup the changes.",
                "items": {
                   "type": "string"
                }
