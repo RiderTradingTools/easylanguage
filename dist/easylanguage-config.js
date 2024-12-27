@@ -23574,7 +23574,7 @@ var require_turndown_plugin_gfm_cjs = __commonJS({
   }
 });
 
-// scripts/easylanguage-config.js
+// src/easylanguage-config.js
 var vscode = require("vscode");
 var fs = require("fs");
 var https = require("https");
@@ -23907,8 +23907,8 @@ async function activate(context) {
     console.log("[RTT EasyLanguage] Trie initialized with EasyLanguage keywords");
     registerHoverProvider(context, reserved_keywords, attributesMap);
   }
-  let usr_func_decorationType = null;
   const user_func_keywords = loadUserFunctionsFromSettings();
+  let usr_func_decorationType = null;
   if (user_func_keywords.length > 0) {
     user_func_keywords.forEach((keyword) => trie.insert(keyword));
     console.log("[RTT EasyLanguage] Trie initialized with custom user function keywords from vsCode settings");
@@ -23942,36 +23942,10 @@ async function activate(context) {
       return;
     }
     const text = editor.document.getText();
-    const docLines = text.split("\n");
-    const methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i;
-    const docMethods = new Array();
-    let commentsON = false;
-    docLines.forEach((line) => {
-      if (line.trim().startsWith("//")) {
-        return;
-      }
-      if (line.trim().startsWith("{")) {
-        commentsON = true;
-      }
-      if (line.trim().includes("}")) {
-        commentsON = false;
-      }
-      if (commentsON) {
-        return;
-      }
-      let mMatch;
-      if ((mMatch = methodRegex.exec(line)) !== null) {
-        const methodName = mMatch[2];
-        if (docMethods.indexOf(methodName) == -1) {
-          docMethods.push(methodName);
-        }
-      }
-    });
-    const regexUserFuncs = new RegExp(`\\b(${user_func_keywords.join("|")})\\b`, "gi");
-    const regexUserMethods = new RegExp(`\\b(${docMethods.join("|")})\\b`, "gi");
-    const decorationsAttr = [];
+    const regexFile2 = new RegExp(`\\b(${user_func_keywords.join("|")})\\b`, "gi");
+    const decorationsFile2 = [];
     let match;
-    while ((match = regexUserFuncs.exec(text)) !== null) {
+    while ((match = regexFile2.exec(text)) !== null) {
       const startPos = editor.document.positionAt(match.index);
       const endPos = editor.document.positionAt(match.index + match[0].length);
       const lineStartPos = new vscode.Position(startPos.line, 0);
@@ -23989,35 +23963,12 @@ async function activate(context) {
 `);
       markdownText.isTrusted = true;
       markdownText.supportThemeIcons = true;
-      decorationsAttr.push({
+      decorationsFile2.push({
         range: new vscode.Range(startPos, endPos),
         hoverMessage: markdownText
       });
     }
-    while ((match = regexUserMethods.exec(text)) !== null) {
-      const startPos = editor.document.positionAt(match.index);
-      const endPos = editor.document.positionAt(match.index + match[0].length);
-      const lineStartPos = new vscode.Position(startPos.line, 0);
-      const lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
-      if (lineText.startsWith("//") || lineText.startsWith("{")) {
-        continue;
-      }
-      const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
-      const markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-method)`);
-      markdownText.supportHtml = true;
-      markdownText.appendMarkdown(styledString);
-      markdownText.appendText(`  (user method)
-`);
-      markdownText.appendMarkdown(`
-`);
-      markdownText.isTrusted = true;
-      markdownText.supportThemeIcons = true;
-      decorationsAttr.push({
-        range: new vscode.Range(startPos, endPos),
-        hoverMessage: markdownText
-      });
-    }
-    editor.setDecorations(usr_func_decorationType, decorationsAttr);
+    editor.setDecorations(usr_func_decorationType, decorationsFile2);
   };
   const triggerUpdateDecorations = (editor) => {
     if (timeout) {
@@ -24032,7 +23983,7 @@ async function activate(context) {
         const allKeywords = trie.getAllWords();
         const customKeywords = allKeywords.map((keyword) => {
           let itemKind = vscode.CompletionItemKind.Function;
-          let itemKindDetail = ``;
+          let itemKindDetail = `function`;
           let keyword_attributeValue = null;
           for (const [keyword_map, attribute] of attributesMap.entries()) {
             if (keyword_map.toLowerCase() === keyword.toLowerCase()) {
@@ -24040,21 +23991,17 @@ async function activate(context) {
               break;
             }
           }
-          if (keyword_attributeValue === "function") {
-            itemKind = vscode.CompletionItemKind.Function;
-            itemKindDetail = `function`;
-          } else if (keyword_attributeValue === "class") {
+          if (keyword_attributeValue === "class") {
             itemKind = vscode.CompletionItemKind.Class;
             itemKindDetail = `class`;
-          } else if (keyword_attributeValue === "reserved word") {
+          }
+          if (keyword_attributeValue === "reserved word") {
             itemKind = vscode.CompletionItemKind.Keyword;
             itemKindDetail = `reserved keyword`;
-          } else if (keyword_attributeValue === "enumeration") {
+          }
+          if (keyword_attributeValue === "enumeration") {
             itemKind = vscode.CompletionItemKind.Enum;
             itemKindDetail = `enumeration`;
-          } else {
-            itemKind = vscode.CompletionItemKind.Function;
-            itemKindDetail = `user function`;
           }
           const item = new vscode.CompletionItem(keyword, itemKind);
           item.detail = itemKindDetail;
@@ -24067,18 +24014,8 @@ async function activate(context) {
         const methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i;
         const documentVariables = /* @__PURE__ */ new Map();
         const documentMethods = /* @__PURE__ */ new Map();
-        let commentsON = false;
         lines.forEach((line) => {
-          if (line.trim().startsWith("//")) {
-            return;
-          }
-          if (line.trim().startsWith("{")) {
-            commentsON = true;
-          }
-          if (line.trim().includes("}")) {
-            commentsON = false;
-          }
-          if (commentsON) {
+          if (line.trim().startsWith("//") || line.trim().startsWith("{")) {
             return;
           }
           let match;
@@ -24096,7 +24033,6 @@ async function activate(context) {
               const variable = match[1];
               if (!documentVariables.has(variable) && !methodNames.includes(variable)) {
                 const item = new vscode.CompletionItem(variable, vscode.CompletionItemKind.Variable);
-                item.detail = `variable`;
                 documentVariables.set(variable, item);
               }
             }
@@ -24172,12 +24108,6 @@ async function activate(context) {
   }, null, context.subscriptions);
   context.subscriptions.push(completionProvider);
 }
-function deactivate() {
-}
-module.exports = {
-  activate,
-  deactivate
-};
 function registerHoverProvider(context, reserved_keywords, attributesMap) {
   vscode.languages.registerHoverProvider("easylanguage", {
     async provideHover(document, position, token) {
@@ -24225,6 +24155,12 @@ function registerHoverProvider(context, reserved_keywords, attributesMap) {
     }
   });
 }
+function deactivate() {
+}
+module.exports = {
+  activate,
+  deactivate
+};
 /*! Bundled license information:
 
 he/he.js:
@@ -24239,4 +24175,4 @@ he/he.js:
    * found in the LICENSE file at https://angular.io/license
    *)
 */
-//# sourceMappingURL=extension.js.map
+//# sourceMappingURL=easylanguage-config.js.map

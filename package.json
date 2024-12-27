@@ -20,7 +20,7 @@
    "activationEvents": [
       "onLanguage: easylanguage"
    ],
-   "main": "./dist/extension.js",
+   "main": "./dist/easylanguage-config.js",
    "contributes": {
       "configuration": {
          "type": "object",
@@ -29,12 +29,11 @@
             "easylanguage.customUserFunctions": {
                "type": "array",
                "default": [],
-               "description": "List of custom User Functions. After an update reload EasyLanguage extension (or restart vsCode) to pickup the changes.",
+               "description": "List of custom user functions. After an update reload EasyLanguage extension to pickup the changes.",
                "items": {
                   "type": "string"
                }
             },
-
             "easylanguage.customUserFunctionsDarkThemeBackgroundColor": {
                "type": "string",
                "default": "rgba(255, 165, 0, 0.05)",
@@ -50,10 +49,13 @@
             "easylanguage.customUserFunctionsDarkThemeStyle": {
                "type": "string",
                "default": "bold",
-               "enum": ["normal", "italic", "bold"],
+               "enum": [
+                  "normal",
+                  "italic",
+                  "bold"
+               ],
                "description": "Font style of Custom User Functions in dark themes."
             },
-
             "easylanguage.customUserFunctionsLightThemeBackgroundColor": {
                "type": "string",
                "default": "rgba(188, 65, 250, 0.05)",
@@ -69,10 +71,13 @@
             "easylanguage.customUserFunctionsLightThemeStyle": {
                "type": "string",
                "default": "italic",
-               "enum": ["normal", "italic", "bold"],
+               "enum": [
+                  "normal",
+                  "italic",
+                  "bold"
+               ],
                "description": "Font style of Custom User Functions in light themes."
             }
-   
          }
       },
       "commands": [
@@ -124,6 +129,11 @@
             "path": "./themes/easylanguage-color-dark-theme.json"
          },
          {
+            "label": "EasyLanguage Espresso Theme",
+            "uiTheme": "vs-dark",
+            "path": "./themes/easylanguage-espresso-color-theme.json"
+         },
+         {
             "label": "EasyLanguage Moss Theme",
             "uiTheme": "vs-dark",
             "path": "./themes/easylanguage-moss-color-theme.json"
@@ -145,14 +155,18 @@
       "type": "individual",
       "url": "https://ridertradingtools.com/donation"
    },
+   "scripts": {
+      "esbuild-base": "esbuild ./src/easylanguage-config.js --bundle --outfile=dist/easylanguage-config.js --external:vscode --format=cjs --platform=node",
+      "dev": "npm run esbuild-base -- --sourcemap --watch",
+      "pre-publish": "npm run esbuild-base -- --minify",
+      "build": "vsce package"
+   },
    "devDependencies": {
       "@types/node": "^20.1.0",
-      "esbuild": "^0.24.0"
-   },
-   "scripts": {
-      "esbuild-base": "esbuild ./scripts/easylanguage-config.js --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
-      "dev": "npm run esbuild-base -- --sourcemap --watch",
-      "pre-publish": "npm run esbuild-base -- --minify"
+      "@types/vscode": "^1.80.0",
+      "@vscode/test-electron": "^2.3.0",
+      "@vscode/vsce": "^2.22.0",
+      "esbuild": "^0.24.2"
    },
    "dependencies": {
       "fund": "^1.0.0",

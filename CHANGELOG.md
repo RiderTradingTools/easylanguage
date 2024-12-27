@@ -56,8 +56,9 @@ All notable changes to the "EasyLanguage" extension will be documented in this f
   - Ability to add custom User Functions so they are highlighted, with capability to modify the font styling.
   - Fixed the Code Outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
   - Updated color themes.
-
+ 
 
 ## 2.0.2
- - Cleaned up a few mismatched keywords in syntax.
-
+  - Added 'Espresso' theme.
+  - Fixed a bug with refreshing outline when large chunks of code is removed or added.
+  - Cleaned up few mismatched keywords in syntax.

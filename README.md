@@ -8,7 +8,7 @@
 Because the TradeStation development environment lacks the excellent features and usability of Visual Studio Code!
 
 <br><br>
-<h1>version 2.0.1 &nbsp;-&nbsp; Dec 2024 &nbsp; <strong>MAJOR FEATURE UPDATE!</strong> </h1>
+<h1>version 2 &nbsp;-&nbsp; Dec 2024 &nbsp; <strong>MAJOR FEATURE UPDATE!</strong> </h1>
 <br><br>
 
 
@@ -154,8 +154,7 @@ For auto-complete, to assist in completion and set priority of completion, you m
     - Better syntax highlighting for all EasyLanguage keywords.
     - Ability to add custom user functions so they are highlighted, with editable font styling.
     - Fixed code outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
- - Version *2.0.2* &nbsp; - Cleaned up a few mismatched keywords in syntax.
-
+ - Version *2.0.2* &nbsp; - Added 'Espresso' theme, fixed bug with refreshing outline, cleaned up few mismatched keywords in syntax.
 
 <br>
 <br>

@@ -1050,8 +1050,7 @@
 		{
 			"scope": "invalid.deprecated",
 			"settings": {
-				"foreground": "#CF433E",
-				"background": "#664E4D"
+				"foreground": "#CF433E"
 			}
 		},
 		{
