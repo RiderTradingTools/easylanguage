@@ -23945,23 +23945,76 @@ async function activate(context) {
       return;
     }
     const text = editor.document.getText();
+    const docLines = text.split("\n");
+    const methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i;
+    const documentMethods = /* @__PURE__ */ new Map();
+    let commentsON = false;
+    docLines.forEach((line) => {
+      if (line.trim().startsWith("//")) {
+        return;
+      }
+      if (line.trim().startsWith("{")) {
+        commentsON = true;
+      }
+      if (line.trim().includes("}")) {
+        commentsON = false;
+      }
+      if (commentsON) {
+        return;
+      }
+      let match2;
+      if ((match2 = methodRegex.exec(line)) !== null) {
+        const returnType = match2[1];
+        const methodName = match2[2];
+        if (!documentMethods.has(methodName)) {
+          documentMethods.set(methodName, returnType);
+        }
+      }
+    });
+    const methodNames = Array.from(documentMethods.keys());
     const regexUserFuncs = new RegExp(`\\b(${user_func_keywords.join("|")})\\b`, "gi");
+    const regexUserMethods = new RegExp(`\\b(${methodNames.join("|")})\\b`, "gi");
     const decorationsAttr = [];
     let match;
     while ((match = regexUserFuncs.exec(text)) !== null) {
-      const startPos = editor.document.positionAt(match.index);
-      const endPos = editor.document.positionAt(match.index + match[0].length);
-      const lineStartPos = new vscode.Position(startPos.line, 0);
-      const lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
+      let startPos = editor.document.positionAt(match.index);
+      let endPos = editor.document.positionAt(match.index + match[0].length);
+      let lineStartPos = new vscode.Position(startPos.line, 0);
+      let lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
       if (lineText.startsWith("//") || lineText.startsWith("{")) {
         continue;
       }
-      const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
-      const markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-function)`);
+      let styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
+      let mkdnText = `  (user function)
+`;
+      let markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-function)`);
       markdownText.supportHtml = true;
       markdownText.appendMarkdown(styledString);
-      markdownText.appendText(`  (user function)
+      markdownText.appendText(mkdnText);
+      markdownText.appendMarkdown(`
 `);
+      markdownText.isTrusted = true;
+      markdownText.supportThemeIcons = true;
+      decorationsAttr.push({
+        range: new vscode.Range(startPos, endPos),
+        hoverMessage: markdownText
+      });
+    }
+    while ((match = regexUserMethods.exec(text)) !== null) {
+      let startPos = editor.document.positionAt(match.index);
+      let endPos = editor.document.positionAt(match.index + match[0].length);
+      let lineStartPos = new vscode.Position(startPos.line, 0);
+      let lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
+      if (lineText.startsWith("//") || lineText.startsWith("{")) {
+        continue;
+      }
+      let styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
+      let mkdnText = `  (user method)
+`;
+      let markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-method)`);
+      markdownText.supportHtml = true;
+      markdownText.appendMarkdown(styledString);
+      markdownText.appendText(mkdnText);
       markdownText.appendMarkdown(`
 `);
       markdownText.isTrusted = true;

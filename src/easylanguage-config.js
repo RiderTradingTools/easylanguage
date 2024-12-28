@@ -491,26 +491,76 @@ async function activate(context) {
 
         // Match and decorate custom User Function keywords, and user Methods
         const text = editor.document.getText();
+        const docLines = text.split('\n');
+        const methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i;  // Case-insensitive method detection
+        const documentMethods = new Map();
+        let commentsON = false;
+
+        docLines.forEach(line => {
+            if (line.trim().startsWith('//') ) { return; }                // ignore comment lines
+            if (line.trim().startsWith('{'))   { commentsON = true;  }	// ignore comment lines
+            if (line.trim().includes('}'))     { commentsON = false; }
+            if (commentsON)                    { return; }                // ignore comment lines
+
+            let match;
+
+            if ((match = methodRegex.exec(line)) !== null) {
+                // Extract Methods 
+                const returnType = match[1];
+                const methodName = match[2];
+                if (!documentMethods.has(methodName)) {
+                    documentMethods.set(methodName, returnType);
+                }
+            }
+        });
+
+        const methodNames = Array.from(documentMethods.keys());
         const regexUserFuncs = new RegExp(`\\b(${user_func_keywords.join('|')})\\b`, 'gi');
-        // const regexUserMethods = new RegExp(`\\b(${docMethods.join('|')})\\b`, 'gi');
+        const regexUserMethods = new RegExp(`\\b(${methodNames.join('|')})\\b`, 'gi');
         const decorationsAttr = [];
         let match;
         
         // Decorate custom User Functions
-        while ((match = regexUserFuncs.exec(text)) !== null) {
-            const startPos = editor.document.positionAt(match.index);
-            const endPos = editor.document.positionAt(match.index + match[0].length);
-            const lineStartPos = new vscode.Position(startPos.line, 0);
-            const lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
-            if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // Skip matches on commented lines
+        while ( (match = regexUserFuncs.exec(text)) !== null ) {
+            
+            let startPos = editor.document.positionAt(match.index);
+            let endPos = editor.document.positionAt(match.index + match[0].length);
+            let lineStartPos = new vscode.Position(startPos.line, 0);
+            let lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
+            if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // ignore comment lines
 
-            const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
-            const markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-function)`);
+            let styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
+            let mkdnText = `  (user function)\n`;
+            let markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-function)`);
             markdownText.supportHtml = true;
             markdownText.appendMarkdown(styledString);
-            markdownText.appendText(`  (user function)\n`);
+            markdownText.appendText(mkdnText);
             markdownText.appendMarkdown(`\n`);
+            markdownText.isTrusted = true;
+            markdownText.supportThemeIcons = true;
 
+            decorationsAttr.push({
+                range: new vscode.Range(startPos, endPos),
+                hoverMessage: markdownText
+            });
+        }
+
+        // Decorate custom User Methods
+        while ( (match = regexUserMethods.exec(text)) !== null ) {
+            
+            let startPos = editor.document.positionAt(match.index);
+            let endPos = editor.document.positionAt(match.index + match[0].length);
+            let lineStartPos = new vscode.Position(startPos.line, 0);
+            let lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
+            if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // ignore comment lines
+
+            let styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
+            let mkdnText = `  (user method)\n`;
+            let markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-method)`);
+            markdownText.supportHtml = true;
+            markdownText.appendMarkdown(styledString);
+            markdownText.appendText(mkdnText);
+            markdownText.appendMarkdown(`\n`);
             markdownText.isTrusted = true;
             markdownText.supportThemeIcons = true;
 
@@ -538,6 +588,7 @@ async function activate(context) {
         { scheme: 'file', language: 'easylanguage' },
         {
             provideCompletionItems(document, position, token, context) {
+                
                 // Custom keywords from the Trie
                 const allKeywords = trie.getAllWords();
                 const customKeywords = allKeywords.map((keyword) => {
