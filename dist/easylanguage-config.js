@@ -23668,6 +23668,9 @@ var ESLDocumentSymbolProvider = class {
       let inside_X = false;
       let previous_X = "";
       let comment_block = false;
+      if (document.lineCount === 0) {
+        return symbols;
+      }
       for (let i = 0; i < document.lineCount; i++) {
         let line = document.lineAt(i);
         let lineText = line.text.trim().toLowerCase().replace(/\s+/g, " ");
@@ -23907,8 +23910,8 @@ async function activate(context) {
     console.log("[RTT EasyLanguage] Trie initialized with EasyLanguage keywords");
     registerHoverProvider(context, reserved_keywords, attributesMap);
   }
-  const user_func_keywords = loadUserFunctionsFromSettings();
   let usr_func_decorationType = null;
+  const user_func_keywords = loadUserFunctionsFromSettings();
   if (user_func_keywords.length > 0) {
     user_func_keywords.forEach((keyword) => trie.insert(keyword));
     console.log("[RTT EasyLanguage] Trie initialized with custom user function keywords from vsCode settings");
@@ -23942,10 +23945,10 @@ async function activate(context) {
       return;
     }
     const text = editor.document.getText();
-    const regexFile2 = new RegExp(`\\b(${user_func_keywords.join("|")})\\b`, "gi");
-    const decorationsFile2 = [];
+    const regexUserFuncs = new RegExp(`\\b(${user_func_keywords.join("|")})\\b`, "gi");
+    const decorationsAttr = [];
     let match;
-    while ((match = regexFile2.exec(text)) !== null) {
+    while ((match = regexUserFuncs.exec(text)) !== null) {
       const startPos = editor.document.positionAt(match.index);
       const endPos = editor.document.positionAt(match.index + match[0].length);
       const lineStartPos = new vscode.Position(startPos.line, 0);
@@ -23963,12 +23966,12 @@ async function activate(context) {
 `);
       markdownText.isTrusted = true;
       markdownText.supportThemeIcons = true;
-      decorationsFile2.push({
+      decorationsAttr.push({
         range: new vscode.Range(startPos, endPos),
         hoverMessage: markdownText
       });
     }
-    editor.setDecorations(usr_func_decorationType, decorationsFile2);
+    editor.setDecorations(usr_func_decorationType, decorationsAttr);
   };
   const triggerUpdateDecorations = (editor) => {
     if (timeout) {
@@ -23983,7 +23986,7 @@ async function activate(context) {
         const allKeywords = trie.getAllWords();
         const customKeywords = allKeywords.map((keyword) => {
           let itemKind = vscode.CompletionItemKind.Function;
-          let itemKindDetail = `function`;
+          let itemKindDetail = ``;
           let keyword_attributeValue = null;
           for (const [keyword_map, attribute] of attributesMap.entries()) {
             if (keyword_map.toLowerCase() === keyword.toLowerCase()) {
@@ -23991,17 +23994,21 @@ async function activate(context) {
               break;
             }
           }
-          if (keyword_attributeValue === "class") {
+          if (keyword_attributeValue === "function") {
+            itemKind = vscode.CompletionItemKind.Function;
+            itemKindDetail = `function`;
+          } else if (keyword_attributeValue === "class") {
             itemKind = vscode.CompletionItemKind.Class;
             itemKindDetail = `class`;
-          }
-          if (keyword_attributeValue === "reserved word") {
+          } else if (keyword_attributeValue === "reserved word") {
             itemKind = vscode.CompletionItemKind.Keyword;
             itemKindDetail = `reserved keyword`;
-          }
-          if (keyword_attributeValue === "enumeration") {
+          } else if (keyword_attributeValue === "enumeration") {
             itemKind = vscode.CompletionItemKind.Enum;
             itemKindDetail = `enumeration`;
+          } else {
+            itemKind = vscode.CompletionItemKind.Function;
+            itemKindDetail = `user function`;
           }
           const item = new vscode.CompletionItem(keyword, itemKind);
           item.detail = itemKindDetail;
@@ -24014,8 +24021,18 @@ async function activate(context) {
         const methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i;
         const documentVariables = /* @__PURE__ */ new Map();
         const documentMethods = /* @__PURE__ */ new Map();
+        let commentsON = false;
         lines.forEach((line) => {
-          if (line.trim().startsWith("//") || line.trim().startsWith("{")) {
+          if (line.trim().startsWith("//")) {
+            return;
+          }
+          if (line.trim().startsWith("{")) {
+            commentsON = true;
+          }
+          if (line.trim().includes("}")) {
+            commentsON = false;
+          }
+          if (commentsON) {
             return;
           }
           let match;
