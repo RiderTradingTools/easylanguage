@@ -1,7 +1,7 @@
 const vscode = require('vscode');
 const fs = require('fs');
-const https = require('https'); 
-const { parse } = require('node-html-parser'); 
+const https = require('https');
+const { parse } = require('node-html-parser');
 const TurndownService = require('turndown');
 const { gfm } = require('turndown-plugin-gfm');
 
@@ -88,140 +88,142 @@ class Trie {
 //////////////////////////////////
 // Class to create the code Outline view
 class ESLDocumentSymbolProvider {
-  provideDocumentSymbols(document, token) {
-    return new Promise((resolve, reject) => {
+    provideDocumentSymbols(document, token) {
+        return new Promise((resolve, reject) => {
 
-      const symbols = [];
-      const nodes = [symbols];
-      let icon_using = vscode.SymbolKind.Interface;
-      let icon_inputs = vscode.SymbolKind.Null;
-      let icon_vars = vscode.SymbolKind.Variable;
-      let icon_method = vscode.SymbolKind.Method;
-      let icon_region = vscode.SymbolKind.Number;
-      let icon_begin = vscode.SymbolKind.Array;
-      let inside_X = false;
-      let previous_X = "";
-      let comment_block = false;
+            const symbols = [];
+            const nodes = [symbols];
+            let icon_using = vscode.SymbolKind.Interface;
+            let icon_inputs = vscode.SymbolKind.Null;
+            let icon_vars = vscode.SymbolKind.Variable;
+            let icon_method = vscode.SymbolKind.Method;
+            let icon_region = vscode.SymbolKind.Number;
+            let icon_begin = vscode.SymbolKind.Array;
+            let inside_X = false;
+            let previous_X = "";
+            let comment_block = false;
 
-      for (let i = 0; i < document.lineCount; i++) {
-          
-          let line = document.lineAt(i);
-          let lineText = line.text.trim().toLowerCase().replace(/\s+/g, ' ');
-          let lineTextLen = line.text.trim().length;
-          let prevLineText = "";
-          let lineRange = new vscode.Range(i, 0, i, 199);
-          let getlineText = document.lineAt(i).text.trim().replace(/\s+/g, ' ');
+            if (document.lineCount === 0) { return symbols; } // Return an empty array if the document is empty }
 
-          if ( i >= 1 ) {
-            prevLineText = document.lineAt(i-1).text.trim().toLowerCase().replace(/\s+/g, ' ');
-          }
+            for (let i = 0; i < document.lineCount; i++) {
 
+                let line = document.lineAt(i);
+                let lineText = line.text.trim().toLowerCase().replace(/\s+/g, ' ');
+                let lineTextLen = line.text.trim().length;
+                let prevLineText = "";
+                let lineRange = new vscode.Range(i, 0, i, 199);
+                let getlineText = document.lineAt(i).text.trim().replace(/\s+/g, ' ');
 
-          //-----------------------------------------------------------------------
-          // comment block
-          if ( lineText.startsWith("{") && !lineText.includes("}") ) {
-            comment_block = true;
-          } 
-          else if ( comment_block && lineText.includes("}") ) {
-            comment_block = false;
-          } 
-
-          //-----------------------------------------------------------------------
-          // Using
-          if ( lineText.startsWith("using") && !comment_block ) {
-            const usingSymbol = new vscode.DocumentSymbol("Using", getlineText.substring(6,lineTextLen-1), icon_using, lineRange, lineRange);
-            nodes[nodes.length-1].push(usingSymbol);  
-          } 
-
-          //-----------------------------------------------------------------------
-          // Inputs
-          else if ( !comment_block && ( lineText.startsWith("input:") || lineText.startsWith("inputs:") ) ) {
-            const inputSymbol = new vscode.DocumentSymbol("Inputs", "", icon_inputs, lineRange, lineRange );
-            nodes[nodes.length-1].push(inputSymbol); 
-          }
-
-          //-----------------------------------------------------------------------
-          // Variables
-          else if ( !comment_block && ( lineText.startsWith("variable") || lineText.startsWith("vars:") || lineText.startsWith("var:") ) ) {
-            const variableSymbol = new vscode.DocumentSymbol("Variables", "", icon_vars, lineRange, lineRange );
-            nodes[nodes.length-1].push(variableSymbol);  
-          }
-
-          //-----------------------------------------------------------------------
-          // Constants
-          else if ( !comment_block && ( lineText.startsWith("constants") || lineText.startsWith("constant:") || lineText.startsWith("const:") ) ) {
-            const constantSymbol = new vscode.DocumentSymbol("Constants", "", icon_vars, lineRange, lineRange );
-            nodes[nodes.length-1].push(constantSymbol);  
-          }
-         
-          //-----------------------------------------------------------------------
-          // Method, Region, Begin
-          else if ( !comment_block && 
-                ( lineText.startsWith("method") || lineText.startsWith("#region") || lineText.startsWith("begin") || lineText.startsWith("once")  
-                  || ( lineText.endsWith("then begin") && !lineText.startsWith("//") && !lineText.startsWith("{") ) 
-                  || ( lineText.includes("else begin") && !lineText.startsWith("//") && !lineText.startsWith("{") ) 
-                ) ) {
-
-            if ( lineText.startsWith("begin") && previous_X == "Method" ) {
-                previous_X = "";
-            } 
-            else {
-
-                // Begin
-                if ( lineText == "begin" || lineText == "else begin" ) {
-                  getlineText = prevLineText;
-                  lineRange = new vscode.Range(i-1, 1, i, line.text.length);
-                  previous_X = "Begin";
-                }
-                let xSymbol = new vscode.DocumentSymbol("Begin", getlineText, icon_begin, lineRange, lineRange );
-
-                // Region
-                if ( lineText.startsWith("#region") ) {
-                  getlineText = getlineText.substring(8);
-                  xSymbol = new vscode.DocumentSymbol("Region", getlineText, icon_region, lineRange, lineRange );
-                  previous_X = "Region";
+                if (i >= 1) {
+                    prevLineText = document.lineAt(i - 1).text.trim().toLowerCase().replace(/\s+/g, ' ');
                 }
 
-                // Method
-                else if ( lineText.startsWith("method") ) {
-                  xSymbol = new vscode.DocumentSymbol("Method", getlineText.substring(7), icon_method, lineRange, lineRange );
-                  previous_X = "Method";
+
+                //-----------------------------------------------------------------------
+                // comment block
+                if (lineText.startsWith("{") && !lineText.includes("}")) {
+                    comment_block = true;
+                }
+                else if (comment_block && lineText.includes("}")) {
+                    comment_block = false;
                 }
 
-                // Once
-                if ( lineText.startsWith("once") || prevLineText.startsWith("once") || lineText == "once begin" ) {
-                  xSymbol = new vscode.DocumentSymbol("Once", "", icon_begin, lineRange, lineRange );
+                //-----------------------------------------------------------------------
+                // Using
+                if (lineText.startsWith("using") && !comment_block) {
+                    const usingSymbol = new vscode.DocumentSymbol("Using", getlineText.substring(6, lineTextLen - 1), icon_using, lineRange, lineRange);
+                    nodes[nodes.length - 1].push(usingSymbol);
                 }
 
-                nodes[nodes.length-1].push(xSymbol);  
+                //-----------------------------------------------------------------------
+                // Inputs
+                else if (!comment_block && (lineText.startsWith("input:") || lineText.startsWith("inputs:"))) {
+                    const inputSymbol = new vscode.DocumentSymbol("Inputs", "", icon_inputs, lineRange, lineRange);
+                    nodes[nodes.length - 1].push(inputSymbol);
+                }
 
-                if ( !inside_X ) {
-                  nodes.push(xSymbol.children);
-                  inside_X = true;
+                //-----------------------------------------------------------------------
+                // Variables
+                else if (!comment_block && (lineText.startsWith("variable") || lineText.startsWith("vars:") || lineText.startsWith("var:"))) {
+                    const variableSymbol = new vscode.DocumentSymbol("Variables", "", icon_vars, lineRange, lineRange);
+                    nodes[nodes.length - 1].push(variableSymbol);
                 }
-                else if ( inside_X ) {
-                  nodes.push(xSymbol.children);
+
+                //-----------------------------------------------------------------------
+                // Constants
+                else if (!comment_block && (lineText.startsWith("constants") || lineText.startsWith("constant:") || lineText.startsWith("const:"))) {
+                    const constantSymbol = new vscode.DocumentSymbol("Constants", "", icon_vars, lineRange, lineRange);
+                    nodes[nodes.length - 1].push(constantSymbol);
                 }
+
+                //-----------------------------------------------------------------------
+                // Method, Region, Begin
+                else if (!comment_block &&
+                    (lineText.startsWith("method") || lineText.startsWith("#region") || lineText.startsWith("begin") || lineText.startsWith("once")
+                        || (lineText.endsWith("then begin") && !lineText.startsWith("//") && !lineText.startsWith("{"))
+                        || (lineText.includes("else begin") && !lineText.startsWith("//") && !lineText.startsWith("{"))
+                    )) {
+
+                    if (lineText.startsWith("begin") && previous_X == "Method") {
+                        previous_X = "";
+                    }
+                    else {
+
+                        // Begin
+                        if (lineText == "begin" || lineText == "else begin") {
+                            getlineText = prevLineText;
+                            lineRange = new vscode.Range(i - 1, 1, i, line.text.length);
+                            previous_X = "Begin";
+                        }
+                        let xSymbol = new vscode.DocumentSymbol("Begin", getlineText, icon_begin, lineRange, lineRange);
+
+                        // Region
+                        if (lineText.startsWith("#region")) {
+                            getlineText = getlineText.substring(8);
+                            xSymbol = new vscode.DocumentSymbol("Region", getlineText, icon_region, lineRange, lineRange);
+                            previous_X = "Region";
+                        }
+
+                        // Method
+                        else if (lineText.startsWith("method")) {
+                            xSymbol = new vscode.DocumentSymbol("Method", getlineText.substring(7), icon_method, lineRange, lineRange);
+                            previous_X = "Method";
+                        }
+
+                        // Once
+                        if (lineText.startsWith("once") || prevLineText.startsWith("once") || lineText == "once begin") {
+                            xSymbol = new vscode.DocumentSymbol("Once", "", icon_begin, lineRange, lineRange);
+                        }
+
+                        nodes[nodes.length - 1].push(xSymbol);
+
+                        if (!inside_X) {
+                            nodes.push(xSymbol.children);
+                            inside_X = true;
+                        }
+                        else if (inside_X) {
+                            nodes.push(xSymbol.children);
+                        }
+                    }
+                }
+
+                //-----------------------------------------------------------------------
+                // End / End Region
+                if (!comment_block && (lineText.startsWith("end") || lineText.startsWith("#endregion"))) {
+
+                    if (inside_X) {
+                        nodes.pop();
+                        if (nodes.length <= 1) {
+                            inside_X = false;
+                        }
+                    }
+                }
+
             }
-          } 
 
-          //-----------------------------------------------------------------------
-          // End / End Region
-          if ( !comment_block && ( lineText.startsWith("end") || lineText.startsWith("#endregion") ) ) {
-
-            if ( inside_X ) {
-              nodes.pop();
-              if ( nodes.length <= 1 ) {
-                inside_X = false;
-              }
-            }
-          }
-
-      }
-
-      resolve(symbols);
-    });
-  }
+            resolve(symbols);
+        });
+    }
 }
 
 
@@ -268,271 +270,279 @@ const loadAttributeKeywordsFromFile = async (filePath) => {
 //////////////////////////////////
 // Function to fetch content from web page -- clean it up, and present in hover
 function fetchHoverText(hovered_keyword, keyword_attributeValue) {
-  return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
 
-    const turndownService = new TurndownService();
-    turndownService.use(gfm); 
+        const turndownService = new TurndownService();
+        turndownService.use(gfm);
 
-    let keyword = hovered_keyword.toLowerCase();
-    let display_keyword = hovered_keyword;
-    let url = ``;
-    let rep_url = ``;
-    let rep_url2 = ``;
-    let title_icon = ``;
-    let classSuffix = `_class`;
+        let keyword = hovered_keyword.toLowerCase();
+        let display_keyword = hovered_keyword;
+        let url = ``;
+        let rep_url = ``;
+        let rep_url2 = ``;
+        let title_icon = ``;
+        let classSuffix = `_class`;
 
-    if (keyword == 'var' || keyword == 'vars' || keyword == 'variables') { keyword = 'Variable'; }
-    if (keyword == 'input' || keyword == 'displayname' || keyword == 'tooltip') { keyword = 'Inputs'; }
-    if (keyword == 'consts' || keyword == 'constant' || keyword == 'constants') { keyword = 'Const'; }
-    if (keyword == 'drawingobjects') { keyword = 'drawobjects'; } 
-    if (keyword == 'namevaluecollection') { keyword = 'namevalueollection'; } 
-    if (keyword == 'globaldictionary') { keyword = 'global_dictionary'; } 
-    if (keyword == 'systemexception' || keyword == 'object' || keyword == 'exception' || keyword == 'valuetype' || keyword == 'eventargs' || keyword == 'elcomponent' || keyword == 'analysistechnique') { keyword = 'elsystem_' + keyword; } 
-    if (keyword == 'preshowelementmenueventargs' || keyword == 'predeleteelementeventargs' || keyword == 'plotclickeventargs' || keyword == 'orderelementmoveeventargs' || keyword == 'elementselectedeventargs' || keyword == 'chartelementclickeventargs' || keyword == 'cellclickeventargs') { classSuffix = ``; } 
-    if (keyword.startsWith('#')) { keyword = keyword.replace(/#/gi, '_'); }
+        if (keyword == 'var' || keyword == 'vars' || keyword == 'variables') { keyword = 'Variable'; }
+        if (keyword == 'input' || keyword == 'displayname' || keyword == 'tooltip') { keyword = 'Inputs'; }
+        if (keyword == 'consts' || keyword == 'constant' || keyword == 'constants') { keyword = 'Const'; }
+        if (keyword == 'drawingobjects') { keyword = 'drawobjects'; }
+        if (keyword == 'namevaluecollection') { keyword = 'namevalueollection'; }
+        if (keyword == 'globaldictionary') { keyword = 'global_dictionary'; }
+        if (keyword == 'systemexception' || keyword == 'object' || keyword == 'exception' || keyword == 'valuetype' || keyword == 'eventargs' || keyword == 'elcomponent' || keyword == 'analysistechnique') { keyword = 'elsystem_' + keyword; }
+        if (keyword == 'preshowelementmenueventargs' || keyword == 'predeleteelementeventargs' || keyword == 'plotclickeventargs' || keyword == 'orderelementmoveeventargs' || keyword == 'elementselectedeventargs' || keyword == 'chartelementclickeventargs' || keyword == 'cellclickeventargs') { classSuffix = ``; }
+        if (keyword.startsWith('#')) { keyword = keyword.replace(/#/gi, '_'); }
 
-    // function example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/adx_function_.htm
-    // reserved word example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/above_reserved_word_.htm
-    // class example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/account_class.htm
-    
-    if (keyword_attributeValue == 'reserved word') {
-      url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/${encodeURIComponent(keyword)}_reserved_word_.htm`;
-      rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elword`;
-      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/`;
-      title_icon = `$(symbol-keyword)`;
-    }
-    else if (keyword_attributeValue == 'function') {
-      url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/${encodeURIComponent(keyword)}_function_.htm`;
-      rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elword`;
-      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/`;
-      title_icon = `$(symbol-function)`;
-    }
-    else if (keyword_attributeValue.startsWith('class') || keyword_attributeValue == 'collection') {
-      url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/${encodeURIComponent(keyword_attributeValue)}/${encodeURIComponent(keyword)}${encodeURIComponent(classSuffix)}.htm`;
-      rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject`;
-      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/`;
-      keyword_attributeValue = 'class';
-      title_icon = `$(symbol-class)`;
-    }
-    else if (keyword_attributeValue == 'enumeration') {
-      url =      `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/enumeration/${encodeURIComponent(keyword)}_enumeration.htm`;
-      rep_url =  `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject`;
-      rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/enumeration/`;
-      title_icon = `$(symbol-enum)`;
-    }
+        // function example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/adx_function_.htm
+        // reserved word example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/above_reserved_word_.htm
+        // class example:  https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/account_class.htm
 
-    if (url == ``) { return; } // no match, no url to pull 
+        if (keyword_attributeValue == 'reserved word') {
+            url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/${encodeURIComponent(keyword)}_reserved_word_.htm`;
+            rep_url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword`;
+            rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/word/`;
+            title_icon = `$(symbol-keyword)`;
+        }
+        else if (keyword_attributeValue == 'function') {
+            url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/${encodeURIComponent(keyword)}_function_.htm`;
+            rep_url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword`;
+            rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elword/function/`;
+            title_icon = `$(symbol-function)`;
+        }
+        else if (keyword_attributeValue.startsWith('class') || keyword_attributeValue == 'collection') {
+            url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/${encodeURIComponent(keyword_attributeValue)}/${encodeURIComponent(keyword)}${encodeURIComponent(classSuffix)}.htm`;
+            rep_url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject`;
+            rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/class/`;
+            keyword_attributeValue = 'class';
+            title_icon = `$(symbol-class)`;
+        }
+        else if (keyword_attributeValue == 'enumeration') {
+            url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/enumeration/${encodeURIComponent(keyword)}_enumeration.htm`;
+            rep_url = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject`;
+            rep_url2 = `https://help.tradestation.com/10_00/eng/tsdevhelp/elobject/enumeration/`;
+            title_icon = `$(symbol-enum)`;
+        }
 
-      https.get(url, (response) => {
-          let data = '';
+        if (url == ``) { return; } // no match, no url to pull 
 
-          response.on('data', chunk => {
-              data += chunk;
-          });
+        https.get(url, (response) => {
+            let data = '';
 
-          response.on('end', () => {
-              try {
+            response.on('data', chunk => {
+                data += chunk;
+            });
 
-                  // Parse the HTML response
-                  const root = parse(data);
-                  
-                  // Extract the div content by id
-                  const contentDiv = root.querySelector('div#mc-main-content');
+            response.on('end', () => {
+                try {
 
-                  if (contentDiv) {
+                    // Parse the HTML response
+                    const root = parse(data);
 
-                    contentDiv.querySelectorAll('p.Disclaimer').forEach(disclaimer => {
-                      disclaimer.remove(); 
-                    });
-                    contentDiv.querySelectorAll('div.expander').forEach(expander => {
-                      expander.remove(); 
-                    });
-                    contentDiv.querySelectorAll('h1').forEach(header1 => {
-                      header1.remove(); 
-                    });
-                    contentDiv.querySelectorAll('img').forEach(imgs => {
-                      imgs.replaceWith(' '); 
-                    });
+                    // Extract the div content by id
+                    const contentDiv = root.querySelector('div#mc-main-content');
 
-                    // replace some tags, fix web links
-                    const htmlFixedText = contentDiv.innerHTML
-                      .replace(/href=\"(?=[a-z])/gi, 'href="'+rep_url2)
-                      .replace(/href=\"\.\./gi, 'href="'+rep_url)
-                      .replace(/href=\"#\"/gi, '')
-                      .replace(/xmlns=\"http:\/\/www.w3.org\/1999\/xhtml\"/gi, '')
-                      .replace(/<\/td>/gi,'&nbsp;</td>&nbsp;')
-                      .replace(/<div class=\"collapsable\"/gi, '<br>&nbsp; <div class="collapsable"')
-                      .replace(/<h5/gi, '<h4')
-                      .replace(/h5>/gi, 'h4>')
-                      .replace(/<h2/gi, '<h4')
-                      .replace(/h2>/gi, 'h4>');
+                    if (contentDiv) {
 
-                    // Convert HTML to Markdown
-                    let markdown = turndownService.turndown(htmlFixedText);
-                                        
-                    const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${display_keyword}&nbsp;</span>`;
-                    const markdownText = new vscode.MarkdownString(`&nbsp;${title_icon}`);
-                    markdownText.isTrusted = true; 
-                    markdownText.supportHtml = true;
-                    markdownText.supportThemeIcons = true;
+                        contentDiv.querySelectorAll('p.Disclaimer').forEach(disclaimer => {
+                            disclaimer.remove();
+                        });
+                        contentDiv.querySelectorAll('div.expander').forEach(expander => {
+                            expander.remove();
+                        });
+                        contentDiv.querySelectorAll('h1').forEach(header1 => {
+                            header1.remove();
+                        });
+                        contentDiv.querySelectorAll('img').forEach(imgs => {
+                            imgs.replaceWith(' ');
+                        });
 
-                    markdownText.appendMarkdown(styledString);
-                    markdownText.appendText(`  (`+keyword_attributeValue+`)\n`);
-                    markdownText.appendMarkdown(`\n<hr>\n`);
-                    markdownText.appendMarkdown(markdown);
-                    markdownText.appendMarkdown(`\n<hr>\n`);
-                    markdownText.appendMarkdown(`\n\n&nbsp;$(link) &nbsp; ` + url);
+                        // replace some tags, fix web links
+                        const htmlFixedText = contentDiv.innerHTML
+                            .replace(/href=\"(?=[a-z])/gi, 'href="' + rep_url2)
+                            .replace(/href=\"\.\./gi, 'href="' + rep_url)
+                            .replace(/href=\"#\"/gi, '')
+                            .replace(/xmlns=\"http:\/\/www.w3.org\/1999\/xhtml\"/gi, '')
+                            .replace(/<\/td>/gi, '&nbsp;</td>&nbsp;')
+                            .replace(/<div class=\"collapsable\"/gi, '<br>&nbsp; <div class="collapsable"')
+                            .replace(/<h5/gi, '<h4')
+                            .replace(/h5>/gi, 'h4>')
+                            .replace(/<h2/gi, '<h4')
+                            .replace(/h2>/gi, 'h4>');
 
-                    resolve(markdownText);
+                        // Convert HTML to Markdown
+                        let markdown = turndownService.turndown(htmlFixedText);
 
-                  } else {
-                      resolve(`No description found for "${display_keyword}"`);
-                  }
-              } catch (error) {
-                  reject(`Error parsing response: ${error}`);
-              }
-          });
-      }).on('error', error => {
-          reject(`Error fetching hover text: ${error}`);
-      });
-  });
+                        const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${display_keyword}&nbsp;</span>`;
+                        const markdownText = new vscode.MarkdownString(`&nbsp;${title_icon}`);
+                        markdownText.isTrusted = true;
+                        markdownText.supportHtml = true;
+                        markdownText.supportThemeIcons = true;
+
+                        markdownText.appendMarkdown(styledString);
+                        markdownText.appendText(`  (` + keyword_attributeValue + `)\n`);
+                        markdownText.appendMarkdown(`\n<hr>\n`);
+                        markdownText.appendMarkdown(markdown);
+                        markdownText.appendMarkdown(`\n<hr>\n`);
+                        markdownText.appendMarkdown(`\n\n&nbsp;$(link) &nbsp; ` + url);
+
+                        resolve(markdownText);
+
+                    } else {
+                        resolve(`No description found for "${display_keyword}"`);
+                    }
+                } catch (error) {
+                    reject(`Error parsing response: ${error}`);
+                }
+            });
+        }).on('error', error => {
+            reject(`Error fetching hover text: ${error}`);
+        });
+    });
 }
 
 
 //////////////////////////////////
 // Load any custom user function keywords from the vsCode settings
 const loadUserFunctionsFromSettings = () => {
-  const config = vscode.workspace.getConfiguration('easylanguage');
-  const userFuncKeywords = config.get('customUserFunctions', []);  
-  return userFuncKeywords;
-};    
+    const config = vscode.workspace.getConfiguration('easylanguage');
+    const userFuncKeywords = config.get('customUserFunctions', []);
+    return userFuncKeywords;
+};
 
 
 
 
 
 /////////////////////////////////////////////////////////
-// VS Code extension activate function
+// vsCode extension main: activate 
 /////////////////////////////////////////////////////////
 async function activate(context) {
 
-  const provider = new ESLDocumentSymbolProvider();
-  context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage', scheme: 'file' }, provider));
+    const provider = new ESLDocumentSymbolProvider();
+    context.subscriptions.push(vscode.languages.registerDocumentSymbolProvider({ language: 'easylanguage', scheme: 'file' }, provider));
 
-  const trie = new Trie();
+    const trie = new Trie();
 
-  // Register the reload command
-  const reloadCommand = vscode.commands.registerCommand('easylanguage.reloadExtension', () => {
-      vscode.commands.executeCommand('workbench.action.reloadWindow'); // Reloads the vsCode window
-  });
-  context.subscriptions.push(reloadCommand);    
+    // Register the reload command
+    const reloadCommand = vscode.commands.registerCommand('easylanguage.reloadExtension', () => {
+        vscode.commands.executeCommand('workbench.action.reloadWindow'); // Reloads the vsCode window
+    });
+    context.subscriptions.push(reloadCommand);
 
-  // Load attribute-keyword pairs from easylanguage-complete.txt
-  const filePath_keywords = context.asAbsolutePath('easylanguage-complete.txt'); 
-  const attributesMap = await loadAttributeKeywordsFromFile(filePath_keywords);
-  let reserved_keywords = null;
-  if (attributesMap.size > 0){
+    // Load attribute-keyword pairs from easylanguage-complete.txt
+    const filePath_keywords = context.asAbsolutePath('easylanguage-complete.txt');
+    const attributesMap = await loadAttributeKeywordsFromFile(filePath_keywords);
+    let reserved_keywords = null;
+    if (attributesMap.size > 0) {
 
-      reserved_keywords = Array.from(attributesMap.keys()); // Extract keywords for highlighting
-      // Insert keywords into the Trie
-      reserved_keywords.forEach((keyword) => trie.insert(keyword));
-      console.log('[RTT EasyLanguage] Trie initialized with EasyLanguage keywords');
-      // Register hover provider
-      registerHoverProvider(context, reserved_keywords, attributesMap);
-  }
+        reserved_keywords = Array.from(attributesMap.keys()); // Extract keywords for highlighting
+        // Insert keywords into the Trie
+        reserved_keywords.forEach((keyword) => trie.insert(keyword));
+        console.log('[RTT EasyLanguage] Trie initialized with EasyLanguage keywords');
+        // Register hover provider
+        registerHoverProvider(context, reserved_keywords, attributesMap);
+    }
 
-  // Load user keywords from the vsCode settings
-  const user_func_keywords = loadUserFunctionsFromSettings();
-  let usr_func_decorationType = null;
-  if (user_func_keywords.length > 0) {
+    // Setup decorations
+    let usr_func_decorationType = null;
 
-      user_func_keywords.forEach((keyword) => trie.insert(keyword));
-      console.log('[RTT EasyLanguage] Trie initialized with custom user function keywords from vsCode settings');
-      
-      // Function to create decoration type based on the current settings
-      const createDecorationType = () => {
-          const lightBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeBackgroundColor');
-          const lightColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeColor');
-          const lightFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeStyle');
+    // Load user keywords from the vsCode settings
+    const user_func_keywords = loadUserFunctionsFromSettings();
 
-          const darkBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeBackgroundColor');
-          const darkColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeColor');
-          const darkFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeStyle');
+    if (user_func_keywords.length > 0) {
 
-          return vscode.window.createTextEditorDecorationType({
-              light: { // Used in light themes
-                  backgroundColor: lightBackgroundColor,
-                  color: lightColor,
-                  fontStyle: lightFontStyle,
-              },
-              dark: { // Used in dark themes
-                  backgroundColor: darkBackgroundColor,
-                  color: darkColor,
-                  fontStyle: darkFontStyle,
-              },
-          });
-      };
+        user_func_keywords.forEach((keyword) => trie.insert(keyword));
+        console.log('[RTT EasyLanguage] Trie initialized with custom user function keywords from vsCode settings');
 
-      // Create initial decoration type
-      usr_func_decorationType = createDecorationType();
-  }
+        // Function to create decoration type based on the current settings
+        const createDecorationType = () => {
+            const lightBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeBackgroundColor');
+            const lightColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeColor');
+            const lightFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeStyle');
 
-  let timeout = null;
+            const darkBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeBackgroundColor');
+            const darkColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeColor');
+            const darkFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeStyle');
 
-  // Function to update decorations
-  const updateDecorations = (editor) => {
-      if (!editor || !usr_func_decorationType) { return; }
+            return vscode.window.createTextEditorDecorationType({
+                light: { // Used in light themes
+                    backgroundColor: lightBackgroundColor,
+                    color: lightColor,
+                    fontStyle: lightFontStyle,
+                },
+                dark: { // Used in dark themes
+                    backgroundColor: darkBackgroundColor,
+                    color: darkColor,
+                    fontStyle: darkFontStyle,
+                },
+            });
+        };
 
-      const text = editor.document.getText();
+        // Create initial decoration type
+        usr_func_decorationType = createDecorationType();
+    }
 
-      // Match and decorate custom user function keywords
-      const regexFile2 = new RegExp(`\\b(${user_func_keywords.join('|')})\\b`, 'gi');
-      const decorationsFile2 = [];
-      let match;
-      while ((match = regexFile2.exec(text)) !== null) {
-          const startPos = editor.document.positionAt(match.index);
-          const endPos = editor.document.positionAt(match.index + match[0].length);
-          const lineStartPos = new vscode.Position(startPos.line, 0);
-          const lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
-          if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // Skip matches on commented lines
+    let timeout = null;
 
-          const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
-          const markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-function)`);
-          markdownText.supportHtml = true;
-          markdownText.appendMarkdown(styledString);
-          markdownText.appendText(`  (user function)\n`);
-          markdownText.appendMarkdown(`\n`);
+    // Function to update decorations
+    const updateDecorations = (editor) => {
+        if (!editor || !usr_func_decorationType) { return; }
 
-          markdownText.isTrusted = true; 
-          markdownText.supportThemeIcons = true;
-          
-          decorationsFile2.push({ 
-              range: new vscode.Range(startPos, endPos), 
-              hoverMessage: markdownText 
-          });
-      }
-      editor.setDecorations(usr_func_decorationType, decorationsFile2);
-  };
+        const text = editor.document.getText();
 
-  const triggerUpdateDecorations = (editor) => {
-      if (timeout) {
-          clearTimeout(timeout);
-      }
-      timeout = setTimeout(() => updateDecorations(editor), 500);
-  };
+        // Match and decorate custom User Function keywords, and user Methods
+        const regexUserFuncs = new RegExp(`\\b(${user_func_keywords.join('|')})\\b`, 'gi');
+        const decorationsAttr = [];
+        let match;
+        
+        // Decorate custom User Functions
+        while ((match = regexUserFuncs.exec(text)) !== null) {
+            const startPos = editor.document.positionAt(match.index);
+            const endPos = editor.document.positionAt(match.index + match[0].length);
+            const lineStartPos = new vscode.Position(startPos.line, 0);
+            const lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
+            if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // Skip matches on commented lines
 
-  
-  // Register completion provider
-  const completionProvider = vscode.languages.registerCompletionItemProvider(
-    { scheme: 'file', language: 'easylanguage' },
-    {
+            const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
+            const markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-function)`);
+            markdownText.supportHtml = true;
+            markdownText.appendMarkdown(styledString);
+            markdownText.appendText(`  (user function)\n`);
+            markdownText.appendMarkdown(`\n`);
+
+            markdownText.isTrusted = true;
+            markdownText.supportThemeIcons = true;
+
+            decorationsAttr.push({
+                range: new vscode.Range(startPos, endPos),
+                hoverMessage: markdownText
+            });
+        }
+
+        editor.setDecorations(usr_func_decorationType, decorationsAttr);
+    };
+
+
+    // Trigger the updated decorations
+    const triggerUpdateDecorations = (editor) => {
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(() => updateDecorations(editor), 500);
+    };
+
+
+    // Register completion provider
+    const completionProvider = vscode.languages.registerCompletionItemProvider(
+        { scheme: 'file', language: 'easylanguage' },
+        {
             provideCompletionItems(document, position, token, context) {
                 // Custom keywords from the Trie
                 const allKeywords = trie.getAllWords();
                 const customKeywords = allKeywords.map((keyword) => {
 
                     let itemKind = vscode.CompletionItemKind.Function;
-                    let itemKindDetail = `function`;
+                    let itemKindDetail = ``;
 
                     // Check if keyword exists in attributesMap (case-insensitive) and pull attribute
                     let keyword_attributeValue = null;
@@ -541,12 +551,14 @@ async function activate(context) {
                             keyword_attributeValue = attribute;
                             break;
                         }
-                    }                     
+                    }
 
-                    if (keyword_attributeValue === 'class') { itemKind = vscode.CompletionItemKind.Class; itemKindDetail = `class` }
-                    if (keyword_attributeValue === 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; itemKindDetail = `reserved keyword` }
-                    if (keyword_attributeValue === 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; itemKindDetail = `enumeration` }
-
+                    if (keyword_attributeValue === 'function') { itemKind = vscode.CompletionItemKind.Function; itemKindDetail = `function` }
+                    else if (keyword_attributeValue === 'class') { itemKind = vscode.CompletionItemKind.Class; itemKindDetail = `class` }
+                    else if (keyword_attributeValue === 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; itemKindDetail = `reserved keyword` }
+                    else if (keyword_attributeValue === 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; itemKindDetail = `enumeration` }
+                    else { itemKind = vscode.CompletionItemKind.Function; itemKindDetail = `user function` }
+    
                     const item = new vscode.CompletionItem(keyword, itemKind);
                     item.detail = itemKindDetail;
                     item.sortText = ('a' + keyword).toLowerCase();
@@ -559,13 +571,17 @@ async function activate(context) {
                 const methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i; // Case-insensitive method detection
                 const documentVariables = new Map();
                 const documentMethods = new Map();
+                let   commentsON = false;
 
                 lines.forEach(line => {
-                    if (line.trim().startsWith('//') || line.trim().startsWith('{')) {
-                        return; // Ignore comment lines
-                    }
+
+                    if (line.trim().startsWith('//') ) { return; }              // ignore comment lines
+                    if (line.trim().startsWith('{'))   { commentsON = true;  }	// ignore comment lines
+                    if (line.trim().includes('}'))     { commentsON = false; }
+                    if (commentsON)                    { return; }              // ignore comment lines
 
                     let match;
+
                     // Extract methods first
                     if ((match = methodRegex.exec(line)) !== null) {
                         const returnType = match[1];
@@ -612,72 +628,74 @@ async function activate(context) {
         }
     );
 
-    
-  
-  // Register listeners for updating decorations
-  const activeEditor = vscode.window.activeTextEditor;
-  if (activeEditor) {
-      triggerUpdateDecorations(activeEditor);
-  }
 
-  vscode.window.onDidChangeActiveTextEditor((editor) => {
-      if (editor) {
-          triggerUpdateDecorations(editor);
-      }
-  }, null, context.subscriptions);
 
-  vscode.workspace.onDidChangeTextDocument((event) => {
-      const activeEditor = vscode.window.activeTextEditor;
-      if (activeEditor && event.document === activeEditor.document) {
-          triggerUpdateDecorations(activeEditor);
-      }
-  }, null, context.subscriptions);
+    // Register listeners for updating decorations
+    const activeEditor = vscode.window.activeTextEditor;
+    if (activeEditor) {
+        triggerUpdateDecorations(activeEditor);
+    }
 
-  // Watch for changes in settings to refresh the keywords and/or decoration style dynamically
-  vscode.workspace.onDidChangeConfiguration((event) => {
-      if (event.affectsConfiguration('easylanguage')) {
-              
-        // Refresh the decoration type when settings change
-        if (usr_func_decorationType) {
-            usr_func_decorationType.dispose(); // Dispose of old decoration type
+    // Check if the editor changed
+    vscode.window.onDidChangeActiveTextEditor((editor) => {
+        if (editor) {
+            triggerUpdateDecorations(editor);
         }
+    }, null, context.subscriptions);
 
-        // Function to create decoration type based on the current settings
-        let updateDecorationType = () => {
-            const lightBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeBackgroundColor');
-            const lightColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeColor');
-            const lightFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeStyle');
-
-            const darkBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeBackgroundColor');
-            const darkColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeColor');
-            const darkFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeStyle');
-
-            return vscode.window.createTextEditorDecorationType({
-                light: { // Used in light themes
-                    backgroundColor: lightBackgroundColor,
-                    color: lightColor,
-                    fontStyle: lightFontStyle,
-                },
-                dark: { // Used in dark themes
-                    backgroundColor: darkBackgroundColor,
-                    color: darkColor,
-                    fontStyle: darkFontStyle,
-                },
-            });
-        };
-
-        usr_func_decorationType = updateDecorationType(); // update new decoration type
-        console.log('[RTT EasyLanguage] Custom user function keywords style updated from vsCode settings');
-
+    // Watch for text changes on document
+    vscode.workspace.onDidChangeTextDocument((event) => {
         const activeEditor = vscode.window.activeTextEditor;
-        if (activeEditor) {
-            updateDecorations(activeEditor); // Reapply decorations
+        if (activeEditor && event.document === activeEditor.document) {
+            triggerUpdateDecorations(activeEditor);
         }
-      }
-  }, null, context.subscriptions);
+    }, null, context.subscriptions);
 
-  // Push the completion provider to the context
-  context.subscriptions.push(completionProvider);
+    // Watch for changes in settings to refresh the keywords and/or decoration style dynamically
+    vscode.workspace.onDidChangeConfiguration((event) => {
+        if (event.affectsConfiguration('easylanguage')) {
+
+            // Refresh the decoration type when settings change
+            if (usr_func_decorationType) {
+                usr_func_decorationType.dispose(); // Dispose of old decoration type
+            }
+
+            // Create decoration type based on the current settings
+            let updateDecorationType = () => {
+                const lightBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeBackgroundColor');
+                const lightColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeColor');
+                const lightFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeStyle');
+
+                const darkBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeBackgroundColor');
+                const darkColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeColor');
+                const darkFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeStyle');
+
+                return vscode.window.createTextEditorDecorationType({
+                    light: { // Used in light themes
+                        backgroundColor: lightBackgroundColor,
+                        color: lightColor,
+                        fontStyle: lightFontStyle,
+                    },
+                    dark: { // Used in dark themes
+                        backgroundColor: darkBackgroundColor,
+                        color: darkColor,
+                        fontStyle: darkFontStyle,
+                    },
+                });
+            };
+
+            usr_func_decorationType = updateDecorationType(); // update new decoration type
+            console.log('[RTT EasyLanguage] Custom user function keywords style updated from vsCode settings');
+
+            const activeEditor = vscode.window.activeTextEditor;
+            if (activeEditor) {
+                updateDecorations(activeEditor); // Reapply decorations
+            }
+        }
+    }, null, context.subscriptions);
+
+    // Push the completion provider to the context
+    context.subscriptions.push(completionProvider);
 }
 /////////////////////////////////////////////////////////
 
@@ -685,13 +703,13 @@ async function activate(context) {
 //////////////////////////////////
 // Function to register hover provider
 function registerHoverProvider(context, reserved_keywords, attributesMap) {
-  
-  vscode.languages.registerHoverProvider('easylanguage', {
+
+    vscode.languages.registerHoverProvider('easylanguage', {
         async provideHover(document, position, token) {
 
             const wordRange = document.getWordRangeAtPosition(position);
             if (!wordRange) { return; } // No word under the cursor
-            
+
             let cursor_word = document.getText(wordRange);
             const lineText = document.lineAt(position).text.trim();
 
@@ -703,11 +721,11 @@ function registerHoverProvider(context, reserved_keywords, attributesMap) {
             );
 
             if (!isReservedKeyword && wordRange.c.e > 0) {
-              wordRange.c.e = wordRange.c.e - 1;
-              cursor_word = document.getText(wordRange);
-              isReservedKeyword = reserved_keywords.some(
-                (keyword) => keyword.toLowerCase() === cursor_word.toLowerCase()
-              );
+                wordRange.c.e = wordRange.c.e - 1;
+                cursor_word = document.getText(wordRange);
+                isReservedKeyword = reserved_keywords.some(
+                    (keyword) => keyword.toLowerCase() === cursor_word.toLowerCase()
+                );
             }
 
             if (!isReservedKeyword) { return; } // Not a reserved keyword, no hover
@@ -721,7 +739,7 @@ function registerHoverProvider(context, reserved_keywords, attributesMap) {
                     hovered_keyword = keyword;
                     break;
                 }
-            }            
+            }
 
             if (keyword_attributeValue == null) { return; } // Nothing found in attributesMap
 
@@ -734,14 +752,14 @@ function registerHoverProvider(context, reserved_keywords, attributesMap) {
                 return new vscode.Hover('Unable to fetch description at the moment.');
             }
         }
-  });
+    });
 }
 
 
 
 //////////////////////////////////
-// Function to Deactivate the extension
-function deactivate() {}
+// vsCode extension: Deactivate the extension
+function deactivate() { }
 
 
 
@@ -751,4 +769,5 @@ module.exports = {
     activate,
     deactivate,
 };
+
 
