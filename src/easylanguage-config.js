@@ -423,11 +423,13 @@ async function activate(context) {
 
     const trie = new Trie();
 
-    // Register the reload command
+
+    // Register the Reload Extension command on the command palette
     const reloadCommand = vscode.commands.registerCommand('easylanguage.reloadExtension', () => {
         vscode.commands.executeCommand('workbench.action.reloadWindow'); // Reloads the vsCode window
     });
     context.subscriptions.push(reloadCommand);
+
 
     // Load attribute-keyword pairs from easylanguage-complete.txt
     const filePath_keywords = context.asAbsolutePath('easylanguage-complete.txt');
@@ -439,48 +441,47 @@ async function activate(context) {
         // Insert keywords into the Trie
         reserved_keywords.forEach((keyword) => trie.insert(keyword));
         console.log('[RTT EasyLanguage] Trie initialized with EasyLanguage keywords');
-        // Register hover provider
+        // Register hover provider for keywords
         registerHoverProvider(context, reserved_keywords, attributesMap);
     }
 
-    // Setup decorations
-    let usr_func_decorationType = null;
-
+    
     // Load user keywords from the vsCode settings
     const user_func_keywords = loadUserFunctionsFromSettings();
-
     if (user_func_keywords.length > 0) {
 
         user_func_keywords.forEach((keyword) => trie.insert(keyword));
         console.log('[RTT EasyLanguage] Trie initialized with custom user function keywords from vsCode settings');
-
-        // Function to create decoration type based on the current settings
-        const createDecorationType = () => {
-            const lightBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeBackgroundColor');
-            const lightColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeColor');
-            const lightFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeStyle');
-
-            const darkBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeBackgroundColor');
-            const darkColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeColor');
-            const darkFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeStyle');
-
-            return vscode.window.createTextEditorDecorationType({
-                light: { // Used in light themes
-                    backgroundColor: lightBackgroundColor,
-                    color: lightColor,
-                    fontStyle: lightFontStyle,
-                },
-                dark: { // Used in dark themes
-                    backgroundColor: darkBackgroundColor,
-                    color: darkColor,
-                    fontStyle: darkFontStyle,
-                },
-            });
-        };
-
-        // Create initial decoration type
-        usr_func_decorationType = createDecorationType();
     }
+
+
+    // Setup & create decoration type based on the current settings
+    let usr_func_decorationType = null;
+    const createDecorationType = () => {
+        const lightBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeBackgroundColor');
+        const lightColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeColor');
+        const lightFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeStyle');
+
+        const darkBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeBackgroundColor');
+        const darkColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeColor');
+        const darkFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeStyle');
+
+        return vscode.window.createTextEditorDecorationType({
+            light: { // Used in light themes
+                backgroundColor: lightBackgroundColor,
+                color: lightColor,
+                fontStyle: lightFontStyle,
+            },
+            dark: { // Used in dark themes
+                backgroundColor: darkBackgroundColor,
+                color: darkColor,
+                fontStyle: darkFontStyle,
+            },
+        });
+    };
+    // Create initial decoration type
+    usr_func_decorationType = createDecorationType();
+    
 
     let timeout = null;
 
@@ -488,10 +489,10 @@ async function activate(context) {
     const updateDecorations = (editor) => {
         if (!editor || !usr_func_decorationType) { return; }
 
-        const text = editor.document.getText();
-
         // Match and decorate custom User Function keywords, and user Methods
+        const text = editor.document.getText();
         const regexUserFuncs = new RegExp(`\\b(${user_func_keywords.join('|')})\\b`, 'gi');
+        // const regexUserMethods = new RegExp(`\\b(${docMethods.join('|')})\\b`, 'gi');
         const decorationsAttr = [];
         let match;
         
@@ -545,7 +546,7 @@ async function activate(context) {
                     let itemKindDetail = ``;
 
                     // Check if keyword exists in attributesMap (case-insensitive) and pull attribute
-                    let keyword_attributeValue = null;
+                    let keyword_attributeValue = '';
                     for (const [keyword_map, attribute] of attributesMap.entries()) {
                         if (keyword_map.toLowerCase() === keyword.toLowerCase()) {
                             keyword_attributeValue = attribute;
@@ -554,7 +555,8 @@ async function activate(context) {
                     }
 
                     if (keyword_attributeValue === 'function') { itemKind = vscode.CompletionItemKind.Function; itemKindDetail = `function` }
-                    else if (keyword_attributeValue === 'class') { itemKind = vscode.CompletionItemKind.Class; itemKindDetail = `class` }
+                    else if (keyword_attributeValue.trim().startsWith('class')) { itemKind = vscode.CompletionItemKind.Class; itemKindDetail = `class` }
+                    else if (keyword_attributeValue === 'collection') { itemKind = vscode.CompletionItemKind.Class; itemKindDetail = `class` }
                     else if (keyword_attributeValue === 'reserved word') { itemKind = vscode.CompletionItemKind.Keyword; itemKindDetail = `reserved keyword` }
                     else if (keyword_attributeValue === 'enumeration') { itemKind = vscode.CompletionItemKind.Enum; itemKindDetail = `enumeration` }
                     else { itemKind = vscode.CompletionItemKind.Function; itemKindDetail = `user function` }
@@ -588,7 +590,7 @@ async function activate(context) {
                         const methodName = match[2];
                         if (!documentMethods.has(methodName)) {
                             const item = new vscode.CompletionItem(methodName, vscode.CompletionItemKind.Method);
-                            item.detail = `method returns: ${returnType}`; // Explicit return type
+                            item.detail = `user method returns: ${returnType}`; // Explicit return type
                             documentMethods.set(methodName, item);
                         }
                     } else {
