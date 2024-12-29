@@ -4,7 +4,7 @@
    "description": "EasyLanguage syntax support & highlighting used in TradeStation platform",
    "publisher": "RiderTradingTools",
    "icon": "images/ts_dev_env_icon.png",
-   "version": "2.0.2",
+   "version": "2.0.3",
    "engines": {
       "vscode": "^1.80.0"
    },
@@ -95,14 +95,18 @@
             ],
             "extensions": [
                ".easylanguage",
+               ".eslfunc",
                ".el",
                ".elf"
             ],
-            "configuration": "./language-configuration.json",
-            "icon": {
-               "light": "./images/easylanguage_icon.png",
-               "dark": "./images/easylanguage_icon.png"
-            }
+            "configuration": "./language-configuration.json"
+         }
+      ],
+      "iconThemes": [
+         {
+            "id": "easylanguage",
+            "label": "EasyLanguage file icons",
+            "path": "icon-theme.json"
          }
       ],
       "grammars": [

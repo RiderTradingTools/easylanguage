@@ -52,7 +52,7 @@ View the Code Outline showing sections/symbols.
 ## Color Themes
 Several custom color themes to choose from: &nbsp; Standard, &nbsp;Solarized, &nbsp;Dark, &nbsp;Moss
 
-<a href="https://github.com/user-attachments/assets/68590223-5871-48d3-82e3-92f3e280c2aa" target="_blank"><img src="https://github.com/user-attachments/assets/68590223-5871-48d3-82e3-92f3e280c2aa" width="400" /></a><a href="https://github.com/user-attachments/assets/da87d9ba-767a-4d22-bfe6-952c2f65c641" target="_blank"><img src="https://github.com/user-attachments/assets/da87d9ba-767a-4d22-bfe6-952c2f65c641" width="400" /><a href="https://github.com/user-attachments/assets/1367e921-ae7d-4221-a841-e956d7795716" target="_blank"><img src="https://github.com/user-attachments/assets/1367e921-ae7d-4221-a841-e956d7795716" width="400" /></a><a href="https://github.com/user-attachments/assets/f29cd636-9121-4cfc-883c-ca6f3ea6df17" target="_blank"><img src="https://github.com/user-attachments/assets/f29cd636-9121-4cfc-883c-ca6f3ea6df17" width="400" /></a>
+<a href="https://github.com/user-attachments/assets/68590223-5871-48d3-82e3-92f3e280c2aa" target="_blank"><img src="https://github.com/user-attachments/assets/68590223-5871-48d3-82e3-92f3e280c2aa" width="300" /></a><a href="https://github.com/user-attachments/assets/da87d9ba-767a-4d22-bfe6-952c2f65c641" target="_blank"><img src="https://github.com/user-attachments/assets/da87d9ba-767a-4d22-bfe6-952c2f65c641" width="300" /><a href="https://github.com/user-attachments/assets/1367e921-ae7d-4221-a841-e956d7795716" target="_blank"><img src="https://github.com/user-attachments/assets/1367e921-ae7d-4221-a841-e956d7795716" width="300" /></a><a href="https://github.com/user-attachments/assets/f29cd636-9121-4cfc-883c-ca6f3ea6df17" target="_blank"><img src="https://github.com/user-attachments/assets/f29cd636-9121-4cfc-883c-ca6f3ea6df17" width="300" /></a>
 
 ## Snippets
   - if
@@ -69,10 +69,11 @@ Several custom color themes to choose from: &nbsp; Standard, &nbsp;Solarized, &n
 
 # <strong>File Extension</strong>
 
-Supported file extension for code files:
+Supported file extensions for code files:
 - &nbsp; <strong><code>.easylanguage</code></strong>
 - &nbsp; <strong><code>.el</code></strong>
 - &nbsp; <strong><code>.elf</code></strong>
+- &nbsp; <strong><code>.eslfunc</code></strong> &nbsp; &nbsp; <i>function file</i>
 
 
 <br><br><br>
@@ -154,7 +155,8 @@ For auto-complete, to assist in completion and set priority of completion, you m
     - Better syntax highlighting for all EasyLanguage keywords.
     - Ability to add custom user functions so they are highlighted, with editable font styling.
     - Fixed code outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
- - Version *2.0.2* &nbsp; - Added 'Espresso' theme, fixed bug with refreshing outline, cleaned up few mismatched keywords in syntax.
+ - Version *2.0.2* &nbsp; - Added 'Espresso' theme, fixed issue with refreshing outline, cleaned up few mismatched keywords in syntax.
+ - Version *2.0.3* &nbsp; - Fixed syntax highlighting issue with user functions and user methods. Added file extension .eslfunc to distinctly show function files. 
 
 <br>
 <br>

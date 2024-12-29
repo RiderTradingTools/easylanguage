@@ -1,0 +1,16 @@
+{
+   "iconDefinitions": {
+      "fileIcon_easylanguage": {
+         "iconPath": "./images/easylanguage_file_icon.png"
+      },
+      "fileIcon_easylanguage_function": {
+         "iconPath": "./images/easylanguage_function_icon.png"
+      }
+   },
+   "fileExtensions": {
+      "easylanguage": "fileIcon_easylanguage", 
+      "el": "fileIcon_easylanguage",
+      "elf": "fileIcon_easylanguage",
+      "eslfunc": "fileIcon_easylanguage_function"
+   }
+}
