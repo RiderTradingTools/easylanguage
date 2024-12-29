@@ -73,8 +73,8 @@ Supported file extensions for code files:
 - &nbsp; <strong><code>.easylanguage</code></strong>
 - &nbsp; <strong><code>.el</code></strong>
 - &nbsp; <strong><code>.elf</code></strong>
-- &nbsp; <strong><code>.eslfunc</code></strong> &nbsp; &nbsp; <i>denotes a function file</i>
-<br><a href="https://github.com/user-attachments/assets/87383141-e1d9-47db-96f5-c45b74a93891"  title="function file extension" target="_blank"><img src="https://github.com/user-attachments/assets/87383141-e1d9-47db-96f5-c45b74a93891" width="400" /></a>
+- &nbsp; <strong><code>.eslfunc</code></strong> &nbsp; &nbsp; <i>denotes a function file for clarity</i>
+<br><a href="https://github.com/user-attachments/assets/2b43e42f-fa0a-4424-bc21-e096761e11b7"  title="function file extension" target="_blank"><img src="https://github.com/user-attachments/assets/2b43e42f-fa0a-4424-bc21-e096761e11b7" width="400" /></a>
 
 <br><br><br>
 
