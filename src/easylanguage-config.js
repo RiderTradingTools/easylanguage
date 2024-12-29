@@ -121,6 +121,7 @@ class ESLDocumentSymbolProvider {
 
                 //-----------------------------------------------------------------------
                 // comment block
+                if (lineText.startsWith("//")) { continue; }
                 if (lineText.startsWith("{") && !lineText.includes("}")) {
                     comment_block = true;
                 }
@@ -458,13 +459,13 @@ async function activate(context) {
     // Setup & create decoration type based on the current settings
     let usr_func_decorationType = null;
     const createDecorationType = () => {
-        const lightBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeBackgroundColor');
-        const lightColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeColor');
-        const lightFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeStyle');
+        let lightBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeBackgroundColor');
+        let lightColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeColor');
+        let lightFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsLightThemeStyle');
 
-        const darkBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeBackgroundColor');
-        const darkColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeColor');
-        const darkFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeStyle');
+        let darkBackgroundColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeBackgroundColor');
+        let darkColor = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeColor');
+        let darkFontStyle = vscode.workspace.getConfiguration('easylanguage').get('customUserFunctionsDarkThemeStyle');
 
         return vscode.window.createTextEditorDecorationType({
             light: { // Used in light themes
@@ -488,12 +489,12 @@ async function activate(context) {
     // Function to update decorations
     const updateDecorations = (editor) => {
         if (!editor || !usr_func_decorationType) { return; }
-
+        
         // Match and decorate custom User Function keywords, and user Methods
-        const text = editor.document.getText();
-        const docLines = text.split('\n');
-        const methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i;  // Case-insensitive method detection
-        const documentMethods = new Map();
+        let text = editor.document.getText();
+        let docLines = text.split('\n');
+        let methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i;  // Case-insensitive method detection
+        let documentMethods = new Map();
         let commentsON = false;
 
         docLines.forEach(line => {
@@ -506,71 +507,81 @@ async function activate(context) {
 
             if ((match = methodRegex.exec(line)) !== null) {
                 // Extract Methods 
-                const returnType = match[1];
-                const methodName = match[2];
+                let returnType = match[1];
+                let methodName = match[2];
                 if (!documentMethods.has(methodName)) {
                     documentMethods.set(methodName, returnType);
                 }
             }
         });
 
-        const methodNames = Array.from(documentMethods.keys());
-        const regexUserFuncs = new RegExp(`\\b(${user_func_keywords.join('|')})\\b`, 'gi');
-        const regexUserMethods = new RegExp(`\\b(${methodNames.join('|')})\\b`, 'gi');
-        const decorationsAttr = [];
+        let decorationsAttr = [];
         let match;
         
-        // Decorate custom User Functions
-        while ( (match = regexUserFuncs.exec(text)) !== null ) {
-            
-            let startPos = editor.document.positionAt(match.index);
-            let endPos = editor.document.positionAt(match.index + match[0].length);
-            let lineStartPos = new vscode.Position(startPos.line, 0);
-            let lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
-            if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // ignore comment lines
+        if (user_func_keywords.length > 0) {
 
-            let styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
-            let mkdnText = `  (user function)\n`;
-            let markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-function)`);
-            markdownText.supportHtml = true;
-            markdownText.appendMarkdown(styledString);
-            markdownText.appendText(mkdnText);
-            markdownText.appendMarkdown(`\n`);
-            markdownText.isTrusted = true;
-            markdownText.supportThemeIcons = true;
+            // Decorate custom User Functions
+            let regexUserFuncs = new RegExp(`\\b(${user_func_keywords.join('|')})\\b`, 'gi');
+                    
+            while ( (match = regexUserFuncs.exec(text)) !== null ) {
+                
+                let startPos = editor.document.positionAt(match.index);
+                let endPos = editor.document.positionAt(match.index + match[0].length);
+                let lineStartPos = new vscode.Position(startPos.line, 0);
+                let lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
+                if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // ignore comment lines
 
-            decorationsAttr.push({
-                range: new vscode.Range(startPos, endPos),
-                hoverMessage: markdownText
-            });
+                let styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
+                let mkdnText = `  (user function)\n`;
+                let markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-function)`);
+                markdownText.supportHtml = true;
+                markdownText.appendMarkdown(styledString);
+                markdownText.appendText(mkdnText);
+                markdownText.appendMarkdown(`\n`);
+                markdownText.isTrusted = true;
+                markdownText.supportThemeIcons = true;
+
+                decorationsAttr.push({
+                    range: new vscode.Range(startPos, endPos),
+                    hoverMessage: markdownText
+                });
+            }
         }
 
-        // Decorate custom User Methods
-        while ( (match = regexUserMethods.exec(text)) !== null ) {
-            
-            let startPos = editor.document.positionAt(match.index);
-            let endPos = editor.document.positionAt(match.index + match[0].length);
-            let lineStartPos = new vscode.Position(startPos.line, 0);
-            let lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
-            if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // ignore comment lines
+        if (documentMethods.size > 0) {
 
-            let styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
-            let mkdnText = `  (user method)\n`;
-            let markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-method)`);
-            markdownText.supportHtml = true;
-            markdownText.appendMarkdown(styledString);
-            markdownText.appendText(mkdnText);
-            markdownText.appendMarkdown(`\n`);
-            markdownText.isTrusted = true;
-            markdownText.supportThemeIcons = true;
+            // Decorate custom User Methods
+            let methodNames = Array.from(documentMethods.keys());
+            let regexUserMethods = new RegExp(`\\b(${methodNames.join('|')})\\b`, 'gi');
 
-            decorationsAttr.push({
-                range: new vscode.Range(startPos, endPos),
-                hoverMessage: markdownText
-            });
+            while ( (match = regexUserMethods.exec(text)) !== null ) {
+                
+                let startPos = editor.document.positionAt(match.index);
+                let endPos = editor.document.positionAt(match.index + match[0].length);
+                let lineStartPos = new vscode.Position(startPos.line, 0);
+                let lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
+                if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // ignore comment lines
+
+                let styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
+                let mkdnText = `  (user method)\n`;
+                let markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-method)`);
+                markdownText.supportHtml = true;
+                markdownText.appendMarkdown(styledString);
+                markdownText.appendText(mkdnText);
+                markdownText.appendMarkdown(`\n`);
+                markdownText.isTrusted = true;
+                markdownText.supportThemeIcons = true;
+
+                decorationsAttr.push({
+                    range: new vscode.Range(startPos, endPos),
+                    hoverMessage: markdownText
+                });
+            }
         }
 
-        editor.setDecorations(usr_func_decorationType, decorationsAttr);
+        if (decorationsAttr.length > 0) {
+            editor.setDecorations(usr_func_decorationType, decorationsAttr);
+        }
     };
 
 
