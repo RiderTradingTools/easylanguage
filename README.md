@@ -157,6 +157,7 @@ For auto-complete, to assist in completion and set priority of completion, you m
     - Fixed code outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
  - Version *2.0.2* &nbsp; - Added 'Espresso' theme, fixed issue with refreshing outline, cleaned up few mismatched keywords in syntax.
  - Version *2.0.3* &nbsp; - Fixed syntax highlighting issue with user functions and user methods. Added file extension .eslfunc to distinctly show function files. 
+ - Version *2.0.4* &nbsp; - Added missing keywords and enumerators.
 
 <br>
 <br>

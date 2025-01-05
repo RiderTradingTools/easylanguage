@@ -133,6 +133,7 @@ class ESLDocumentSymbolProvider {
                 // Using
                 if (lineText.startsWith("using") && !comment_block) {
                     const usingSymbol = new vscode.DocumentSymbol("Using", getlineText.substring(6, lineTextLen - 1), icon_using, lineRange, lineRange);
+                    usingSymbol.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
                     nodes[nodes.length - 1].push(usingSymbol);
                 }
 
@@ -140,6 +141,7 @@ class ESLDocumentSymbolProvider {
                 // Inputs
                 else if (!comment_block && (lineText.startsWith("input:") || lineText.startsWith("inputs:"))) {
                     const inputSymbol = new vscode.DocumentSymbol("Inputs", "", icon_inputs, lineRange, lineRange);
+                    inputSymbol.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
                     nodes[nodes.length - 1].push(inputSymbol);
                 }
 
@@ -147,6 +149,7 @@ class ESLDocumentSymbolProvider {
                 // Variables
                 else if (!comment_block && (lineText.startsWith("variable") || lineText.startsWith("vars:") || lineText.startsWith("var:"))) {
                     const variableSymbol = new vscode.DocumentSymbol("Variables", "", icon_vars, lineRange, lineRange);
+                    variableSymbol.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
                     nodes[nodes.length - 1].push(variableSymbol);
                 }
 
@@ -154,6 +157,7 @@ class ESLDocumentSymbolProvider {
                 // Constants
                 else if (!comment_block && (lineText.startsWith("constants") || lineText.startsWith("constant:") || lineText.startsWith("const:"))) {
                     const constantSymbol = new vscode.DocumentSymbol("Constants", "", icon_vars, lineRange, lineRange);
+                    constantSymbol.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
                     nodes[nodes.length - 1].push(constantSymbol);
                 }
 
@@ -177,23 +181,28 @@ class ESLDocumentSymbolProvider {
                             previous_X = "Begin";
                         }
                         let xSymbol = new vscode.DocumentSymbol("Begin", getlineText, icon_begin, lineRange, lineRange);
+                        xSymbol.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
 
                         // Region
                         if (lineText.startsWith("#region")) {
                             getlineText = getlineText.substring(8);
                             xSymbol = new vscode.DocumentSymbol("Region", getlineText, icon_region, lineRange, lineRange);
+                            xSymbol.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
                             previous_X = "Region";
                         }
 
                         // Method
                         else if (lineText.startsWith("method")) {
                             xSymbol = new vscode.DocumentSymbol("Method", getlineText.substring(7), icon_method, lineRange, lineRange);
+                            xSymbol.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
+                            xSymbol.
                             previous_X = "Method";
                         }
 
                         // Once
                         if (lineText.startsWith("once") || prevLineText.startsWith("once") || lineText == "once begin") {
                             xSymbol = new vscode.DocumentSymbol("Once", "", icon_begin, lineRange, lineRange);
+                            xSymbol.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
                         }
 
                         nodes[nodes.length - 1].push(xSymbol);
@@ -221,7 +230,8 @@ class ESLDocumentSymbolProvider {
                 }
 
             }
-
+            // Collapse all symbols in Outline by default 
+            vscode.commands.executeCommand('outline.collapseAll'); 
             resolve(symbols);
         });
     }

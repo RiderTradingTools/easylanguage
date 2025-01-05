@@ -67,3 +67,7 @@ All notable changes to the "EasyLanguage" extension will be documented in this f
 ## 2.0.3
   - Fixed issue with syntax highlighting of user functions and user methods when large chunks of code is removed or added. 
   - For clarity added file extension **.eslfunc** to distinctly show function files in Explorer panel. 
+ 
+
+## 2.0.4
+  - Added missing keywords and enumerators. 

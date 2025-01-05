@@ -1359,6 +1359,10 @@ ContentAlignment:enumeration
 CostType:enumeration
 Currency:enumeration
 CustomBarSeriesUpdateReason:enumeration
+Dashed:reserved word
+Dashed2:reserved word
+Dashed3:reserved word
+Dotted:reserved word
 DataChartType:enumeration
 DataGridViewAutoSizeColumnMode:enumeration
 DataGridViewCellBorderStyle:enumeration
@@ -1451,6 +1455,7 @@ SeriesChartType:enumeration
 SeriesMarkerStyle:enumeration
 SizeType:enumeration
 SliderOrientation:enumeration
+Solid:reserved word
 Sort Order:enumeration
 StopType:enumeration
 StrategyOrderDirection:enumeration
