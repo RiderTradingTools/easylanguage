@@ -94,13 +94,15 @@ class ESLDocumentSymbolProvider {
             const symbols = [];
             const nodes = [symbols];
             let icon_using = vscode.SymbolKind.Interface;
-            let icon_inputs = vscode.SymbolKind.Null;
+            let icon_inputs = vscode.SymbolKind.TypeParameter;
             let icon_vars = vscode.SymbolKind.Variable;
             let icon_method = vscode.SymbolKind.Method;
             let icon_region = vscode.SymbolKind.Number;
             let icon_begin = vscode.SymbolKind.Array;
             let inside_X = false;
             let previous_X = "";
+            let inside_I = false;
+            let inside_V = false;
             let comment_block = false;
 
             if (document.lineCount === 0) { return symbols; } // Return an empty array if the document is empty }
@@ -132,6 +134,9 @@ class ESLDocumentSymbolProvider {
                 //-----------------------------------------------------------------------
                 // Using
                 if (lineText.startsWith("using") && !comment_block) {
+                    
+                    if (inside_I) { nodes.pop(); inside_I = false; }
+                    if (inside_V) { nodes.pop(); inside_V = false; }
                     const usingSymbol = new vscode.DocumentSymbol("Using", getlineText.substring(6, lineTextLen - 1), icon_using, lineRange, lineRange);
                     nodes[nodes.length - 1].push(usingSymbol);
                 }
@@ -139,22 +144,43 @@ class ESLDocumentSymbolProvider {
                 //-----------------------------------------------------------------------
                 // Inputs
                 else if (!comment_block && (lineText.startsWith("input:") || lineText.startsWith("inputs:"))) {
+                    
+                    if (inside_I) { nodes.pop(); inside_I = false; }
+                    if (inside_V) { nodes.pop(); inside_V = false; }
                     const inputSymbol = new vscode.DocumentSymbol("Inputs", "", icon_inputs, lineRange, lineRange);
                     nodes[nodes.length - 1].push(inputSymbol);
+                    if (!inside_I) {
+                        nodes.push(inputSymbol.children);
+                        inside_I = true; 
+                    }
                 }
 
                 //-----------------------------------------------------------------------
                 // Variables
-                else if (!comment_block && (lineText.startsWith("variable") || lineText.startsWith("vars:") || lineText.startsWith("var:"))) {
+                else if (!comment_block && (lineText.startsWith("variables:") || lineText.startsWith("variable:") || lineText.startsWith("vars:") || lineText.startsWith("var:"))) {
+                    
+                    if (inside_I) { nodes.pop(); inside_I = false; }
+                    if (inside_V) { nodes.pop(); inside_V = false; }
                     const variableSymbol = new vscode.DocumentSymbol("Variables", "", icon_vars, lineRange, lineRange);
                     nodes[nodes.length - 1].push(variableSymbol);
+                    if (!inside_V) {
+                        nodes.push(variableSymbol.children);
+                        inside_V = true; 
+                    }
                 }
 
                 //-----------------------------------------------------------------------
                 // Constants
-                else if (!comment_block && (lineText.startsWith("constants") || lineText.startsWith("constant:") || lineText.startsWith("const:"))) {
+                else if (!comment_block && (lineText.startsWith("constants:") || lineText.startsWith("constant:") || lineText.startsWith("const:"))) {
+                    
+                    if (inside_I) { nodes.pop(); inside_I = false; }
+                    if (inside_V) { nodes.pop(); inside_V = false; }
                     const constantSymbol = new vscode.DocumentSymbol("Constants", "", icon_vars, lineRange, lineRange);
                     nodes[nodes.length - 1].push(constantSymbol);
+                    if (!inside_V) {
+                        nodes.push(constantSymbol.children);
+                        inside_V = true; 
+                    }
                 }
 
                 //-----------------------------------------------------------------------
@@ -162,8 +188,10 @@ class ESLDocumentSymbolProvider {
                 else if (!comment_block &&
                     (lineText.startsWith("method") || lineText.startsWith("#region") || lineText.startsWith("begin") || lineText.startsWith("once")
                         || (lineText.endsWith("then begin") && !lineText.startsWith("//") && !lineText.startsWith("{"))
-                        || (lineText.includes("else begin") && !lineText.startsWith("//") && !lineText.startsWith("{"))
-                    )) {
+                        || (lineText.includes("else begin") && !lineText.startsWith("//") && !lineText.startsWith("{"))                    )) {
+
+                    if (inside_I) { nodes.pop(); inside_I = false; }
+                    if (inside_V) { nodes.pop(); inside_V = false; }
 
                     if (lineText.startsWith("begin") && previous_X == "Method") {
                         previous_X = "";
@@ -218,6 +246,51 @@ class ESLDocumentSymbolProvider {
                             inside_X = false;
                         }
                     }
+                }
+
+                //-----------------------------------------------------------------------
+                // handle each input 
+                if (inside_I && !comment_block && !lineText.startsWith("inputs") && !lineText.startsWith("input") && lineText != "") {
+
+                    let inpLineText = line.text.trim().replace(/\s+/g, ' ');
+                    const inp_regex = /^(?:\bintrabarpersist\b\s+)?(\b\w+\b)(?:\s+(\b\w+\b))?\s*(?=\()/;
+                    let inp_match;
+
+                    if ((inp_match = inp_regex.exec(inpLineText)) !== null) {
+                        let inpSymbol = new vscode.DocumentSymbol(inp_match[1], inp_match[2], icon_inputs, lineRange, lineRange);
+                        nodes[nodes.length - 1].push(inpSymbol);
+                    }
+                }
+
+                //-----------------------------------------------------------------------
+                // handle each variable/constant
+                if (inside_V && !comment_block && lineText != "" ) { 
+
+                    let varLineText = line.text.trim().replace(/\s+/g, ' ');
+                    let var_regex = /^(?:\bintrabarpersist\b\s+)?(\b\w+\b)\s+(\b\w+\b)\s*(?:\()?/;
+                    let var_match;
+
+                    if ((var_match = var_regex.exec(varLineText)) !== null) {
+                        let icon_varItem;
+                        switch (var_match[1].toLowerCase()) {
+
+                            case "string":
+                                icon_varItem = 14;
+                                break;
+                            case "int":
+                            case "double":
+                                icon_varItem = 13;
+                                break;
+                            case "bool":
+                                icon_varItem = 16;
+                                break;
+                            default:
+                                icon_varItem = 6;
+                                break;
+                        }
+                        let vSymbol = new vscode.DocumentSymbol(var_match[1], var_match[2], icon_varItem, lineRange, lineRange);
+                        nodes[nodes.length - 1].push(vSymbol);
+                    }                    
                 }
 
             }
