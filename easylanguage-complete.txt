@@ -1604,6 +1604,7 @@ DoubleSeries:class
 DownloadDataCompletedEventArgs:class_el
 DownloadStringCompletedEventArgs:class_el
 DrawingObject:class
+DrawingObjects:class
 DrawingObjectEventArgs:class
 DrawingObjectVisualElement:class
 DrawObjects:class
@@ -1936,9 +1937,6 @@ Try-Catch-Finally:reserved word
 Finally:reserved word
 New:reserved word
 Break:reserved word
-
-
-
 O:reserved word
 Open:reserved word
 C:reserved word
@@ -1988,10 +1986,6 @@ CallVolume:reserved word
 PutVolume:reserved word
 InsideAsk:reserved word
 InsideBid:reserved word
-
-
-
-
 INT:reserved word
 INT64:reserved word
 DOUBLE:reserved word
@@ -2036,12 +2030,8 @@ StringArrayRef:reserved word
 StringRef:reserved word
 StringSeries:reserved word
 StringSimple:reserved word
-
-
-
-
+Condition:reserved word
 Value:reserved word
 Data:reserved word
 Plot:reserved word
 NoPlot:reserved word
-

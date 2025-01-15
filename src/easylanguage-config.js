@@ -113,13 +113,12 @@ class ESLDocumentSymbolProvider {
                 let lineText = line.text.trim().toLowerCase().replace(/\s+/g, ' ');
                 let lineTextLen = line.text.trim().length;
                 let prevLineText = "";
-                let lineRange = new vscode.Range(i, 0, i, 199);
+                let lineRange = new vscode.Range(i, 0, i, line.text.length);
                 let getlineText = document.lineAt(i).text.trim().replace(/\s+/g, ' ');
 
                 if (i >= 1) {
                     prevLineText = document.lineAt(i - 1).text.trim().toLowerCase().replace(/\s+/g, ' ');
                 }
-
 
                 //-----------------------------------------------------------------------
                 // comment block
@@ -184,11 +183,14 @@ class ESLDocumentSymbolProvider {
                 }
 
                 //-----------------------------------------------------------------------
-                // Method, Region, Begin
-                else if (!comment_block &&
-                    (lineText.startsWith("method") || lineText.startsWith("#region") || lineText.startsWith("begin") || lineText.startsWith("once")
-                        || (lineText.endsWith("then begin") && !lineText.startsWith("//") && !lineText.startsWith("{"))
-                        || (lineText.includes("else begin") && !lineText.startsWith("//") && !lineText.startsWith("{"))                    )) {
+                // Method, Region, Begin, loops
+                else if (!comment_block && !lineText.startsWith("//") && !lineText.startsWith("{") &&
+                        (   lineText.startsWith("method") || lineText.startsWith("#region") || lineText.startsWith("begin") || lineText.startsWith("once") ||
+                            lineText.includes("then begin") || lineText.includes("else begin") || 
+                            ( lineText.includes("for ") && lineText.includes(" begin") ) ||
+                            ( lineText.includes("while ") && lineText.includes(" begin") ) 
+                        )
+                        ) {
 
                     if (inside_I) { nodes.pop(); inside_I = false; }
                     if (inside_V) { nodes.pop(); inside_V = false; }
@@ -222,6 +224,11 @@ class ESLDocumentSymbolProvider {
                         // Once
                         if (lineText.startsWith("once") || prevLineText.startsWith("once") || lineText == "once begin") {
                             xSymbol = new vscode.DocumentSymbol("Once", "", icon_begin, lineRange, lineRange);
+                        }
+
+                        // For loop
+                        if (lineText.includes("for ") || lineText.includes("while ") ) {
+                            xSymbol = new vscode.DocumentSymbol("Loop", getlineText, icon_begin, lineRange, lineRange);
                         }
 
                         nodes[nodes.length - 1].push(xSymbol);
@@ -288,7 +295,7 @@ class ESLDocumentSymbolProvider {
                                 icon_varItem = 6;
                                 break;
                         }
-                        let vSymbol = new vscode.DocumentSymbol(var_match[1], var_match[2], icon_varItem, lineRange, lineRange);
+                        let vSymbol = new vscode.DocumentSymbol(var_match[2], var_match[1], icon_varItem, lineRange, lineRange);
                         nodes[nodes.length - 1].push(vSymbol);
                     }                    
                 }
@@ -504,6 +511,11 @@ async function activate(context) {
     });
     context.subscriptions.push(reloadCommand);
 
+    let collapseOutlineCommand = vscode.commands.registerCommand('easylanguage.outlineCollapse', function () {
+        vscode.commands.executeCommand('outline.collapse');
+    });
+    context.subscriptions.push(collapseOutlineCommand);
+    
 
     // Load attribute-keyword pairs from easylanguage-complete.txt
     const filePath_keywords = context.asAbsolutePath('easylanguage-complete.txt');
@@ -566,7 +578,8 @@ async function activate(context) {
         // Match and decorate custom User Function keywords, and user Methods
         let text = editor.document.getText();
         let docLines = text.split('\n');
-        let methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i;  // Case-insensitive method detection
+        // let methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i;  // Case-insensitive method detection
+        let methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(([^)]*)\)/i;     // Case-insensitive method detection
         let documentMethods = new Map();
         let commentsON = false;
 
@@ -582,8 +595,10 @@ async function activate(context) {
                 // Extract Methods 
                 let returnType = match[1];
                 let methodName = match[2];
+                let methodInputs = match[3];
                 if (!documentMethods.has(methodName)) {
-                    documentMethods.set(methodName, returnType);
+                    let map_items = { rtn_type: returnType, mtd_inps: methodInputs }
+                    documentMethods.set(methodName, map_items);
                 }
             }
         });
@@ -607,13 +622,14 @@ async function activate(context) {
                 let styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
                 let mkdnText = `  (user function)\n`;
                 let markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-function)`);
-                markdownText.supportHtml = true;
-                markdownText.appendMarkdown(styledString);
-                markdownText.appendText(mkdnText);
-                markdownText.appendMarkdown(`\n`);
                 markdownText.isTrusted = true;
+                markdownText.supportHtml = true;
                 markdownText.supportThemeIcons = true;
 
+                markdownText.appendMarkdown(styledString);
+                markdownText.appendText(mkdnText);
+                markdownText.appendMarkdown(`\n<hr>\n`);
+                
                 decorationsAttr.push({
                     range: new vscode.Range(startPos, endPos),
                     hoverMessage: markdownText
@@ -634,16 +650,22 @@ async function activate(context) {
                 let lineStartPos = new vscode.Position(startPos.line, 0);
                 let lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
                 if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // ignore comment lines
+                
+                let display_keyword = match[0];
+                let title_icon = `$(symbol-method)`;
+                let markdown = `\n` + display_keyword + ` (` + documentMethods.get(match[0]).mtd_inps + `) \n\n<b>Returns (` + documentMethods.get(match[0]).rtn_type + `)</b>` ;
 
-                let styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
-                let mkdnText = `  (user method)\n`;
-                let markdownText = new vscode.MarkdownString(`&nbsp;$(symbol-method)`);
-                markdownText.supportHtml = true;
-                markdownText.appendMarkdown(styledString);
-                markdownText.appendText(mkdnText);
-                markdownText.appendMarkdown(`\n`);
+                const styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${display_keyword}&nbsp;</span>`;
+                const markdownText = new vscode.MarkdownString(`&nbsp;${title_icon}`);
                 markdownText.isTrusted = true;
+                markdownText.supportHtml = true;
                 markdownText.supportThemeIcons = true;
+
+                markdownText.appendMarkdown(styledString);
+                markdownText.appendText(`  (local user method)\n`);
+                markdownText.appendMarkdown(`\n<hr>\n`);
+                markdownText.appendMarkdown(markdown);
+                markdownText.appendMarkdown(`\n&nbsp;  &nbsp; `);
 
                 decorationsAttr.push({
                     range: new vscode.Range(startPos, endPos),
@@ -849,8 +871,15 @@ function registerHoverProvider(context, reserved_keywords, attributesMap) {
 
             let cursor_word = document.getText(wordRange);
             const lineText = document.lineAt(position).text.trim();
+            const plotRegex = /^plot([1-9][0-9]?)$/i;    // Regex to match 'plot1' to 'plot99'
+            const valueRegex = /^value([1-9][0-9]?)$/i;    // Regex to match value
+            const conditionRegex = /^condition([1-9][0-9]?)$/i;    // Regex to match condition
 
             if (lineText.startsWith('//') || lineText.startsWith('{')) { return; } // Skip matches on commented lines
+
+            if (plotRegex.test(cursor_word)) { cursor_word = 'plot'; }
+            if (valueRegex.test(cursor_word)) { cursor_word = 'value'; }
+            if (conditionRegex.test(cursor_word)) { cursor_word = 'condition'; }
 
             // Check if the cursor_word exists in reserved_keywords (case-insensitive)
             let isReservedKeyword = reserved_keywords.some(
@@ -890,6 +919,19 @@ function registerHoverProvider(context, reserved_keywords, attributesMap) {
             }
         }
     });
+
+    // Listen for document open events
+    vscode.workspace.onDidOpenTextDocument((document) => {
+        if (document.languageId === 'easylanguage') {
+            setTimeout(() => {
+                vscode.commands.executeCommand('easylanguage.outlineCollapse');
+            }, 750); 
+        }
+    });
+
+    setTimeout(() => {
+        vscode.commands.executeCommand('easylanguage.outlineCollapse');
+    }, 750);
 }
 
 

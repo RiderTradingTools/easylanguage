@@ -84,6 +84,10 @@
          {
             "command": "easylanguage.reloadExtension",
             "title": "Reload EasyLanguage Extension (after adding/removing custom user functions)"
+         },
+         {
+            "command": "easylanguage.outlineCollapse",
+            "title": "Collapse the Outline view"
          }
       ],
       "languages": [

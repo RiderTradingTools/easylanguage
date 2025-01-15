@@ -30,9 +30,9 @@ All notable changes to the "EasyLanguage" extension will be documented in this f
 
 
 ## 1.0.6
- - Fixed Outline and folding sections to work with **Sticky Scroll**: 
+ - Fixed the Outline and folding sections to work with **Sticky Scroll**: 
    - Suggest setting `"editor.stickyScroll.defaultModel"` to `"foldingProviderModel"`. 
- - Fixed Outline when code line is a comment. 
+ - Fixed the Outline when code line is a comment. 
  - Incorporated auto-indentation / de-indentation. 
  - Included additional keywords. 
 
@@ -54,13 +54,13 @@ All notable changes to the "EasyLanguage" extension will be documented in this f
   - Auto-complete for the EasyLanguage classes, functions, reserved keywords, and enumerations.
   - Better syntax highlighting for all EasyLanguage keywords.
   - Ability to add custom User Functions so they are highlighted, with capability to modify the font styling.
-  - Fixed the Code Outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
+  - Fixed the Outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
   - Updated color themes.
  
 
 ## 2.0.2
   - Added 'Espresso' theme.
-  - Fixed a issue with refreshing outline when large chunks of code is removed or added.
+  - Fixed a issue with refreshing the Outline when large chunks of code is removed or added.
   - Cleaned up few mismatched keywords in syntax.
  
 
@@ -70,4 +70,6 @@ All notable changes to the "EasyLanguage" extension will be documented in this f
  
 
 ## 2.0.4
+  - Modified the Outline to properly handle For and While loops.
+  - Fixed hover-over of Plot1-99, Value1-99, Condition1-99 keywords.
   - Added missing keywords and enumerators. 
