@@ -77,6 +77,11 @@
                   "bold"
                ],
                "description": "Font style of Custom User Functions in light themes."
+            },
+            "easylanguage.showTheUsingStatementsInCodeOutline": {
+               "type": "boolean",
+               "default": true,
+               "description": "Show the 'Using' statements in the code Outline view."
             }
          }
       },

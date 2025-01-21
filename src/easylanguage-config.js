@@ -168,6 +168,9 @@ function createDocumentSymbols(document) {
         // Using
         if ( lineText.startsWith("using") ) {
 
+            let checkIfShowingUsing = vscode.workspace.getConfiguration('easylanguage').get('showTheUsingStatementsInCodeOutline');
+            if ( !checkIfShowingUsing ) { continue; }
+            
             usingSymbol = new vscode.DocumentSymbol("Using", getlineText.substring(6, line.text.length - 1), icon_using, lineRange, lineRange);
             symbolStack[symbolStack.length - 1].push(usingSymbol);
             usingSymbol.range = new vscode.Range( new vscode.Position(i, 0), new vscode.Position(i, line.text.length) );
