@@ -435,7 +435,7 @@ function createDocumentSymbols(document) {
                 let inp_match;
 
                 if ((inp_match = inp_regex.exec(inpLineText)) !== null) {
-                    let inpSymbol = new vscode.DocumentSymbol(inp_match[1], inp_match[2], icon_inputs, lineRange, lineRange);
+                    let inpSymbol = new vscode.DocumentSymbol(inp_match[2], inp_match[1], icon_inputs, lineRange, lineRange);
                     symbolStack[symbolStack.length - 1].push(inpSymbol);
                 }
 
