@@ -157,7 +157,7 @@ For auto-complete, to assist in completion and set priority of completion, you m
     - Fixed code outline to handle Begin/End blocks within Methods, and handle multi-line comment blocks. 
  - Version *2.0.2* &nbsp; - Added 'Espresso' theme, fixed issue with refreshing outline, cleaned up few mismatched keywords in syntax.
  - Version *2.0.3* &nbsp; - Fixed syntax highlighting issue with user functions and user methods. Added file extension .eslfunc to distinctly show function files. 
- - Version *2.0.4* &nbsp; - Modified the Outline to properly handle For and While loops. Fixed hover-over of Plot1-99, Value1-99, Condition1-99 keywords. Added missing keywords and enumerators. 
+ - Version *2.0.4* &nbsp; - Rebuilt the Outline to correctly follow cursor, and render For and While loops. Fixed hover-over of Plot1-99, Value1-99, Condition1-99 keywords. Added missing keywords and enumerators. 
 
 <br>
 <br>

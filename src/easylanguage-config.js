@@ -4,7 +4,6 @@ const https = require('https');
 const { parse } = require('node-html-parser');
 const TurndownService = require('turndown');
 const { gfm } = require('turndown-plugin-gfm');
-let symbols = [];
 
 
 //////////////////////////////////
