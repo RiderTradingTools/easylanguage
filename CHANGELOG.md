@@ -73,3 +73,7 @@ All notable changes to the "EasyLanguage" extension will be documented in this f
   - Rebuilt the Outline to correctly follow cursor, plus properly render For and While loops.
   - Fixed hover-over of Plot1-99, Value1-99, Condition1-99 keywords.
   - Added missing keywords and enumerators. 
+ 
+
+## 2.0.5
+  - Fixed the Outline - Inputs section when viewing function files. 

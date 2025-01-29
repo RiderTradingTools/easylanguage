@@ -430,12 +430,21 @@ function createDocumentSymbols(document) {
             }
             else {
                 let inpLineText = line.text.trim().replace(/\s+/g, ' ');
-                const inp_regex = /^(?:\bintrabarpersist\b\s+)?(\b\w+\b)(?:\s+(\b\w+\b))?\s*(?=\()/;
-                let inp_match;
+                const inp_regex = /^(?:\bintrabarpersist\b\s+)?(\w+)(?:\s+(\w+))?\s*\(\s*/i;
+                const parens_regex = /\(([^)]+)\)/;
 
-                if ((inp_match = inp_regex.exec(inpLineText)) !== null) {
-                    let inpSymbol = new vscode.DocumentSymbol(inp_match[2], inp_match[1], icon_inputs, lineRange, lineRange);
-                    symbolStack[symbolStack.length - 1].push(inpSymbol);
+                let inp_match = inp_regex.exec(inpLineText);
+                let inp_parens = parens_regex.exec(inpLineText);
+
+                if (inp_match) {
+                    if (inp_match[2]) {
+                        let inpSymbol = new vscode.DocumentSymbol(inp_match[2], inp_match[1], icon_inputs, lineRange, lineRange);
+                        symbolStack[symbolStack.length - 1].push(inpSymbol);
+                    }
+                    else {  // no second match
+                        let inpSymbol = new vscode.DocumentSymbol(inp_match[1], `(${inp_parens[1].trim()})`, icon_inputs, lineRange, lineRange);
+                        symbolStack[symbolStack.length - 1].push(inpSymbol);
+                    }
                 }
 
                 if ( lineText.endsWith(';') ) {
