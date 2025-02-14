@@ -274,12 +274,9 @@ function createDocumentSymbols(document) {
 
         //-----------------------------------------------------------------------
         // Once
-        else if ( lineText == "once" || lineText == "once begin" || ( prevLineText.startsWith("once ") && lineText.includes("begin") ) ) {
+        else if ( lineText == "once" || lineText == "once begin" ) {
 
-            before = lineText.slice(0, lineText.indexOf("once") + 4);
-            quotesBefore = (before.match(/["']/g) || []).length;
-
-            if (quotesBefore % 2 === 0) {        // If the number of quotes before the match is even, it's outside quotes
+            if ( ( lineText == "once" || lineText.includes("once begin") ) && notIn_Comment_Quotes(lineText, "once") ) {
                 begCntr ++;
                 begStartLine[begCntr] = i;
                 begSymbol[begCntr] = new vscode.DocumentSymbol("Once", "", icon_begin, lineRange, lineRange);
@@ -298,17 +295,10 @@ function createDocumentSymbols(document) {
         // For loop
         else if ( ( lineText.includes("for ") && lineText.includes(" to ") ) || lineText.includes("while ") ) {
 
-            if ( lineText.includes("for ") ) {
-                before = lineText.slice(0, lineText.indexOf("for ") + 4);
-                quotesBefore = (before.match(/["']/g) || []).length;
-            }
-            else if ( lineText.includes("while ") ) {
-                before = lineText.slice(0, lineText.indexOf("while ") + 6);
-                quotesBefore = (before.match(/["']/g) || []).length;
-            }
-
-            if (quotesBefore % 2 === 0) {        // If the number of quotes before the match is even, it's outside quotes
-
+            if (    ( lineText.includes("for ") && lineText.includes(" to ") && notIn_Comment_Quotes(lineText, "for") ) || 
+                    ( lineText.includes("while ") && notIn_Comment_Quotes(lineText, "while") ) 
+                )
+            {
                 loopCntr ++;
                 loopStartLine[loopCntr] = i;
                 loopSymbol[loopCntr] = new vscode.DocumentSymbol("Loop", getlineText, icon_begin, lineRange, lineRange);
@@ -330,10 +320,7 @@ function createDocumentSymbols(document) {
         // Begin
         else if ( lineText.startsWith("begin") || lineText.includes(" begin") || lineText.includes("begin ") ) {
 
-            before = lineText.slice(0, lineText.indexOf("begin") + 5);
-            quotesBefore = (before.match(/["']/g) || []).length;
-            
-            if (quotesBefore % 2 === 0) {        // If the number of quotes before the match is even, it's outside quotes
+            if ( lineText.includes("begin") && notIn_Comment_Quotes(lineText, "begin") && prevLineText != "once" ) {
 
                 if (skipNextBegin) {
                     // console.log(`[DEBUG] skipped this begin...    ${i+1}`);
@@ -366,17 +353,8 @@ function createDocumentSymbols(document) {
         // End / End Region
         if ( lastSymbol != null && !comment_block && (lineText.includes("end;") || lineText.startsWith("#endregion")) ) {
 
-            let preCheck = true; 
-
-            if ( lineText.includes("end;") ) {
-                before = lineText.slice(0, lineText.indexOf("once") + 4);
-                quotesBefore = (before.match(/["']/g) || []).length;
-
-                if (quotesBefore % 2 !== 0) {        // If the number of quotes before the match is even, it's outside quotes
-                    preCheck = false;
-                }
-            }
-
+            let preCheck = notIn_Comment_Quotes(lineText, "end;");
+            
             if ( preCheck && regSymbol[regCntr] && lastSymbol == "Region" && lineText.startsWith("#endregion") ) {
                 // console.log(`[DEBUG] --- Region [end]  on line: ${i+1}`);
                 regSymbol[regCntr].range = new vscode.Range( new vscode.Position(regStartLine[regCntr], 0), new vscode.Position(i, line.text.length) );
@@ -447,7 +425,7 @@ function createDocumentSymbols(document) {
                     }
                 }
 
-                if ( lineText.endsWith(';') ) {
+                if ( lineText.includes(';') && notIn_Comment_Quotes(lineText, ";") ) {
 
                     inpSymbol.range = new vscode.Range( new vscode.Position(inpStartLine[inpCntr], 0), new vscode.Position(i, line.text.length) );
                     inpSymbol.selectionRange = new vscode.Range( new vscode.Position(inpStartLine[inpCntr], 0), new vscode.Position(i, line.text.length) );
@@ -499,20 +477,14 @@ function createDocumentSymbols(document) {
                     symbolStack[symbolStack.length - 1].push(vSymbol);
                 }
 
-                if ( lineText.endsWith(';') ) {
+                if ( lineText.includes(';') && notIn_Comment_Quotes(lineText, ";") ) {
 
-                    before = lineText.slice(0, lineText.indexOf(";") + 1);
-                    quotesBefore = (before.match(/["']/g) || []).length;
-                    
-                    if (quotesBefore % 2 === 0) {        // If the number of quotes before the match is even, it's outside quotes
-    
-                        varSymbol.range = new vscode.Range( new vscode.Position(varStartLine[varCntr], 0), new vscode.Position(i, line.text.length) );
-                        varSymbol.selectionRange = new vscode.Range( new vscode.Position(varStartLine[varCntr], 0), new vscode.Position(i, line.text.length) );
-                        symbolStack.pop();
-                        // console.log(`[DEBUG] --- variables [end2]  on line: ${i+1}`);
-                        currentSymbol[currentLevel] = null;
-                        currentLevel --;
-                    }
+                    varSymbol.range = new vscode.Range( new vscode.Position(varStartLine[varCntr], 0), new vscode.Position(i, line.text.length) );
+                    varSymbol.selectionRange = new vscode.Range( new vscode.Position(varStartLine[varCntr], 0), new vscode.Position(i, line.text.length) );
+                    symbolStack.pop();
+                    // console.log(`[DEBUG] --- variables [end2]  on line: ${i+1}`);
+                    currentSymbol[currentLevel] = null;
+                    currentLevel --;
                 }
             }                    
         }
@@ -533,6 +505,38 @@ function createDocumentSymbols(document) {
     return symbols;
 };
 
+
+//////////////////////////////////
+// Function to check if the symbol/keyword/character is contained within a comment block
+function notIn_Comment_Quotes(cLineText, cKeyword) {
+
+    const matchCurlyBrackets = cLineText.match(/{(.*?)}/i);
+    const matchQuotes = cLineText.match(/['"](.*?)['"]/gi);
+    const lowerKeyword = cKeyword.toLowerCase();
+
+    // Function to check if the keyword is inside a given text
+    function isKeywordInText(text, keyword) {
+        return text.toLowerCase().includes(keyword);
+    }
+
+    // Check if the keyword is inside the curly brackets
+    if (matchCurlyBrackets && isKeywordInText(matchCurlyBrackets[1], lowerKeyword)) {
+        return false;
+    }
+
+    // Check if the keyword is inside the quotes
+    if (matchQuotes) {
+        for (const match of matchQuotes) {
+            const textInsideQuotes = match.slice(1, -1); // Remove the surrounding quotes
+            if (isKeywordInText(textInsideQuotes, lowerKeyword)) {
+                return false;
+            }
+        }
+    }
+    
+    return true;        // keyword is NOT found in comment or quotes 
+}
+    
 
 //////////////////////////////////
 // Helper function to check/confirm file exists
