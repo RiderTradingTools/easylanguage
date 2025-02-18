@@ -815,15 +815,15 @@ async function activate(context) {
         let text = editor.document.getText();
         let docLines = text.split('\n');
         // let methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(/i;  // Case-insensitive method detection
-        let methodRegex = /^Method\s+(\w+)\s+(\w+)\s*\(([^)]*)\)/i;     // Case-insensitive method detection
+        let methodRegex = /^Method\s+(\w+)\s+(\w+)(?:\s+(\w+))?\s*\(([^)]*)\)/i;     // Case-insensitive method detection
         let documentMethods = new Map();
         let commentsON = false;
 
         docLines.forEach(line => {
-            if (line.trim().startsWith('//') ) { return; }                // ignore comment lines
-            if (line.trim().startsWith('{'))   { commentsON = true;  }	// ignore comment lines
+            if (line.trim().startsWith('//') ) { return; }                  // ignore comment lines
+            if (line.trim().startsWith('{'))   { commentsON = true;  }	    // ignore comment lines
             if (line.trim().includes('}'))     { commentsON = false; }
-            if (commentsON)                    { return; }                // ignore comment lines
+            if (commentsON)                    { return; }                  // ignore comment lines
 
             let match;
 
@@ -832,6 +832,11 @@ async function activate(context) {
                 let returnType = match[1];
                 let methodName = match[2];
                 let methodInputs = match[3];
+                if (match[1].toLowerCase() === 'override') { 
+                    returnType = match[2];
+                    methodName = match[3];
+                    methodInputs = match[4];
+                }
                 if (!documentMethods.has(methodName)) {
                     let map_items = { rtn_type: returnType, mtd_inps: methodInputs }
                     documentMethods.set(methodName, map_items);
@@ -849,11 +854,14 @@ async function activate(context) {
                     
             while ( (match = regexUserFuncs.exec(text)) !== null ) {
                 
-                let startPos = editor.document.positionAt(match.index);
-                let endPos = editor.document.positionAt(match.index + match[0].length);
+                let startPos     = editor.document.positionAt(match.index);
+                let endPos       = editor.document.positionAt(match.index + match[0].length);
                 let lineStartPos = new vscode.Position(startPos.line, 0);
-                let lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
-                if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // ignore comment lines
+                let lineText     = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
+                let fullLineText = docLines[lineStartPos.line];
+
+                if (commentsON || lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // ignore comment lines
+                if (!notIn_Comment_Quotes(fullLineText, match[0])) { continue; } // ignore if found within a comment or quotes
 
                 let styledString = ` &nbsp; <span style="color:#fff;background-color:#666;">&nbsp;${match[0]}&nbsp;</span>`;
                 let mkdnText = `  (user function)\n`;
@@ -881,12 +889,15 @@ async function activate(context) {
 
             while ( (match = regexUserMethods.exec(text)) !== null ) {
                 
-                let startPos = editor.document.positionAt(match.index);
-                let endPos = editor.document.positionAt(match.index + match[0].length);
+                let startPos     = editor.document.positionAt(match.index);
+                let endPos       = editor.document.positionAt(match.index + match[0].length);
                 let lineStartPos = new vscode.Position(startPos.line, 0);
-                let lineText = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
-                if (lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // ignore comment lines
+                let lineText     = editor.document.getText(new vscode.Range(lineStartPos, startPos)).trim();
+                let fullLineText = docLines[lineStartPos.line];
                 
+                if (commentsON || lineText.startsWith('//') || lineText.startsWith('{')) { continue; } // ignore comment lines
+                if (!notIn_Comment_Quotes(fullLineText, match[0])) { continue; } // ignore if found within a comment or quotes
+
                 let display_keyword = match[0];
                 let title_icon = `$(symbol-method)`;
                 let markdown = `\n` + display_keyword + ` (` + documentMethods.get(match[0]).mtd_inps + `) \n\n<b>Returns (` + documentMethods.get(match[0]).rtn_type + `)</b>` ;
